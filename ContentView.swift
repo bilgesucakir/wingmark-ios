@@ -10,22 +10,29 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query(sort: \BirdSighting.date, order: .reverse) private var sightings: [BirdSighting]
 
     var body: some View {
         NavigationViewWrapper {
             List {
-                ForEach(items) { item in
+                ForEach(sightings) { sighting in
                     NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+                        Text(sighting.species?.commonName ?? "Not sure yet")
                     } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(sighting.species?.commonName ?? "Not sure yet")
+                                .font(.headline)
+                            Text(sighting.date, format: Date.FormatStyle(date: .abbreviated, time: .shortened))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: deleteSightings)
             }
+            .navigationTitle("Diary")
 #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
+            .navigationSplitViewColumnWidth(min: 180, ideal: 220)
 #endif
             .toolbar {
 #if os(iOS)
@@ -34,25 +41,25 @@ struct ContentView: View {
                 }
 #endif
                 ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button(action: addSampleSighting) {
+                        Label("Add Sighting", systemImage: "plus")
                     }
                 }
             }
         }
     }
 
-    private func addItem() {
+    // Temporary — real "New Sighting" form comes in the next piece.
+    private func addSampleSighting() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
+            modelContext.insert(BirdSighting())
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteSightings(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(items[index])
+                modelContext.delete(sightings[index])
             }
         }
     }
@@ -66,7 +73,7 @@ fileprivate struct NavigationViewWrapper<Content: View>: View {
         NavigationSplitView {
             content()
         } detail: {
-            Text("Select an item")
+            Text("Select a sighting")
         }
 #else
         content()
@@ -76,5 +83,5 @@ fileprivate struct NavigationViewWrapper<Content: View>: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: BirdSighting.self, inMemory: true)
 }

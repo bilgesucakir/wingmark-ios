@@ -12,7 +12,8 @@ import SwiftData
 struct wingmarkApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            BirdSighting.self,
+            Species.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
