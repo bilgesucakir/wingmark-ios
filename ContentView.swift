@@ -29,12 +29,16 @@ struct ContentView: View {
                     }
                 }
                 .onDelete(perform: deleteSightings)
+                .listRowBackground(Theme.backgroundElevated)
             }
-            .navigationTitle("Diary")
+            .themedBackground()
 #if os(macOS)
             .navigationSplitViewColumnWidth(min: 180, ideal: 220)
 #endif
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    FlowingTitle(text: "Diary")
+                }
 #if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -76,7 +80,9 @@ fileprivate struct NavigationViewWrapper<Content: View>: View {
             Text("Select a sighting")
         }
 #else
-        content()
+        NavigationStack {
+            content()
+        }
 #endif
     }
 }

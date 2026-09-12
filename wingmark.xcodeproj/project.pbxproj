@@ -9,16 +9,34 @@
 /* Begin PBXBuildFile section */
 		2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */; };
 		2FEFD88F3054C5CD00414042 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88E3054C5CD00414042 /* ContentView.swift */; };
-		2FEFD8913054C5CD00414042 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD8903054C5CD00414042 /* Item.swift */; };
 		2FEFD8933054C5CF00414042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FEFD8923054C5CF00414042 /* Assets.xcassets */; };
+		AA00000000000000000001 /* BirdSighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000011 /* BirdSighting.swift */; };
+		AA00000000000000000002 /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000012 /* Species.swift */; };
+		AA00000000000000000003 /* LifeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000013 /* LifeStage.swift */; };
+		AA00000000000000000004 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000014 /* Theme.swift */; };
+		AA00000000000000000005 /* AddToDiaryTabIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000015 /* AddToDiaryTabIcon.swift */; };
+		AA00000000000000000006 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000016 /* MapView.swift */; };
+		AA00000000000000000007 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000017 /* GuideView.swift */; };
+		AA00000000000000000008 /* BadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000018 /* BadgesView.swift */; };
+		AA00000000000000000009 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000019 /* ProfileView.swift */; };
+		AA0000000000000000000A /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000001A /* RootTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2FEFD8893054C5CD00414042 /* wingmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wingmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wingmarkApp.swift; sourceTree = "<group>"; };
 		2FEFD88E3054C5CD00414042 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2FEFD8903054C5CD00414042 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		2FEFD8923054C5CF00414042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA00000000000000000011 /* BirdSighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdSighting.swift; sourceTree = "<group>"; };
+		AA00000000000000000012 /* Species.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
+		AA00000000000000000013 /* LifeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeStage.swift; sourceTree = "<group>"; };
+		AA00000000000000000014 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		AA00000000000000000015 /* AddToDiaryTabIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDiaryTabIcon.swift; sourceTree = "<group>"; };
+		AA00000000000000000016 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		AA00000000000000000017 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		AA00000000000000000018 /* BadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesView.swift; sourceTree = "<group>"; };
+		AA00000000000000000019 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		AA0000000000000000001A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +56,14 @@
 				2FEFD88A3054C5CD00414042 /* Products */,
 				2FEFD8923054C5CF00414042 /* Assets.xcassets */,
 				2FEFD88E3054C5CD00414042 /* ContentView.swift */,
-				2FEFD8903054C5CD00414042 /* Item.swift */,
+				AA00000000000000000020 /* Models */,
+				AA00000000000000000014 /* Theme.swift */,
+				AA00000000000000000015 /* AddToDiaryTabIcon.swift */,
+				AA00000000000000000016 /* MapView.swift */,
+				AA00000000000000000017 /* GuideView.swift */,
+				AA00000000000000000018 /* BadgesView.swift */,
+				AA00000000000000000019 /* ProfileView.swift */,
+				AA0000000000000000001A /* RootTabView.swift */,
 				2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +74,16 @@
 				2FEFD8893054C5CD00414042 /* wingmark.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000020 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA00000000000000000011 /* BirdSighting.swift */,
+				AA00000000000000000012 /* Species.swift */,
+				AA00000000000000000013 /* LifeStage.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,7 +159,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FEFD88F3054C5CD00414042 /* ContentView.swift in Sources */,
-				2FEFD8913054C5CD00414042 /* Item.swift in Sources */,
+				AA00000000000000000001 /* BirdSighting.swift in Sources */,
+				AA00000000000000000002 /* Species.swift in Sources */,
+				AA00000000000000000003 /* LifeStage.swift in Sources */,
+				AA00000000000000000004 /* Theme.swift in Sources */,
+				AA00000000000000000005 /* AddToDiaryTabIcon.swift in Sources */,
+				AA00000000000000000006 /* MapView.swift in Sources */,
+				AA00000000000000000007 /* GuideView.swift in Sources */,
+				AA00000000000000000008 /* BadgesView.swift in Sources */,
+				AA00000000000000000009 /* ProfileView.swift in Sources */,
+				AA0000000000000000000A /* RootTabView.swift in Sources */,
 				2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
