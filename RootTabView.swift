@@ -26,4 +26,5 @@ struct RootTabView: View {
 #Preview {
     RootTabView()
         .modelContainer(for: BirdSighting.self, inMemory: true)
+        .environment(AuthSession())
 }

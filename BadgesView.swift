@@ -4,8 +4,8 @@ import SwiftData
 struct BadgesView: View {
     @Query private var sightings: [BirdSighting]
 
-    private var speciesCount: Int {
-        Set(sightings.compactMap { $0.species?.commonName }).count
+    private var progresses: [BadgeProgress] {
+        BadgeProgress.compute(for: sightings)
     }
 
     private let columns = [GridItem(.adaptive(minimum: 100), spacing: 16)]
@@ -14,9 +14,9 @@ struct BadgesView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    BadgeTile(icon: "trophy.fill", title: "First Sighting", earned: !sightings.isEmpty)
-                    BadgeTile(icon: "trophy.fill", title: "10 Sightings", earned: sightings.count >= 10)
-                    BadgeTile(icon: "trophy.fill", title: "5 Species", earned: speciesCount >= 5)
+                    ForEach(progresses, id: \.badge.id) { progress in
+                        BadgeTile(progress: progress)
+                    }
                 }
                 .padding()
             }
@@ -31,24 +31,41 @@ struct BadgesView: View {
 }
 
 private struct BadgeTile: View {
-    let icon: String
-    let title: String
-    let earned: Bool
+    let progress: BadgeProgress
+
+    private var tierColor: Color {
+        switch progress.badge.tier {
+        case .bronze: Color(red: 0.8, green: 0.55, blue: 0.35)
+        case .silver: Color(white: 0.75)
+        case .gold: Color(red: 0.9, green: 0.75, blue: 0.35)
+        }
+    }
 
     var body: some View {
         VStack(spacing: 8) {
-            Image(systemName: icon)
+            Image(systemName: progress.badge.icon)
                 .font(.system(size: 28))
-                .foregroundStyle(earned ? Theme.accent : Theme.textSecondary)
-            Text(title)
+                .foregroundStyle(progress.isEarned ? tierColor : Theme.textSecondary)
+
+            Text(progress.badge.name)
                 .font(.caption)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Theme.textPrimary)
+
+            Text(progress.badge.tier.label)
+                .font(.caption2)
+                .foregroundStyle(Theme.textSecondary)
+
+            if !progress.isEarned {
+                Text("\(progress.progress)/\(progress.badge.criteriaValue)")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.textSecondary)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()
         .background(Theme.backgroundElevated)
-        .opacity(earned ? 1 : 0.4)
+        .opacity(progress.isEarned ? 1 : 0.5)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }

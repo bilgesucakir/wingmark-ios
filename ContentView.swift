@@ -11,6 +11,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \BirdSighting.date, order: .reverse) private var sightings: [BirdSighting]
+    @State private var showingAddSighting = false
 
     var body: some View {
         NavigationViewWrapper {
@@ -45,18 +46,16 @@ struct ContentView: View {
                 }
 #endif
                 ToolbarItem {
-                    Button(action: addSampleSighting) {
+                    Button {
+                        showingAddSighting = true
+                    } label: {
                         Label("Add Sighting", systemImage: "plus")
                     }
                 }
             }
-        }
-    }
-
-    // Temporary — real "New Sighting" form comes in the next piece.
-    private func addSampleSighting() {
-        withAnimation {
-            modelContext.insert(BirdSighting())
+            .sheet(isPresented: $showingAddSighting) {
+                AddSightingView()
+            }
         }
     }
 

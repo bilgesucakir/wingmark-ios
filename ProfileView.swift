@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ProfileView: View {
+    @Environment(AuthSession.self) private var session
     @Query private var sightings: [BirdSighting]
 
     private var speciesCount: Int {
@@ -10,10 +11,28 @@ struct ProfileView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
+            VStack(spacing: 16) {
                 Image(systemName: "person.circle.fill")
                     .font(.system(size: 72))
                     .foregroundStyle(Theme.accent)
+
+                if let user = session.currentUser {
+                    VStack(spacing: 2) {
+                        Text(user.fullName.trimmingCharacters(in: .whitespaces).isEmpty ? user.username : user.fullName)
+                            .font(.headline)
+                            .foregroundStyle(Theme.textPrimary)
+                        Text("@\(user.username)")
+                            .font(.footnote)
+                            .foregroundStyle(Theme.textSecondary)
+                        Text(user.email)
+                            .font(.caption)
+                            .foregroundStyle(Theme.textSecondary)
+                        Text("Joined \(user.createdAt, format: .dateTime.month(.wide).year())")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.textSecondary)
+                            .padding(.top, 2)
+                    }
+                }
 
                 HStack(spacing: 32) {
                     StatColumn(value: sightings.count, label: "sightings")
@@ -21,14 +40,26 @@ struct ProfileView: View {
                 }
                 .padding(.top, 8)
 
+                Button("Log Out", role: .destructive) {
+                    session.logout()
+                }
+                .padding(.top, 8)
+
                 Spacer()
             }
-            .padding(.top, 40)
+            .padding(.top, 32)
             .frame(maxWidth: .infinity)
             .themedBackground()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     FlowingTitle(text: "Profile")
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
                 }
             }
         }
@@ -54,4 +85,5 @@ private struct StatColumn: View {
 #Preview {
     ProfileView()
         .modelContainer(for: BirdSighting.self, inMemory: true)
+        .environment(AuthSession())
 }

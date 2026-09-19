@@ -10,6 +10,7 @@
 		2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */; };
 		2FEFD88F3054C5CD00414042 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88E3054C5CD00414042 /* ContentView.swift */; };
 		2FEFD8933054C5CF00414042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FEFD8923054C5CF00414042 /* Assets.xcassets */; };
+		AA00000000000000000060 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000061 /* Localizable.xcstrings */; };
 		AA00000000000000000001 /* BirdSighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000011 /* BirdSighting.swift */; };
 		AA00000000000000000002 /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000012 /* Species.swift */; };
 		AA00000000000000000003 /* LifeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000013 /* LifeStage.swift */; };
@@ -20,6 +21,19 @@
 		AA00000000000000000008 /* BadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000018 /* BadgesView.swift */; };
 		AA00000000000000000009 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000019 /* ProfileView.swift */; };
 		AA0000000000000000000A /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000001A /* RootTabView.swift */; };
+		AA00000000000000000030 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000040 /* AuthService.swift */; };
+		AA00000000000000000031 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000041 /* AuthSession.swift */; };
+		AA00000000000000000032 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000042 /* LoginView.swift */; };
+		AA00000000000000000033 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000043 /* SignUpView.swift */; };
+		AA00000000000000000034 /* AuthGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000044 /* AuthGateView.swift */; };
+		AA00000000000000000090 /* BackendAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000091 /* BackendAuthService.swift */; };
+		AA00000000000000000080 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000070 /* AppLanguage.swift */; };
+		AA00000000000000000081 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000071 /* SettingsView.swift */; };
+		AA00000000000000000082 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000072 /* Gender.swift */; };
+		AA00000000000000000083 /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000073 /* Visibility.swift */; };
+		AA00000000000000000084 /* SpeciesStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000074 /* SpeciesStatus.swift */; };
+		AA00000000000000000085 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000075 /* Badge.swift */; };
+		AA00000000000000000086 /* AddSightingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000076 /* AddSightingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +51,20 @@
 		AA00000000000000000018 /* BadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesView.swift; sourceTree = "<group>"; };
 		AA00000000000000000019 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		AA0000000000000000001A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		AA00000000000000000040 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		AA00000000000000000041 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
+		AA00000000000000000042 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AA00000000000000000043 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AA00000000000000000044 /* AuthGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateView.swift; sourceTree = "<group>"; };
+		AA00000000000000000091 /* BackendAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendAuthService.swift; sourceTree = "<group>"; };
+		AA00000000000000000061 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		AA00000000000000000070 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		AA00000000000000000071 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AA00000000000000000072 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		AA00000000000000000073 /* Visibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visibility.swift; sourceTree = "<group>"; };
+		AA00000000000000000074 /* SpeciesStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStatus.swift; sourceTree = "<group>"; };
+		AA00000000000000000075 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		AA00000000000000000076 /* AddSightingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSightingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +84,9 @@
 				2FEFD88A3054C5CD00414042 /* Products */,
 				2FEFD8923054C5CF00414042 /* Assets.xcassets */,
 				2FEFD88E3054C5CD00414042 /* ContentView.swift */,
+				AA00000000000000000076 /* AddSightingView.swift */,
 				AA00000000000000000020 /* Models */,
+				AA00000000000000000050 /* Auth */,
 				AA00000000000000000014 /* Theme.swift */,
 				AA00000000000000000015 /* AddToDiaryTabIcon.swift */,
 				AA00000000000000000016 /* MapView.swift */,
@@ -64,6 +94,9 @@
 				AA00000000000000000018 /* BadgesView.swift */,
 				AA00000000000000000019 /* ProfileView.swift */,
 				AA0000000000000000001A /* RootTabView.swift */,
+				AA00000000000000000070 /* AppLanguage.swift */,
+				AA00000000000000000071 /* SettingsView.swift */,
+				AA00000000000000000061 /* Localizable.xcstrings */,
 				2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */,
 			);
 			sourceTree = "<group>";
@@ -82,8 +115,25 @@
 				AA00000000000000000011 /* BirdSighting.swift */,
 				AA00000000000000000012 /* Species.swift */,
 				AA00000000000000000013 /* LifeStage.swift */,
+				AA00000000000000000072 /* Gender.swift */,
+				AA00000000000000000073 /* Visibility.swift */,
+				AA00000000000000000074 /* SpeciesStatus.swift */,
+				AA00000000000000000075 /* Badge.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000050 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				AA00000000000000000040 /* AuthService.swift */,
+				AA00000000000000000041 /* AuthSession.swift */,
+				AA00000000000000000042 /* LoginView.swift */,
+				AA00000000000000000043 /* SignUpView.swift */,
+				AA00000000000000000044 /* AuthGateView.swift */,
+				AA00000000000000000091 /* BackendAuthService.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +178,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				tr,
 				Base,
 			);
 			mainGroup = 2FEFD8803054C5CD00414042;
@@ -148,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FEFD8933054C5CF00414042 /* Assets.xcassets in Resources */,
+				AA00000000000000000060 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +221,19 @@
 				AA00000000000000000008 /* BadgesView.swift in Sources */,
 				AA00000000000000000009 /* ProfileView.swift in Sources */,
 				AA0000000000000000000A /* RootTabView.swift in Sources */,
+				AA00000000000000000030 /* AuthService.swift in Sources */,
+				AA00000000000000000031 /* AuthSession.swift in Sources */,
+				AA00000000000000000032 /* LoginView.swift in Sources */,
+				AA00000000000000000033 /* SignUpView.swift in Sources */,
+				AA00000000000000000034 /* AuthGateView.swift in Sources */,
+				AA00000000000000000080 /* AppLanguage.swift in Sources */,
+				AA00000000000000000081 /* SettingsView.swift in Sources */,
+				AA00000000000000000082 /* Gender.swift in Sources */,
+				AA00000000000000000083 /* Visibility.swift in Sources */,
+				AA00000000000000000084 /* SpeciesStatus.swift in Sources */,
+				AA00000000000000000085 /* Badge.swift in Sources */,
+				AA00000000000000000086 /* AddSightingView.swift in Sources */,
+				AA00000000000000000090 /* BackendAuthService.swift in Sources */,
 				2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

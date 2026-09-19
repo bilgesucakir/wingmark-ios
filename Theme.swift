@@ -33,7 +33,7 @@ extension View {
 
 /// Flowing-script screen title, used in place of the default nav title style.
 struct FlowingTitle: View {
-    let text: String
+    let text: LocalizedStringKey
 
     var body: some View {
         Text(text)
