@@ -13,15 +13,7 @@ struct RootView: View {
             case .needsVerification(let email):
                 CheckInboxView(email: email)
             case .signedIn:
-                ContentUnavailableView {
-                    Label(session.profile?.displayName ?? "Wingmark", systemImage: "bird")
-                } description: {
-                    Text("You're signed in.")
-                } actions: {
-                    Button("Log Out") {
-                        Task { await session.logOut() }
-                    }
-                }
+                MainTabView()
             }
         }
         .animation(.default, value: session.state)
