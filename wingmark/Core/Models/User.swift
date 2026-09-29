@@ -34,7 +34,7 @@ struct UserProfile: Codable, Sendable, Equatable, Identifiable {
 
 struct UserSettings: Codable, Sendable, Equatable {
     var unitPreference: UnitPreference
-    var locale: String
+    var locale: String?
 }
 
 struct RegisterResponse: Decodable, Sendable, Equatable {

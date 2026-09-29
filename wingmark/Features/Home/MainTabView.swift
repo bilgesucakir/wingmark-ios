@@ -10,6 +10,9 @@ struct MainTabView: View {
                 Tab("Map", systemImage: "map") {
                     PlaceholderTab(title: "Map", systemImage: "map")
                 }
+                Tab("Guide", systemImage: "text.book.closed") {
+                    PlaceholderTab(title: "Guide", systemImage: "text.book.closed")
+                }
                 Tab("Diary", systemImage: "book") {
                     DiaryView()
                 }
@@ -17,10 +20,7 @@ struct MainTabView: View {
                     PlaceholderTab(title: "Badges", systemImage: "trophy")
                 }
                 Tab("Profile", systemImage: "person.crop.circle") {
-                    ProfilePlaceholderView()
-                }
-                Tab("Guide", systemImage: "magnifyingglass", role: .search) {
-                    PlaceholderTab(title: "Guide", systemImage: "magnifyingglass")
+                    ProfileView()
                 }
             }
             .environment(diary)
@@ -39,26 +39,6 @@ private struct PlaceholderTab: View {
         NavigationStack {
             ContentUnavailableView(title, systemImage: systemImage, description: Text("Coming soon."))
                 .navigationTitle(title)
-        }
-    }
-}
-
-private struct ProfilePlaceholderView: View {
-    @Environment(AuthSession.self) private var session
-
-    var body: some View {
-        NavigationStack {
-            List {
-                if let profile = session.profile {
-                    LabeledContent("Name", value: profile.displayName)
-                    LabeledContent("Username", value: profile.username)
-                    LabeledContent("Email", value: profile.email)
-                }
-                Button("Log Out", role: .destructive) {
-                    Task { await session.logOut() }
-                }
-            }
-            .navigationTitle("Profile")
         }
     }
 }

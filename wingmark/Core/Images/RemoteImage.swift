@@ -15,6 +15,11 @@ final class ImageLoader {
         session = URLSession(configuration: configuration)
     }
 
+    func clear() {
+        memory.removeAllObjects()
+        session.configuration.urlCache?.removeAllCachedResponses()
+    }
+
     func cachedImage(for url: URL) -> UIImage? {
         memory.object(forKey: url as NSURL)
     }

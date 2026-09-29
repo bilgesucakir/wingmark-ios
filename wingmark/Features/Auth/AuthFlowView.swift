@@ -52,7 +52,11 @@ struct WelcomeView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
-            if session.sessionExpiredNotice {
+            if session.accountDeletedNotice {
+                Label("Your account has been deleted.", systemImage: "checkmark.circle")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } else if session.sessionExpiredNotice {
                 Label("Your session has ended. Please log in again.", systemImage: "info.circle")
                     .font(.footnote)
                     .foregroundStyle(.secondary)

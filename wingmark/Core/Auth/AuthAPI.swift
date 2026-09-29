@@ -59,4 +59,50 @@ enum AuthAPI {
     static func deleteAccount(userId: UUID, password: String) -> Endpoint<EmptyResponse> {
         Endpoint(.delete, "users/\(userId.uuidString.lowercased())", json: ["password": password])
     }
+    struct ProfileUpdate: Encodable, Sendable, Equatable {
+        var firstName: String?
+        var lastName: String?
+        var profilePicture: String?
+        var favoriteSpeciesId: UUID?
+
+        init(_ profile: UserProfile) {
+            firstName = profile.firstName
+            lastName = profile.lastName
+            profilePicture = profile.profilePicture
+            favoriteSpeciesId = profile.favoriteSpeciesId
+        }
+
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(firstName, forKey: .firstName)
+            try container.encode(lastName, forKey: .lastName)
+            try container.encode(profilePicture, forKey: .profilePicture)
+            try container.encode(favoriteSpeciesId, forKey: .favoriteSpeciesId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstName, lastName, profilePicture, favoriteSpeciesId
+        }
+    }
+
+    struct Avatar: Decodable, Sendable {
+        let key: String
+    }
+
+    /// PUT replaces every field, so always send the full set.
+    static func updateProfile(userId: UUID, _ update: ProfileUpdate) -> Endpoint<UserProfile> {
+        Endpoint(.put, "users/\(userId.uuidString.lowercased())", json: update)
+    }
+
+    static func settings(userId: UUID) -> Endpoint<UserSettings> {
+        Endpoint(.get, "users/\(userId.uuidString.lowercased())/settings")
+    }
+
+    static func updateSettings(userId: UUID, _ settings: UserSettings) -> Endpoint<UserSettings> {
+        Endpoint(.put, "users/\(userId.uuidString.lowercased())/settings", json: settings)
+    }
+
+    static func avatars() -> Endpoint<[Avatar]> {
+        Endpoint(.get, "avatars", requiresAuth: false)
+    }
 }
