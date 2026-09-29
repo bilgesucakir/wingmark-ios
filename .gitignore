@@ -8,3 +8,7 @@ app-details.md
 # Server secrets - never commit
 .env
 docs/
+
+# Local editor / SweetPad config
+buildServer.json
+.vscode/
