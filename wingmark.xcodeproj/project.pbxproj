@@ -6,69 +6,44 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */; };
-		2FEFD88F3054C5CD00414042 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFD88E3054C5CD00414042 /* ContentView.swift */; };
-		2FEFD8933054C5CF00414042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FEFD8923054C5CF00414042 /* Assets.xcassets */; };
-		AA00000000000000000060 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000061 /* Localizable.xcstrings */; };
-		AA00000000000000000001 /* BirdSighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000011 /* BirdSighting.swift */; };
-		AA00000000000000000002 /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000012 /* Species.swift */; };
-		AA00000000000000000003 /* LifeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000013 /* LifeStage.swift */; };
-		AA00000000000000000004 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000014 /* Theme.swift */; };
-		AA00000000000000000005 /* AddToDiaryTabIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000015 /* AddToDiaryTabIcon.swift */; };
-		AA00000000000000000006 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000016 /* MapView.swift */; };
-		AA00000000000000000007 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000017 /* GuideView.swift */; };
-		AA00000000000000000008 /* BadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000018 /* BadgesView.swift */; };
-		AA00000000000000000009 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000019 /* ProfileView.swift */; };
-		AA0000000000000000000A /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000001A /* RootTabView.swift */; };
-		AA00000000000000000030 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000040 /* AuthService.swift */; };
-		AA00000000000000000031 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000041 /* AuthSession.swift */; };
-		AA00000000000000000032 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000042 /* LoginView.swift */; };
-		AA00000000000000000033 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000043 /* SignUpView.swift */; };
-		AA00000000000000000034 /* AuthGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000044 /* AuthGateView.swift */; };
-		AA00000000000000000090 /* BackendAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000091 /* BackendAuthService.swift */; };
-		AA00000000000000000080 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000070 /* AppLanguage.swift */; };
-		AA00000000000000000081 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000071 /* SettingsView.swift */; };
-		AA00000000000000000082 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000072 /* Gender.swift */; };
-		AA00000000000000000083 /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000073 /* Visibility.swift */; };
-		AA00000000000000000084 /* SpeciesStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000074 /* SpeciesStatus.swift */; };
-		AA00000000000000000085 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000075 /* Badge.swift */; };
-		AA00000000000000000086 /* AddSightingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000076 /* AddSightingView.swift */; };
-/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		AB0000000000000000000030 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FEFD8813054C5CD00414042 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FEFD8883054C5CD00414042;
+			remoteInfo = wingmark;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2FEFD8893054C5CD00414042 /* wingmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wingmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wingmarkApp.swift; sourceTree = "<group>"; };
-		2FEFD88E3054C5CD00414042 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2FEFD8923054C5CF00414042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AA00000000000000000011 /* BirdSighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdSighting.swift; sourceTree = "<group>"; };
-		AA00000000000000000012 /* Species.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
-		AA00000000000000000013 /* LifeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeStage.swift; sourceTree = "<group>"; };
-		AA00000000000000000014 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		AA00000000000000000015 /* AddToDiaryTabIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDiaryTabIcon.swift; sourceTree = "<group>"; };
-		AA00000000000000000016 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		AA00000000000000000017 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
-		AA00000000000000000018 /* BadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesView.swift; sourceTree = "<group>"; };
-		AA00000000000000000019 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		AA0000000000000000001A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
-		AA00000000000000000040 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		AA00000000000000000041 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
-		AA00000000000000000042 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		AA00000000000000000043 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		AA00000000000000000044 /* AuthGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateView.swift; sourceTree = "<group>"; };
-		AA00000000000000000091 /* BackendAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendAuthService.swift; sourceTree = "<group>"; };
-		AA00000000000000000061 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		AA00000000000000000070 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
-		AA00000000000000000071 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		AA00000000000000000072 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
-		AA00000000000000000073 /* Visibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visibility.swift; sourceTree = "<group>"; };
-		AA00000000000000000074 /* SpeciesStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStatus.swift; sourceTree = "<group>"; };
-		AA00000000000000000075 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
-		AA00000000000000000076 /* AddSightingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSightingView.swift; sourceTree = "<group>"; };
+		AB0000000000000000000010 /* wingmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wingmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0000000000000000000040 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AB0000000000000000000001 /* wingmark */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = wingmark;
+			sourceTree = "<group>";
+		};
+		AB0000000000000000000002 /* wingmarkTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = wingmarkTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2FEFD8863054C5CD00414042 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB0000000000000000000021 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -81,23 +56,10 @@
 		2FEFD8803054C5CD00414042 = {
 			isa = PBXGroup;
 			children = (
+				AB0000000000000000000001 /* wingmark */,
+				AB0000000000000000000002 /* wingmarkTests */,
+				AB0000000000000000000041 /* Config */,
 				2FEFD88A3054C5CD00414042 /* Products */,
-				2FEFD8923054C5CF00414042 /* Assets.xcassets */,
-				2FEFD88E3054C5CD00414042 /* ContentView.swift */,
-				AA00000000000000000076 /* AddSightingView.swift */,
-				AA00000000000000000020 /* Models */,
-				AA00000000000000000050 /* Auth */,
-				AA00000000000000000014 /* Theme.swift */,
-				AA00000000000000000015 /* AddToDiaryTabIcon.swift */,
-				AA00000000000000000016 /* MapView.swift */,
-				AA00000000000000000017 /* GuideView.swift */,
-				AA00000000000000000018 /* BadgesView.swift */,
-				AA00000000000000000019 /* ProfileView.swift */,
-				AA0000000000000000001A /* RootTabView.swift */,
-				AA00000000000000000070 /* AppLanguage.swift */,
-				AA00000000000000000071 /* SettingsView.swift */,
-				AA00000000000000000061 /* Localizable.xcstrings */,
-				2FEFD88C3054C5CD00414042 /* wingmarkApp.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,35 +67,17 @@
 			isa = PBXGroup;
 			children = (
 				2FEFD8893054C5CD00414042 /* wingmark.app */,
+				AB0000000000000000000010 /* wingmarkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA00000000000000000020 /* Models */ = {
+		AB0000000000000000000041 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				AA00000000000000000011 /* BirdSighting.swift */,
-				AA00000000000000000012 /* Species.swift */,
-				AA00000000000000000013 /* LifeStage.swift */,
-				AA00000000000000000072 /* Gender.swift */,
-				AA00000000000000000073 /* Visibility.swift */,
-				AA00000000000000000074 /* SpeciesStatus.swift */,
-				AA00000000000000000075 /* Badge.swift */,
+				AB0000000000000000000040 /* Info.plist */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		AA00000000000000000050 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				AA00000000000000000040 /* AuthService.swift */,
-				AA00000000000000000041 /* AuthSession.swift */,
-				AA00000000000000000042 /* LoginView.swift */,
-				AA00000000000000000043 /* SignUpView.swift */,
-				AA00000000000000000044 /* AuthGateView.swift */,
-				AA00000000000000000091 /* BackendAuthService.swift */,
-			);
-			path = Auth;
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,12 +95,38 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				AB0000000000000000000001 /* wingmark */,
+			);
 			name = wingmark;
 			packageProductDependencies = (
 			);
 			productName = wingmark;
 			productReference = 2FEFD8893054C5CD00414042 /* wingmark.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AB0000000000000000000003 /* wingmarkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB0000000000000000000050 /* Build configuration list for PBXNativeTarget "wingmarkTests" */;
+			buildPhases = (
+				AB0000000000000000000020 /* Sources */,
+				AB0000000000000000000021 /* Frameworks */,
+				AB0000000000000000000022 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB0000000000000000000031 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AB0000000000000000000002 /* wingmarkTests */,
+			);
+			name = wingmarkTests;
+			packageProductDependencies = (
+			);
+			productName = wingmarkTests;
+			productReference = AB0000000000000000000010 /* wingmarkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -165,11 +135,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2660;
-				LastUpgradeCheck = 2660;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					2FEFD8883054C5CD00414042 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					AB0000000000000000000003 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 2FEFD8883054C5CD00414042;
 					};
 				};
 			};
@@ -189,6 +163,7 @@
 			projectRoot = "";
 			targets = (
 				2FEFD8883054C5CD00414042 /* wingmark */,
+				AB0000000000000000000003 /* wingmarkTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,8 +173,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FEFD8933054C5CF00414042 /* Assets.xcassets in Resources */,
-				AA00000000000000000060 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB0000000000000000000022 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,35 +190,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FEFD88F3054C5CD00414042 /* ContentView.swift in Sources */,
-				AA00000000000000000001 /* BirdSighting.swift in Sources */,
-				AA00000000000000000002 /* Species.swift in Sources */,
-				AA00000000000000000003 /* LifeStage.swift in Sources */,
-				AA00000000000000000004 /* Theme.swift in Sources */,
-				AA00000000000000000005 /* AddToDiaryTabIcon.swift in Sources */,
-				AA00000000000000000006 /* MapView.swift in Sources */,
-				AA00000000000000000007 /* GuideView.swift in Sources */,
-				AA00000000000000000008 /* BadgesView.swift in Sources */,
-				AA00000000000000000009 /* ProfileView.swift in Sources */,
-				AA0000000000000000000A /* RootTabView.swift in Sources */,
-				AA00000000000000000030 /* AuthService.swift in Sources */,
-				AA00000000000000000031 /* AuthSession.swift in Sources */,
-				AA00000000000000000032 /* LoginView.swift in Sources */,
-				AA00000000000000000033 /* SignUpView.swift in Sources */,
-				AA00000000000000000034 /* AuthGateView.swift in Sources */,
-				AA00000000000000000080 /* AppLanguage.swift in Sources */,
-				AA00000000000000000081 /* SettingsView.swift in Sources */,
-				AA00000000000000000082 /* Gender.swift in Sources */,
-				AA00000000000000000083 /* Visibility.swift in Sources */,
-				AA00000000000000000084 /* SpeciesStatus.swift in Sources */,
-				AA00000000000000000085 /* Badge.swift in Sources */,
-				AA00000000000000000086 /* AddSightingView.swift in Sources */,
-				AA00000000000000000090 /* BackendAuthService.swift in Sources */,
-				2FEFD88D3054C5CD00414042 /* wingmarkApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB0000000000000000000020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB0000000000000000000031 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FEFD8883054C5CD00414042 /* wingmark */;
+			targetProxy = AB0000000000000000000030 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2FEFD8943054C5CF00414042 /* Debug */ = {
@@ -294,10 +264,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -350,10 +322,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -365,39 +340,34 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K67F35BN8Y;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.5;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				WINGMARK_API_BASE_URL = "https://wingmark-backend.onrender.com";
 			};
 			name = Debug;
 		};
@@ -409,39 +379,80 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K67F35BN8Y;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.5;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				WINGMARK_API_BASE_URL = "https://wingmark-backend.onrender.com";
+			};
+			name = Release;
+		};
+		AB0000000000000000000051 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K67F35BN8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wingmark.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wingmark";
+			};
+			name = Debug;
+		};
+		AB0000000000000000000052 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K67F35BN8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wingmark.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wingmark";
 			};
 			name = Release;
 		};
@@ -462,6 +473,15 @@
 			buildConfigurations = (
 				2FEFD8973054C5CF00414042 /* Debug */,
 				2FEFD8983054C5CF00414042 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB0000000000000000000050 /* Build configuration list for PBXNativeTarget "wingmarkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB0000000000000000000051 /* Debug */,
+				AB0000000000000000000052 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -2,4 +2,9 @@ build/
 DerivedData/
 *.xcuserstate
 xcuserdata/
-.DS_Store
+app-details.md
+.claude/
+
+# Server secrets - never commit
+.env
+docs/

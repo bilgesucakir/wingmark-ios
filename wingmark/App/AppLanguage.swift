@@ -5,6 +5,8 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case english = "en"
     case turkish = "tr"
 
+    static let storageKey = "appLanguage"
+
     var id: String { rawValue }
 
     var displayName: String {
@@ -15,12 +17,24 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         }
     }
 
-    /// nil means "follow the device's own language settings" — don't override the environment locale.
     var locale: Locale? {
         switch self {
         case .system: nil
         case .english: Locale(identifier: "en")
         case .turkish: Locale(identifier: "tr")
         }
+    }
+
+    var resolvedCode: String {
+        switch self {
+        case .english: "en"
+        case .turkish: "tr"
+        case .system:
+            Locale.preferredLanguages.first?.lowercased().hasPrefix("tr") == true ? "tr" : "en"
+        }
+    }
+
+    static var current: AppLanguage {
+        UserDefaults.standard.string(forKey: storageKey).flatMap(AppLanguage.init(rawValue:)) ?? .system
     }
 }
