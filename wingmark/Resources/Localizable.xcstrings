@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "shouldTranslate" : false
+    },
     "000000" : {
       "shouldTranslate" : false
     },
@@ -10,6 +13,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "6 haneli kod"
+          }
+        }
+      }
+    },
+    "A location is required." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum gerekli."
           }
         }
       }
@@ -30,6 +43,16 @@
         }
       }
     },
+    "Adjust on Map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada Düzenle"
+          }
+        }
+      }
+    },
     "Adult" : {
       "localizations" : {
         "en" : {
@@ -42,6 +65,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yetişkin"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümü"
           }
         }
       }
@@ -68,6 +101,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu e-posta ile kayıtlı bir hesap zaten var."
+          }
+        }
+      }
+    },
+    "Any Gender" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Cinsiyetler"
+          }
+        }
+      }
+    },
+    "Any Life Stage" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Yaş Evreleri"
           }
         }
       }
@@ -146,6 +199,16 @@
         }
       }
     },
+    "Cancel" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vazgeç"
+          }
+        }
+      }
+    },
     "Changes take effect immediately." : {
       "localizations" : {
         "en" : {
@@ -182,12 +245,72 @@
         }
       }
     },
+    "Choose" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seç"
+          }
+        }
+      }
+    },
     "Choose a different password than your current one." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mevcut şifrenden farklı bir şifre seç."
+          }
+        }
+      }
+    },
+    "Choose Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf Seç"
+          }
+        }
+      }
+    },
+    "Choose Species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür Seç"
+          }
+        }
+      }
+    },
+    "Clear Filters" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtreleri Temizle"
+          }
+        }
+      }
+    },
+    "Coming soon." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yakında."
+          }
+        }
+      }
+    },
+    "Confidence" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kesinlik"
           }
         }
       }
@@ -214,6 +337,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yeni Şifreyi Onayla"
+          }
+        }
+      }
+    },
+    "Couldn't delete" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silinemedi"
+          }
+        }
+      }
+    },
+    "Couldn't find your location. Pick the spot on the map." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı. Yeri haritada seç."
+          }
+        }
+      }
+    },
+    "Couldn't load species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türler yüklenemedi"
+          }
+        }
+      }
+    },
+    "Couldn't load your diary" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günlüğün yüklenemedi"
           }
         }
       }
@@ -268,6 +431,56 @@
         }
       }
     },
+    "Custom name (optional)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel ad (isteğe bağlı)"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
+          }
+        }
+      }
+    },
+    "Delete Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemi Sil"
+          }
+        }
+      }
+    },
+    "Delete this sighting?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu gözlem silinsin mi?"
+          }
+        }
+      }
+    },
+    "Details" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayrıntılar"
+          }
+        }
+      }
+    },
     "Diary" : {
       "localizations" : {
         "en" : {
@@ -312,6 +525,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hesabın yok mu? Kayıt Ol"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle"
+          }
+        }
+      }
+    },
+    "Edit Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemi Düzenle"
           }
         }
       }
@@ -414,6 +657,26 @@
         }
       }
     },
+    "Filter" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrele"
+          }
+        }
+      }
+    },
+    "Finding your location…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunuyor…"
+          }
+        }
+      }
+    },
     "First Name" : {
       "localizations" : {
         "en" : {
@@ -472,6 +735,16 @@
         }
       }
     },
+    "Gender" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cinsiyet"
+          }
+        }
+      }
+    },
     "Go to Login" : {
       "localizations" : {
         "tr" : {
@@ -498,6 +771,16 @@
         }
       }
     },
+    "Guess" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tahmin"
+          }
+        }
+      }
+    },
     "Guide" : {
       "localizations" : {
         "en" : {
@@ -510,6 +793,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rehber"
+          }
+        }
+      }
+    },
+    "I don't know the species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türünü bilmiyorum"
+          }
+        }
+      }
+    },
+    "Identification" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanımlama"
+          }
+        }
+      }
+    },
+    "Identified" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanımlanmış"
           }
         }
       }
@@ -572,6 +885,16 @@
         }
       }
     },
+    "Juvenile" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yavru"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "en" : {
@@ -600,6 +923,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soyad"
+          }
+        }
+      }
+    },
+    "Life Stage" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yaş Evresi"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum"
+          }
+        }
+      }
+    },
+    "Location access is off. Allow it in Settings or pick the spot on the map." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum erişimi kapalı. Ayarlar’dan izin ver ya da yeri haritada seç."
           }
         }
       }
@@ -642,6 +995,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gördüğün kuşları kaydet, her türü tanı ve yol boyunca rozetler kazan."
+          }
+        }
+      }
+    },
+    "Log your first bird to start your diary." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günlüğüne başlamak için ilk kuşunu kaydet."
           }
         }
       }
@@ -762,6 +1125,36 @@
         }
       }
     },
+    "Newest First" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önce En Yeni"
+          }
+        }
+      }
+    },
+    "No matching sightings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eşleşen gözlem yok"
+          }
+        }
+      }
+    },
+    "No sightings yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz gözlem yok"
+          }
+        }
+      }
+    },
     "No species identified yet" : {
       "localizations" : {
         "en" : {
@@ -790,6 +1183,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Henüz emin değilim"
+          }
+        }
+      }
+    },
+    "Notes" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notlar"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        }
+      }
+    },
+    "Oldest First" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önce En Eski"
           }
         }
       }
@@ -830,6 +1253,16 @@
         }
       }
     },
+    "Pet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evcil"
+          }
+        }
+      }
+    },
     "Pet Lover" : {
       "localizations" : {
         "en" : {
@@ -842,6 +1275,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Evcil Hayvan Sever"
+          }
+        }
+      }
+    },
+    "Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf"
+          }
+        }
+      }
+    },
+    "Pick on Map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada Seç"
+          }
+        }
+      }
+    },
+    "Place name (optional)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yer adı (isteğe bağlı)"
           }
         }
       }
@@ -914,6 +1377,36 @@
         }
       }
     },
+    "Reading photo…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf okunuyor…"
+          }
+        }
+      }
+    },
+    "Remove Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kaldır"
+          }
+        }
+      }
+    },
+    "Replace Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Değiştir"
+          }
+        }
+      }
+    },
     "Request a new code to try again." : {
       "localizations" : {
         "tr" : {
@@ -950,6 +1443,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifreyi Sıfırla"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
+          }
+        }
+      }
+    },
+    "Seen" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görüldü"
           }
         }
       }
@@ -1002,6 +1515,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ayarlar"
+          }
+        }
+      }
+    },
+    "Sighting Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem Konumu"
           }
         }
       }
@@ -1064,6 +1587,16 @@
         }
       }
     },
+    "Sort" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sırala"
+          }
+        }
+      }
+    },
     "species" : {
       "localizations" : {
         "en" : {
@@ -1080,6 +1613,16 @@
         }
       }
     },
+    "Species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür"
+          }
+        }
+      }
+    },
     "System Default" : {
       "localizations" : {
         "en" : {
@@ -1092,6 +1635,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sistem Varsayılanı"
+          }
+        }
+      }
+    },
+    "Take Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf Çek"
           }
         }
       }
@@ -1142,6 +1695,16 @@
         }
       }
     },
+    "That species is no longer available. Choose another." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu tür artık mevcut değil. Başka bir tür seç."
+          }
+        }
+      }
+    },
     "The code is wrong or has expired." : {
       "localizations" : {
         "tr" : {
@@ -1158,6 +1721,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifre yanlış."
+          }
+        }
+      }
+    },
+    "The photo's date and location fill in automatically when available." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafın tarihi ve konumu varsa otomatik doldurulur."
           }
         }
       }
@@ -1202,6 +1775,16 @@
         }
       }
     },
+    "This can't be undone." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işlem geri alınamaz."
+          }
+        }
+      }
+    },
     "This item no longer exists." : {
       "localizations" : {
         "tr" : {
@@ -1212,12 +1795,32 @@
         }
       }
     },
+    "This sighting no longer exists." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu gözlem artık mevcut değil."
+          }
+        }
+      }
+    },
     "This username is already taken." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu kullanıcı adı zaten alınmış."
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar Dene"
           }
         }
       }
@@ -1234,6 +1837,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yirmi Tür"
+          }
+        }
+      }
+    },
+    "Unidentified" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanımlanmamış"
+          }
+        }
+      }
+    },
+    "Unidentified bird" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanımlanmamış kuş"
           }
         }
       }
@@ -1290,6 +1913,16 @@
         }
       }
     },
+    "Use Current Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Konumu Kullan"
+          }
+        }
+      }
+    },
     "Username" : {
       "localizations" : {
         "en" : {
@@ -1341,6 +1974,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "E-posta veya şifre yanlış."
+          }
+        }
+      }
+    },
+    "Yes" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evet"
           }
         }
       }

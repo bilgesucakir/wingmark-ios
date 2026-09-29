@@ -12,7 +12,9 @@ final class AuthSession {
 
     private(set) var state: State = .launching
     private(set) var profile: UserProfile?
+    private(set) var settings: UserSettings?
     var sessionExpiredNotice = false
+    var accountDeletedNotice = false
 
     let client: APIClient
 
@@ -35,6 +37,7 @@ final class AuthSession {
         }
         state = .signedIn(userId: id)
         await refreshProfile()
+        await loadSettings()
     }
 
     func refreshProfile() async {
@@ -42,6 +45,32 @@ final class AuthSession {
         if let profile = try? await client.send(AuthAPI.user(id: userId)) {
             self.profile = profile
         }
+    }
+
+    func loadSettings() async {
+        guard let userId else { return }
+        if let settings = try? await client.send(AuthAPI.settings(userId: userId)) {
+            self.settings = settings
+            UnitPreference.current = settings.unitPreference
+        }
+    }
+
+    // MARK: - Profile & settings
+
+    func updateProfile(_ update: AuthAPI.ProfileUpdate) async throws(APIError) {
+        guard let userId else { throw .sessionExpired }
+        profile = try await client.send(AuthAPI.updateProfile(userId: userId, update))
+    }
+
+    func updateSettings(unitPreference: UnitPreference? = nil, locale: String? = nil) async throws(APIError) {
+        guard let userId else { throw .sessionExpired }
+        let current = settings ?? UserSettings(unitPreference: UnitPreference.current, locale: AppLanguage.current.resolvedCode)
+        let updated = UserSettings(
+            unitPreference: unitPreference ?? current.unitPreference,
+            locale: locale ?? current.locale
+        )
+        settings = try await client.send(AuthAPI.updateSettings(userId: userId, updated))
+        UnitPreference.current = settings?.unitPreference ?? updated.unitPreference
     }
 
     // MARK: - Sign in / up
@@ -56,7 +85,9 @@ final class AuthSession {
             return
         }
         sessionExpiredNotice = false
+        accountDeletedNotice = false
         await refreshProfile()
+        await loadSettings()
     }
 
     func register(_ request: AuthAPI.RegisterRequest) async throws(APIError) {
@@ -110,6 +141,7 @@ final class AuthSession {
         guard let userId else { throw .sessionExpired }
         _ = try await client.send(AuthAPI.deleteAccount(userId: userId, password: password))
         signOutLocally()
+        accountDeletedNotice = true
     }
 
     // MARK: - Private
@@ -125,12 +157,15 @@ final class AuthSession {
     private func signOutLocally() {
         client.tokenStore.clear()
         profile = nil
+        settings = nil
+        ImageLoader.shared.clear()
         state = .signedOut
     }
 
     private func handleSessionExpired() {
         guard userId != nil else { return }
         profile = nil
+        settings = nil
         sessionExpiredNotice = true
         state = .signedOut
     }

@@ -1,0 +1,21 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "shouldTranslate" : false
+    },
+    "NSCameraUsageDescription" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take a photo of the bird you spotted." } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Gördüğün kuşun fotoğrafını çek." } }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your location is saved with each sighting so it appears on your map." } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Konumun her gözlemle birlikte kaydedilir, böylece haritanda görünür." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
