@@ -41,10 +41,12 @@ struct ProfileTests {
     }
 
     @Test func formatsDistancesPerUnitPreference() {
-        #expect(UnitPreference.metric.format(meters: 250).contains("250"))
-        #expect(UnitPreference.metric.format(meters: 2500).contains("2.5"))
-        #expect(UnitPreference.imperial.format(meters: 100).contains("328"))
-        #expect(UnitPreference.imperial.format(meters: 3218.7).contains("2"))
+        let us = Locale(identifier: "en_US")
+        #expect(UnitPreference.metric.format(meters: 250, locale: us) == "250 m")
+        #expect(UnitPreference.metric.format(meters: 2500, locale: us) == "2.5 km")
+        #expect(UnitPreference.imperial.format(meters: 100, locale: us) == "328.1 ft")
+        #expect(UnitPreference.imperial.format(meters: 3218.7, locale: us) == "2 mi")
+        #expect(UnitPreference.metric.format(meters: 2500, locale: Locale(identifier: "tr_TR")).contains("2,5"))
     }
 
     @Test func presetKeysGetStableStyles() {
