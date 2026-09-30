@@ -55,7 +55,7 @@ struct CheckInboxView: View {
             defer { isResending = false }
             do throws(APIError) {
                 try await session.resendVerificationEmail(to: email)
-                message = String(localized: "Email sent. It can take a minute to arrive; check your spam folder too.")
+                message = String(localized: "Email sent. It can take a minute to arrive; check your spam folder too.", bundle: .app)
                 resendAvailableAt = .now.addingTimeInterval(30)
             } catch {
                 message = error.userMessage

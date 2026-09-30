@@ -4,6 +4,7 @@ enum DiaryRoute: Hashable {
     case detail(UUID)
     case add
     case edit(UUID)
+    case species(Species)
 }
 
 struct DiaryView: View {
@@ -23,24 +24,16 @@ struct DiaryView: View {
                             .buttonStyle(.borderedProminent)
                     }
                 }
-                .navigationDestination(for: DiaryRoute.self) { route in
-                    switch route {
-                    case .detail(let id):
-                        SightingDetailView(logId: id, path: $path)
-                    case .add:
-                        SightingFormView(editing: nil) { _ in path.removeLast() }
-                    case .edit(let id):
-                        SightingFormView(editing: store.log(id: id)) { _ in path.removeLast() }
-                    }
-                }
+                .sightingDestinations(path: $path)
                 .refreshable { await store.load() }
                 .task { if !store.hasLoaded { await store.load() } }
-                .confirmationDialog(
+                .alert(
                     "Delete this sighting?", isPresented: .init(
                         get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }
-                    ), titleVisibility: .visible, presenting: pendingDelete
+                    ), presenting: pendingDelete
                 ) { log in
                     Button("Delete", role: .destructive) { delete(log) }
+                    Button("Cancel", role: .cancel) {}
                 } message: { _ in
                     Text("This can't be undone.")
                 }
@@ -139,6 +132,32 @@ struct DiaryView: View {
     }
 }
 
+struct SightingDestinations: ViewModifier {
+    @Environment(DiaryStore.self) private var store
+    @Binding var path: [DiaryRoute]
+
+    func body(content: Content) -> some View {
+        content.navigationDestination(for: DiaryRoute.self) { route in
+            switch route {
+            case .detail(let id):
+                SightingDetailView(logId: id, path: $path)
+            case .add:
+                SightingFormView(editing: nil) { _ in path.removeLast() }
+            case .edit(let id):
+                SightingFormView(editing: store.log(id: id)) { _ in path.removeLast() }
+            case .species(let species):
+                SpeciesDetailView(species: species)
+            }
+        }
+    }
+}
+
+extension View {
+    func sightingDestinations(path: Binding<[DiaryRoute]>) -> some View {
+        modifier(SightingDestinations(path: path))
+    }
+}
+
 struct SightingRow: View {
     let log: BirdLog
 
@@ -154,6 +173,11 @@ struct SightingRow: View {
                 Text(log.observedAt, format: .dateTime.day().month().year().hour().minute())
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                if let traits = log.traitsSummary {
+                    Text(traits)
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                }
                 if let place = log.locationName, !place.isEmpty {
                     Text(place)
                         .font(.caption)

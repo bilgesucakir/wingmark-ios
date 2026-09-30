@@ -37,6 +37,11 @@ struct SettingsView: View {
                     Task { await session.logOut() }
                 }
                 Button("Log Out of All Devices") { confirmLogoutAll = true }
+                    .confirmationDialog("Log out of all devices?", isPresented: $confirmLogoutAll, titleVisibility: .visible) {
+                        Button("Log Out Everywhere", role: .destructive) { logOutAll() }
+                    } message: {
+                        Text("You'll be signed out on every device, including this one.")
+                    }
             }
 
             Section {
@@ -59,11 +64,6 @@ struct SettingsView: View {
         .onChange(of: units) { _, newValue in
             guard newValue != session.settings?.unitPreference else { return }
             save(unitPreference: newValue)
-        }
-        .confirmationDialog("Log out of all devices?", isPresented: $confirmLogoutAll, titleVisibility: .visible) {
-            Button("Log Out Everywhere", role: .destructive) { logOutAll() }
-        } message: {
-            Text("You'll be signed out on every device, including this one.")
         }
     }
 
@@ -164,9 +164,9 @@ struct ChangePasswordView: View {
             } catch {
                 switch error.code {
                 case .wrongPassword:
-                    currentError = String(localized: "The password is incorrect.")
+                    currentError = String(localized: "The password is incorrect.", bundle: .app)
                 case .samePassword:
-                    newServerError = String(localized: "Your new password must be different from the current one.")
+                    newServerError = String(localized: "Your new password must be different from the current one.", bundle: .app)
                 case .validationFailed:
                     newServerError = AuthValidation.serverFieldMessage(for: "newPassword")
                 default:
@@ -212,16 +212,16 @@ struct DeleteAccountView: View {
                     }
                 }
                 .disabled(password.isEmpty || isDeleting)
+                .confirmationDialog("Delete your account?", isPresented: $confirm, titleVisibility: .visible) {
+                    Button("Delete Account", role: .destructive, action: delete)
+                } message: {
+                    Text("This can't be undone.")
+                }
             }
         }
         .navigationTitle("Delete Account")
         .disabled(isDeleting)
         .onChange(of: password) { passwordError = nil }
-        .confirmationDialog("Delete your account?", isPresented: $confirm, titleVisibility: .visible) {
-            Button("Delete Account", role: .destructive, action: delete)
-        } message: {
-            Text("This can't be undone.")
-        }
     }
 
     private func delete() {
@@ -233,7 +233,7 @@ struct DeleteAccountView: View {
                 try await session.deleteAccount(password: password)
             } catch {
                 if error.code == .wrongPassword {
-                    passwordError = String(localized: "The password is incorrect.")
+                    passwordError = String(localized: "The password is incorrect.", bundle: .app)
                 } else {
                     errorMessage = error.userMessage
                 }

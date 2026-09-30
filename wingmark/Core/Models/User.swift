@@ -3,6 +3,10 @@ import Foundation
 enum Role: String, Codable, Sendable {
     case user = "USER"
     case admin = "ADMIN"
+
+    init(from decoder: any Decoder) throws {
+        self = Role(rawValue: try decoder.singleValueContainer().decode(String.self)) ?? .user
+    }
 }
 
 enum UnitPreference: String, Codable, Sendable, CaseIterable {
@@ -22,7 +26,8 @@ struct UserProfile: Codable, Sendable, Equatable, Identifiable {
     var favoriteSpeciesName: String?
     let role: Role
     let emailVerified: Bool
-    let createdAt: Date
+    /// Accounts created before the backend's auditing fix have no creation date.
+    let createdAt: Date?
 
     var displayName: String {
         let full = [firstName, lastName].compactMap { $0?.trimmingCharacters(in: .whitespaces) }

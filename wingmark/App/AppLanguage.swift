@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppLanguage: String, CaseIterable, Identifiable {
+nonisolated enum AppLanguage: String, CaseIterable, Identifiable {
     case system
     case english = "en"
     case turkish = "tr"
@@ -11,7 +11,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .system: String(localized: "System Default")
+        case .system: String(localized: "System Default", bundle: .app)
         case .english: "English"
         case .turkish: "Türkçe"
         }
@@ -37,4 +37,20 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     static var current: AppLanguage {
         UserDefaults.standard.string(forKey: storageKey).flatMap(AppLanguage.init(rawValue:)) ?? .system
     }
+}
+
+extension Bundle {
+    /// Follows the in-app language rather than the device language.
+    nonisolated static var app: Bundle {
+        let language = AppLanguage.current
+        guard language != .system,
+              let path = Bundle.main.path(forResource: language.rawValue, ofType: "lproj"),
+              let bundle = Bundle(path: path)
+        else { return .main }
+        return bundle
+    }
+}
+
+extension Locale {
+    nonisolated static var app: Locale { AppLanguage.current.locale ?? .autoupdatingCurrent }
 }

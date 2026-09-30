@@ -19,7 +19,9 @@ struct ProfileView: View {
                         LabeledContent("Last Name", value: profile.lastName.nonEmptyOrDash)
                         LabeledContent("Username", value: profile.username)
                         LabeledContent("Email", value: profile.email)
-                        LabeledContent("Member Since", value: profile.createdAt.formatted(date: .long, time: .omitted))
+                        if let createdAt = profile.createdAt {
+                            LabeledContent("Member Since") { Text(createdAt, format: .dateTime.day().month(.wide).year()) }
+                        }
                     }
                     Section("Stats") {
                         LabeledContent("Sightings", value: allLogs.count, format: .number)

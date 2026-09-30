@@ -9,9 +9,9 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .system: String(localized: "System")
-        case .light: String(localized: "Light")
-        case .dark: String(localized: "Dark")
+        case .system: String(localized: "System", bundle: .app)
+        case .light: String(localized: "Light", bundle: .app)
+        case .dark: String(localized: "Dark", bundle: .app)
         }
     }
 
@@ -35,13 +35,13 @@ extension UnitPreference {
 
     var title: String {
         switch self {
-        case .metric: String(localized: "Metric (m, km)")
-        case .imperial: String(localized: "Imperial (ft, mi)")
+        case .metric: String(localized: "Metric (m, km)", bundle: .app)
+        case .imperial: String(localized: "Imperial (ft, mi)", bundle: .app)
         }
     }
 
     /// Short distances in m/ft, longer ones in km/mi.
-    func format(meters: Double, locale: Locale = .autoupdatingCurrent) -> String {
+    func format(meters: Double, locale: Locale = .app) -> String {
         let measurement = Measurement(value: meters, unit: UnitLength.meters)
         let style = Measurement<UnitLength>.FormatStyle.measurement(
             width: .abbreviated, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0...1))

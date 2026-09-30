@@ -7,9 +7,9 @@ enum LifeStage: String, Codable, Sendable, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .adult: String(localized: "Adult")
-        case .baby: String(localized: "Juvenile")
-        case .unknown: String(localized: "Unknown")
+        case .adult: String(localized: "Adult", bundle: .app)
+        case .baby: String(localized: "Juvenile", bundle: .app)
+        case .unknown: String(localized: "Unknown", bundle: .app)
         }
     }
 }
@@ -21,9 +21,9 @@ enum Gender: String, Codable, Sendable, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .male: String(localized: "Male")
-        case .female: String(localized: "Female")
-        case .unknown: String(localized: "Unknown")
+        case .male: String(localized: "Male", bundle: .app)
+        case .female: String(localized: "Female", bundle: .app)
+        case .unknown: String(localized: "Unknown", bundle: .app)
         }
     }
 }
@@ -35,8 +35,8 @@ enum SpeciesStatus: String, Codable, Sendable, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .guess: String(localized: "Guess")
-        case .confident: String(localized: "Confident")
+        case .guess: String(localized: "Guess", bundle: .app)
+        case .confident: String(localized: "Confident", bundle: .app)
         }
     }
 }
@@ -58,10 +58,64 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
     var locationName: String?
     var observedAt: Date
     let createdAt: Date
+    /// Older records may lack coordinates; they stay in the diary but get no map pin.
+    let hasLocation: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case id, userId, speciesId, speciesCommonName, speciesStatus, pet, customName, lifeStage, gender
+        case photoUrl, note, latitude, longitude, locationName, observedAt, createdAt
+    }
+
+    init(from decoder: any Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        userId = try c.decode(UUID.self, forKey: .userId)
+        speciesId = try c.decodeIfPresent(UUID.self, forKey: .speciesId)
+        speciesCommonName = try c.decodeIfPresent(String.self, forKey: .speciesCommonName)
+        speciesStatus = try? c.decodeIfPresent(SpeciesStatus.self, forKey: .speciesStatus)
+        pet = (try? c.decodeIfPresent(Bool.self, forKey: .pet)) ?? false
+        customName = try c.decodeIfPresent(String.self, forKey: .customName)
+        lifeStage = (try? c.decodeIfPresent(LifeStage.self, forKey: .lifeStage)) ?? .unknown
+        gender = (try? c.decodeIfPresent(Gender.self, forKey: .gender)) ?? .unknown
+        photoUrl = try c.decodeIfPresent(String.self, forKey: .photoUrl)
+        note = try c.decodeIfPresent(String.self, forKey: .note)
+        let latitude = try c.decodeIfPresent(Double.self, forKey: .latitude)
+        let longitude = try c.decodeIfPresent(Double.self, forKey: .longitude)
+        hasLocation = latitude != nil && longitude != nil
+        self.latitude = latitude ?? 0
+        self.longitude = longitude ?? 0
+        locationName = try c.decodeIfPresent(String.self, forKey: .locationName)
+        let observed = try c.decodeIfPresent(Date.self, forKey: .observedAt)
+        let created = try c.decodeIfPresent(Date.self, forKey: .createdAt)
+        observedAt = observed ?? created ?? .distantPast
+        createdAt = created ?? observed ?? .distantPast
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(id, forKey: .id)
+        try c.encode(userId, forKey: .userId)
+        try c.encodeIfPresent(speciesId, forKey: .speciesId)
+        try c.encodeIfPresent(speciesCommonName, forKey: .speciesCommonName)
+        try c.encodeIfPresent(speciesStatus, forKey: .speciesStatus)
+        try c.encode(pet, forKey: .pet)
+        try c.encodeIfPresent(customName, forKey: .customName)
+        try c.encode(lifeStage, forKey: .lifeStage)
+        try c.encode(gender, forKey: .gender)
+        try c.encodeIfPresent(photoUrl, forKey: .photoUrl)
+        try c.encodeIfPresent(note, forKey: .note)
+        if hasLocation {
+            try c.encode(latitude, forKey: .latitude)
+            try c.encode(longitude, forKey: .longitude)
+        }
+        try c.encodeIfPresent(locationName, forKey: .locationName)
+        try c.encode(observedAt, forKey: .observedAt)
+        try c.encode(createdAt, forKey: .createdAt)
+    }
 
     var displayName: String {
         if let name = customName?.trimmingCharacters(in: .whitespaces), !name.isEmpty { return name }
-        return speciesCommonName ?? String(localized: "Unidentified bird")
+        return speciesCommonName ?? String(localized: "Unidentified bird", bundle: .app)
     }
 }
 
@@ -109,9 +163,9 @@ struct DiaryFilter: Equatable, Sendable {
 
         var title: String {
             switch self {
-            case .any: String(localized: "All")
-            case .identified: String(localized: "Identified")
-            case .unidentified: String(localized: "Unidentified")
+            case .any: String(localized: "All", bundle: .app)
+            case .identified: String(localized: "Identified", bundle: .app)
+            case .unidentified: String(localized: "Unidentified", bundle: .app)
             }
         }
     }

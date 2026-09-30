@@ -36,14 +36,14 @@ final class ImageLoader {
 }
 
 struct RemoteImage: View {
-    @Environment(AuthSession.self) private var session
     let path: String?
     var contentMode: ContentMode = .fill
 
     @State private var image: UIImage?
     @State private var failed = false
 
-    private var url: URL? { path.flatMap { session.client.assetURL(for: $0) } }
+    /// Doesn't read the environment: MapKit annotation content doesn't receive it.
+    private var url: URL? { path.flatMap { AppConfig.assetURL(for: $0) } }
 
     var body: some View {
         ZStack {

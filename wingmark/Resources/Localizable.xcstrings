@@ -4,6 +4,39 @@
     "" : {
       "shouldTranslate" : false
     },
+    "%lld / %lld" : {
+      "shouldTranslate" : false
+    },
+    "%lld of %lld" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld earned" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld rozetten %1$lld tanesi kazanıldı"
+          }
+        }
+      }
+    },
+    "%lld sightings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld gözlem"
+          }
+        }
+      }
+    },
     "000000" : {
       "shouldTranslate" : false
     },
@@ -17,12 +50,35 @@
         }
       }
     },
+    "@%@" : {
+      "shouldTranslate" : false
+    },
     "A location is required." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Konum gerekli."
+          }
+        }
+      }
+    },
+    "About" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hakkında"
+          }
+        }
+      }
+    },
+    "Account" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesap"
           }
         }
       }
@@ -125,6 +181,26 @@
         }
       }
     },
+    "Appearance" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüm"
+          }
+        }
+      }
+    },
+    "Avatar %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avatar %@"
+          }
+        }
+      }
+    },
     "Baby" : {
       "localizations" : {
         "en" : {
@@ -209,6 +285,16 @@
         }
       }
     },
+    "Change Password" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreyi Değiştir"
+          }
+        }
+      }
+    },
     "Changes take effect immediately." : {
       "localizations" : {
         "en" : {
@@ -285,6 +371,26 @@
         }
       }
     },
+    "Clear" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle"
+          }
+        }
+      }
+    },
+    "Clear Favorite" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoriyi Kaldır"
+          }
+        }
+      }
+    },
     "Clear Filters" : {
       "localizations" : {
         "tr" : {
@@ -341,6 +447,16 @@
         }
       }
     },
+    "Conservation Status" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koruma Durumu"
+          }
+        }
+      }
+    },
     "Couldn't delete" : {
       "localizations" : {
         "tr" : {
@@ -351,12 +467,32 @@
         }
       }
     },
+    "Couldn't find your location. Move the map to the spot." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı. Haritayı o noktaya kaydır."
+          }
+        }
+      }
+    },
     "Couldn't find your location. Pick the spot on the map." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Konumun bulunamadı. Yeri haritada seç."
+          }
+        }
+      }
+    },
+    "Couldn't load badges" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozetler yüklenemedi"
           }
         }
       }
@@ -377,6 +513,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Günlüğün yüklenemedi"
+          }
+        }
+      }
+    },
+    "Couldn't play this recording." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kayıt oynatılamadı."
           }
         }
       }
@@ -431,6 +577,16 @@
         }
       }
     },
+    "Current Password" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Şifre"
+          }
+        }
+      }
+    },
     "Custom name (optional)" : {
       "localizations" : {
         "tr" : {
@@ -441,12 +597,42 @@
         }
       }
     },
+    "Dark" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koyu"
+          }
+        }
+      }
+    },
+    "Date taken from the photo. You can change it." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih fotoğraftan alındı. Değiştirebilirsin."
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sil"
+          }
+        }
+      }
+    },
+    "Delete Account" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesabı Sil"
           }
         }
       }
@@ -467,6 +653,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu gözlem silinsin mi?"
+          }
+        }
+      }
+    },
+    "Delete your account?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesabın silinsin mi?"
+          }
+        }
+      }
+    },
+    "Deleting your account permanently removes your sightings, photos, badges and profile. This can't be undone." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesabını silmek gözlemlerini, fotoğraflarını, rozetlerini ve profilini kalıcı olarak kaldırır. Bu işlem geri alınamaz."
           }
         }
       }
@@ -493,6 +699,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Günlük"
+          }
+        }
+      }
+    },
+    "Diet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beslenme"
           }
         }
       }
@@ -539,12 +755,42 @@
         }
       }
     },
+    "Earned" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kazanıldı"
+          }
+        }
+      }
+    },
+    "Earned on %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kazanılma tarihi: %@"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Düzenle"
+          }
+        }
+      }
+    },
+    "Edit Profile" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profili Düzenle"
           }
         }
       }
@@ -621,6 +867,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kayıt olduğun e-postayı gir, şifreni sıfırlaman için sana 6 haneli bir kod gönderelim."
+          }
+        }
+      }
+    },
+    "Enter your password to confirm" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onaylamak için şifreni gir"
+          }
+        }
+      }
+    },
+    "Family" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Familya"
+          }
+        }
+      }
+    },
+    "Favorite Species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favori Tür"
           }
         }
       }
@@ -797,6 +1073,16 @@
         }
       }
     },
+    "Habitat" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yaşam Alanı"
+          }
+        }
+      }
+    },
     "I don't know the species" : {
       "localizations" : {
         "tr" : {
@@ -833,6 +1119,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ için bir hesap varsa 6 haneli bir kod gönderdik. Kod 15 dakika geçerli."
+          }
+        }
+      }
+    },
+    "Imperial (ft, mi)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İngiliz (ft, mil)"
           }
         }
       }
@@ -927,6 +1223,16 @@
         }
       }
     },
+    "License" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisans"
+          }
+        }
+      }
+    },
     "Life Stage" : {
       "localizations" : {
         "tr" : {
@@ -937,12 +1243,62 @@
         }
       }
     },
+    "Lifespan" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ömür"
+          }
+        }
+      }
+    },
+    "Light" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açık"
+          }
+        }
+      }
+    },
+    "Loading profile…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil yükleniyor…"
+          }
+        }
+      }
+    },
+    "Loading sounds…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesler yükleniyor…"
+          }
+        }
+      }
+    },
     "Location" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Konum"
+          }
+        }
+      }
+    },
+    "Location access is off. Allow it in Settings or move the map to the spot." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum erişimi kapalı. Ayarlar’dan izin ver ya da haritayı o noktaya kaydır."
           }
         }
       }
@@ -985,6 +1341,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Çıkış Yap"
+          }
+        }
+      }
+    },
+    "Log Out Everywhere" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her Yerden Çıkış Yap"
+          }
+        }
+      }
+    },
+    "Log Out of All Devices" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Cihazlardan Çıkış Yap"
+          }
+        }
+      }
+    },
+    "Log out of all devices?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm cihazlardan çıkış yapılsın mı?"
           }
         }
       }
@@ -1041,6 +1427,16 @@
         }
       }
     },
+    "Member Since" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üyelik Tarihi"
+          }
+        }
+      }
+    },
     "Metric (km, m)" : {
       "localizations" : {
         "en" : {
@@ -1053,6 +1449,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Metrik (km, m)"
+          }
+        }
+      }
+    },
+    "Metric (m, km)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metrik (m, km)"
+          }
+        }
+      }
+    },
+    "Move the map to place the pin" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İğneyi yerleştirmek için haritayı kaydır"
           }
         }
       }
@@ -1089,12 +1505,62 @@
         }
       }
     },
+    "Name (A–Z)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ad (A–Z)"
+          }
+        }
+      }
+    },
     "Name (Optional)" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ad (İsteğe Bağlı)"
+          }
+        }
+      }
+    },
+    "Name (Z–A)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ad (Z–A)"
+          }
+        }
+      }
+    },
+    "Native Range" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doğal Yayılış"
+          }
+        }
+      }
+    },
+    "New badge!" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni rozet!"
+          }
+        }
+      }
+    },
+    "New badges!" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni rozetler!"
           }
         }
       }
@@ -1135,12 +1601,42 @@
         }
       }
     },
+    "Nice!" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harika!"
+          }
+        }
+      }
+    },
+    "No badges yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz rozet yok"
+          }
+        }
+      }
+    },
     "No matching sightings" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eşleşen gözlem yok"
+          }
+        }
+      }
+    },
+    "No recordings available." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt bulunamadı."
           }
         }
       }
@@ -1167,6 +1663,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Henüz tür belirlenmedi"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yok"
           }
         }
       }
@@ -1217,6 +1723,16 @@
         }
       }
     },
+    "Order" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takım"
+          }
+        }
+      }
+    },
     "Password" : {
       "localizations" : {
         "en" : {
@@ -1229,6 +1745,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifre"
+          }
+        }
+      }
+    },
+    "Password changed" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifre değiştirildi"
           }
         }
       }
@@ -1249,6 +1775,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifre 8–72 karakter olmalı ve en az bir harf ile bir rakam içermeli."
+          }
+        }
+      }
+    },
+    "Pause" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duraklat"
           }
         }
       }
@@ -1309,6 +1845,16 @@
         }
       }
     },
+    "Play" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oynat"
+          }
+        }
+      }
+    },
     "Please check the highlighted fields." : {
       "localizations" : {
         "tr" : {
@@ -1361,6 +1907,16 @@
         }
       }
     },
+    "Profile Picture" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil Fotoğrafı"
+          }
+        }
+      }
+    },
     "Public" : {
       "localizations" : {
         "en" : {
@@ -1377,12 +1933,42 @@
         }
       }
     },
+    "Quality %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalite %@"
+          }
+        }
+      }
+    },
     "Reading photo…" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotoğraf okunuyor…"
+          }
+        }
+      }
+    },
+    "Recorded by %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydeden: %@"
+          }
+        }
+      }
+    },
+    "Recording" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt"
           }
         }
       }
@@ -1457,12 +2043,52 @@
         }
       }
     },
+    "Scientific Name (A–Z)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilimsel Ad (A–Z)"
+          }
+        }
+      }
+    },
+    "Scientific Name (Z–A)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilimsel Ad (Z–A)"
+          }
+        }
+      }
+    },
+    "Search species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür ara"
+          }
+        }
+      }
+    },
     "Seen" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Görüldü"
+          }
+        }
+      }
+    },
+    "Seen now" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi görüldü"
           }
         }
       }
@@ -1545,6 +2171,16 @@
         }
       }
     },
+    "Sightings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemler"
+          }
+        }
+      }
+    },
     "Sign Up" : {
       "localizations" : {
         "en" : {
@@ -1577,6 +2213,16 @@
         }
       }
     },
+    "Size" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boyut"
+          }
+        }
+      }
+    },
     "Something went wrong. Please try again." : {
       "localizations" : {
         "tr" : {
@@ -1593,6 +2239,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sırala"
+          }
+        }
+      }
+    },
+    "Sounds" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesler"
           }
         }
       }
@@ -1619,6 +2275,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tür"
+          }
+        }
+      }
+    },
+    "Species Seen" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görülen Türler"
+          }
+        }
+      }
+    },
+    "Stats" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstatistikler"
+          }
+        }
+      }
+    },
+    "System" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem"
           }
         }
       }
@@ -1761,6 +2447,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gözlem tarihi gelecekte olamaz."
+          }
+        }
+      }
+    },
+    "Theme" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
           }
         }
       }
@@ -1923,6 +2619,26 @@
         }
       }
     },
+    "Use My Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendi Fotoğrafımı Kullan"
+          }
+        }
+      }
+    },
+    "Use This Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Konumu Kullan"
+          }
+        }
+      }
+    },
     "Username" : {
       "localizations" : {
         "en" : {
@@ -1955,6 +2671,16 @@
         }
       }
     },
+    "View Details" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayrıntıları Gör"
+          }
+        }
+      }
+    },
     "We sent a verification link to **%@**. Open it to activate your account, then log in." : {
       "localizations" : {
         "tr" : {
@@ -1978,12 +2704,45 @@
         }
       }
     },
+    "xeno-canto" : {
+      "shouldTranslate" : false
+    },
     "Yes" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Evet"
+          }
+        }
+      }
+    },
+    "You haven't logged this species yet." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu türü henüz kaydetmedin."
+          }
+        }
+      }
+    },
+    "You'll be signed out on every device, including this one." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihaz dahil tüm cihazlarda oturumun kapatılacak."
+          }
+        }
+      }
+    },
+    "You'll stay logged in here; other devices will be signed out." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda oturumun açık kalacak; diğer cihazlarda kapatılacak."
           }
         }
       }
@@ -2004,6 +2763,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Giriş yaptın."
+          }
+        }
+      }
+    },
+    "Your account has been deleted." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesabın silindi."
           }
         }
       }
@@ -2038,6 +2807,16 @@
         }
       }
     },
+    "Your Sightings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlerin"
+          }
+        }
+      }
+    },
     "Your sightings, mapped" : {
       "localizations" : {
         "en" : {
@@ -2050,6 +2829,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gözlemleriniz haritada"
+          }
+        }
+      }
+    },
+    "Zoom in to see all sightings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm gözlemleri görmek için yakınlaştır"
           }
         }
       }
