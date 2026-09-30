@@ -120,9 +120,9 @@ struct SignUpView: View {
             } catch {
                 switch error.code {
                 case .emailTaken:
-                    serverErrors["email"] = String(localized: "An account with this email already exists.")
+                    serverErrors["email"] = String(localized: "An account with this email already exists.", bundle: .app)
                 case .usernameTaken:
-                    serverErrors["username"] = String(localized: "This username is already taken.")
+                    serverErrors["username"] = String(localized: "This username is already taken.", bundle: .app)
                 case .validationFailed:
                     serverErrors = AuthValidation.serverFieldErrors(error)
                 default:

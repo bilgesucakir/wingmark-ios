@@ -40,6 +40,13 @@ struct ProfileTests {
         UnitPreference.current = .metric
     }
 
+    @Test func legacyProfileWithoutCreatedAtDecodes() throws {
+        let json = Fixtures.userJSON.replacingOccurrences(of: #""createdAt":"2026-09-12T10:11:12.345678Z""#, with: #""createdAt":null"#)
+        let profile = try JSONCoding.makeDecoder().decode(UserProfile.self, from: Data(json.utf8))
+        #expect(profile.createdAt == nil)
+        #expect(profile.username == "ada")
+    }
+
     @Test func formatsDistancesPerUnitPreference() {
         let us = Locale(identifier: "en_US")
         #expect(UnitPreference.metric.format(meters: 250, locale: us) == "250 m")

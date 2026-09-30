@@ -212,3 +212,42 @@ struct DiaryStoreTests {
         #expect(store.logs.isEmpty)
     }
 }
+
+struct LegacyBirdLogTests {
+    @Test func toleratesNullDatesCoordinatesAndEnums() throws {
+        let json = #"{"id":"11111111-1111-1111-1111-111111111111","userId":"3f2504e0-4f89-11d3-9a0c-0305e82c3301","speciesId":null,"speciesCommonName":null,"speciesStatus":null,"pet":false,"customName":null,"lifeStage":null,"gender":null,"photoUrl":null,"note":null,"latitude":null,"longitude":null,"locationName":null,"observedAt":null,"visibility":"PRIVATE","createdAt":"2026-09-01T10:00:00Z"}"#
+        let log = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(json.utf8))
+        #expect(log.observedAt == JSONCoding.parseDate("2026-09-01T10:00:00Z"))
+        #expect(!log.hasLocation)
+        #expect(log.lifeStage == .unknown && log.gender == .unknown)
+    }
+
+    @Test func toleratesNullCreatedAt() throws {
+        let json = DiaryFixtures.logJSON(id: "11111111-1111-1111-1111-111111111111", observedAt: "2026-09-29T07:30:00Z")
+            .replacingOccurrences(of: #""createdAt":"2026-09-30T08:00:00.123456789Z""#, with: #""createdAt":null"#)
+        let log = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(json.utf8))
+        #expect(log.createdAt == log.observedAt)
+        #expect(log.hasLocation)
+    }
+}
+
+struct TraitTests {
+    @Test func summaryHidesUnknownValues() throws {
+        var log = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(
+            DiaryFixtures.logJSON(id: "11111111-1111-1111-1111-111111111111", observedAt: "2026-09-29T07:30:00Z", gender: "FEMALE").utf8
+        ))
+        #expect(log.traitsSummary == "\(LifeStage.adult.title) · \(Gender.female.title)")
+        log.gender = .unknown
+        #expect(log.traitsSummary == LifeStage.adult.title)
+        log.lifeStage = .unknown
+        #expect(log.traitsSummary == nil)
+    }
+
+    @Test func speciesImageNotApplicableGenderIsHidden() throws {
+        let image = try JSONCoding.makeDecoder().decode(SpeciesImage.self, from: Data(
+            #"{"id":"00000000-0000-0000-0000-000000000001","lifeStage":"BABY","gender":"NOT_APPLICABLE","imageUrl":"https://x/y.jpg","caption":null}"#.utf8
+        ))
+        #expect(image.lifeStageValue == .baby)
+        #expect(image.genderValue == nil)
+    }
+}

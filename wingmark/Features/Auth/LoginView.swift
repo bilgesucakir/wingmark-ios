@@ -79,7 +79,7 @@ struct LoginView: View {
                 try await session.logIn(email: AuthValidation.trimmed(email), password: password)
             } catch {
                 errorMessage = error.code == .invalidCredentials
-                    ? String(localized: "Wrong email or password.")
+                    ? String(localized: "Wrong email or password.", bundle: .app)
                     : error.userMessage
             }
         }

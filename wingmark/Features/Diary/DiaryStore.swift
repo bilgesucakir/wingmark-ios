@@ -16,13 +16,19 @@ final class DiaryStore {
 
     private let session: AuthSession
     private var loadGeneration = 0
+    /// Every log seen by any screen (diary, map), so detail/edit work outside the current filter.
+    private var known: [UUID: BirdLog] = [:]
 
     init(session: AuthSession) {
         self.session = session
     }
 
     func log(id: UUID) -> BirdLog? {
-        logs.first { $0.id == id }
+        logs.first { $0.id == id } ?? known[id]
+    }
+
+    func remember(_ logs: some Sequence<BirdLog>) {
+        for log in logs { known[log.id] = log }
     }
 
     func load() async {
@@ -35,6 +41,7 @@ final class DiaryStore {
             let result = try await session.client.send(BirdLogAPI.userLogs(userId: userId, filter: filter))
             guard generation == loadGeneration else { return }
             logs = result
+            remember(result)
             loadError = nil
             hasLoaded = true
         } catch {
@@ -67,6 +74,7 @@ final class DiaryStore {
             // Already gone on the server; drop it locally too.
         }
         logs.removeAll { $0.id == log.id }
+        known[log.id] = nil
         revision += 1
     }
 
@@ -75,10 +83,12 @@ final class DiaryStore {
             upsert(try await session.client.send(BirdLogAPI.log(id: id)))
         } catch where error.code == .notFound {
             logs.removeAll { $0.id == id }
+            known[id] = nil
         } catch {}
     }
 
     private func upsert(_ log: BirdLog) {
+        known[log.id] = log
         logs.removeAll { $0.id == log.id }
         guard matchesFilter(log) else { return }
         logs.append(log)

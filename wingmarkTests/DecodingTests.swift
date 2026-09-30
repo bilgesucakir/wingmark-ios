@@ -9,7 +9,7 @@ struct DecodingTests {
         #expect(user.displayName == "Ada")
         #expect(user.profilePicture == "avatar-3")
         #expect(user.role == .user)
-        let components = Calendar(identifier: .gregorian).dateComponents(in: .gmt, from: user.createdAt)
+        let components = Calendar(identifier: .gregorian).dateComponents(in: .gmt, from: try #require(user.createdAt))
         #expect(components.year == 2026 && components.hour == 10 && components.second == 12)
     }
 

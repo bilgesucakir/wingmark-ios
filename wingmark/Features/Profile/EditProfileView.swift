@@ -44,7 +44,7 @@ struct EditProfileView: View {
                         showSpeciesPicker = true
                     } label: {
                         LabeledContent("Species") {
-                            Text(favoriteSpecies?.name ?? String(localized: "None"))
+                            Text(favoriteSpecies?.name ?? String(localized: "None", bundle: .app))
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -82,7 +82,7 @@ struct EditProfileView: View {
                        let photo = await Task.detached(operation: { PhotoProcessing.process(data) }).value {
                         newPhoto = photo
                     } else {
-                        errorMessage = String(localized: "Couldn't read that photo.")
+                        errorMessage = String(localized: "Couldn't read that photo.", bundle: .app)
                     }
                     pickerItem = nil
                 }
@@ -184,7 +184,7 @@ struct EditProfileView: View {
             } catch {
                 switch error.code {
                 case .invalidReference:
-                    errorMessage = String(localized: "That species is no longer available. Choose another.")
+                    errorMessage = String(localized: "That species is no longer available. Choose another.", bundle: .app)
                     favoriteSpecies = nil
                 default:
                     errorMessage = error.userMessage

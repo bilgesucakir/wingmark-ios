@@ -29,7 +29,21 @@ final class SightingFormModel {
     var isProcessingPhoto = false
     var photoError: String?
 
-    var observedAt: Date
+    var observedAt: Date {
+        didSet { if observedAt != oldValue, !isApplyingPhotoDate { dateFromPhoto = false } }
+    }
+    /// New sightings default to "seen now"; the date picker only appears when this is off.
+    var seenNow: Bool {
+        didSet {
+            if seenNow {
+                dateFromPhoto = false
+            } else if !isApplyingPhotoDate, editing == nil {
+                observedAt = .now
+            }
+        }
+    }
+    private(set) var dateFromPhoto = false
+    private var isApplyingPhotoDate = false
     var coordinate: CLLocationCoordinate2D?
     var locationSource: LocationSource
     var locationStatus: LocationStatus = .idle
@@ -51,9 +65,10 @@ final class SightingFormModel {
         editing = log
         photo = log?.photoUrl.map(Photo.existing) ?? .none
         observedAt = log?.observedAt ?? .now
+        seenNow = log == nil
         originalObservedAt = log?.observedAt
-        coordinate = log.map { CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) }
-        locationSource = log == nil ? .none : .manual
+        coordinate = log.flatMap { $0.hasLocation ? CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) : nil }
+        locationSource = log?.hasLocation == true ? .manual : .none
         locationName = log?.locationName ?? ""
         species = log.flatMap { log in
             log.speciesId.map { SpeciesChoice(id: $0, name: log.speciesCommonName ?? "") }
@@ -97,6 +112,7 @@ final class SightingFormModel {
 
     /// On edit, omitting `observedAt` keeps the stored value.
     private var observedAtToSend: Date? {
+        if seenNow { return .now }
         guard let originalObservedAt else { return min(observedAt, .now) }
         return abs(observedAt.timeIntervalSince(originalObservedAt)) < 1 ? nil : min(observedAt, .now)
     }
@@ -120,12 +136,16 @@ final class SightingFormModel {
         photoError = nil
         defer { isProcessingPhoto = false }
         guard let processed = await Task.detached(priority: .userInitiated, operation: work).value else {
-            photoError = String(localized: "Couldn't read that photo.")
+            photoError = String(localized: "Couldn't read that photo.", bundle: .app)
             return
         }
         photo = .new(processed)
         if let capturedAt = processed.metadata.capturedAt {
+            isApplyingPhotoDate = true
+            seenNow = false
             observedAt = min(capturedAt, .now)
+            dateFromPhoto = true
+            isApplyingPhotoDate = false
         }
         if let coordinate = processed.metadata.coordinate, locationSource != .manual {
             await setCoordinate(coordinate, source: .photo)
@@ -149,8 +169,8 @@ final class SightingFormModel {
             await setCoordinate(location.coordinate, source: .device)
         } catch {
             locationStatus = .failed(error == .denied
-                ? String(localized: "Location access is off. Allow it in Settings or pick the spot on the map.")
-                : String(localized: "Couldn't find your location. Pick the spot on the map."))
+                ? String(localized: "Location access is off. Allow it in Settings or pick the spot on the map.", bundle: .app)
+                : String(localized: "Couldn't find your location. Pick the spot on the map.", bundle: .app))
         }
     }
 

@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 protocol HTTPTransport {
     func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse)
@@ -22,6 +23,7 @@ struct URLSessionTransport: HTTPTransport {
 }
 
 final class APIClient {
+    private static let log = Logger(subsystem: "com.bilgesucakir.wingmark", category: "api")
     let baseURL: URL
     let tokenStore: TokenStore
     private let transport: HTTPTransport
@@ -54,8 +56,7 @@ final class APIClient {
     }
 
     func assetURL(for path: String) -> URL? {
-        if let url = URL(string: path), url.scheme != nil { return url }
-        return URL(string: path, relativeTo: baseURL)?.absoluteURL
+        AppConfig.assetURL(for: path, baseURL: baseURL)
     }
 
     // MARK: - Request pipeline
@@ -88,6 +89,7 @@ final class APIClient {
 
         guard (200..<300).contains(response.statusCode) else {
             let body = try? JSONCoding.makeDecoder().decode(APIErrorBody.self, from: data)
+            Self.log.error("\(endpoint.method.rawValue) \(endpoint.path) → \(response.statusCode) \(body?.code?.rawValue ?? "-") \(body?.message ?? "", privacy: .public)")
             throw .server(status: response.statusCode, body: body)
         }
         return (data, response)
@@ -163,6 +165,9 @@ final class APIClient {
         do {
             return try await transport.send(request)
         } catch let error as URLError {
+            if error.code != .cancelled {
+                Self.log.error("\(request.httpMethod ?? "") \(request.url?.path ?? "") network error \(error.code.rawValue)")
+            }
             throw .network(error)
         } catch is CancellationError {
             throw .network(URLError(.cancelled))
@@ -176,6 +181,7 @@ final class APIClient {
         do {
             return try JSONCoding.makeDecoder().decode(T.self, from: data)
         } catch {
+            Self.log.error("Decoding \(T.self) failed: \(String(describing: error), privacy: .public)")
             throw .decoding(String(describing: error))
         }
     }

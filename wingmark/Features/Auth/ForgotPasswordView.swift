@@ -163,10 +163,10 @@ struct ResetPasswordView: View {
             } catch {
                 switch error.code {
                 case .invalidOrExpiredCode:
-                    codeError = String(localized: "The code is wrong or has expired.")
+                    codeError = String(localized: "The code is wrong or has expired.", bundle: .app)
                     codeIsDead = true
                 case .samePassword:
-                    passwordServerError = String(localized: "Choose a different password than your current one.")
+                    passwordServerError = String(localized: "Choose a different password than your current one.", bundle: .app)
                 case .validationFailed:
                     let fields = error.validationErrors
                     if fields["code"] != nil { codeError = AuthValidation.serverFieldMessage(for: "code") }

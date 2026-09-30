@@ -60,7 +60,7 @@ struct SightingFormView: View {
                 if let data = try? await item.loadTransferable(type: Data.self) {
                     await model.loadPhoto(data: data)
                 } else {
-                    model.photoError = String(localized: "Couldn't read that photo.")
+                    model.photoError = String(localized: "Couldn't read that photo.", bundle: .app)
                 }
                 pickerItem = nil
             }
@@ -96,12 +96,14 @@ struct SightingFormView: View {
             case .existing(let path):
                 RemoteImage(path: path, contentMode: .fit)
                     .frame(maxWidth: .infinity, maxHeight: 280)
+                    .traitChips(lifeStage: model.lifeStage, gender: model.gender)
                     .listRowInsets(EdgeInsets())
             case .new(let photo):
                 Image(uiImage: photo.preview)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: 280)
+                    .traitChips(lifeStage: model.lifeStage, gender: model.gender)
                     .listRowInsets(EdgeInsets())
             }
             if model.isProcessingPhoto {
@@ -140,7 +142,7 @@ struct SightingFormView: View {
                     showSpeciesPicker = true
                 } label: {
                     LabeledContent("Species") {
-                        Text(model.species?.name ?? String(localized: "Choose"))
+                        Text(model.species?.name ?? String(localized: "Choose", bundle: .app))
                             .foregroundStyle(model.species == nil ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
                     }
                 }
@@ -161,7 +163,10 @@ struct SightingFormView: View {
 
     private var detailsSection: some View {
         Section {
-            DatePicker("Seen", selection: $model.observedAt, in: ...Date.now)
+            Toggle("Seen now", isOn: $model.seenNow.animation())
+            if !model.seenNow {
+                DatePicker("Seen", selection: $model.observedAt, in: ...Date.now)
+            }
             Picker("Life Stage", selection: $model.lifeStage) {
                 ForEach(LifeStage.allCases) { Text($0.title).tag($0) }
             }
@@ -172,7 +177,11 @@ struct SightingFormView: View {
         } header: {
             Text("Details")
         } footer: {
-            FieldError(message: dateError)
+            if let dateError {
+                FieldError(message: dateError)
+            } else if model.dateFromPhoto && !model.seenNow {
+                Label("Date taken from the photo. You can change it.", systemImage: "photo")
+            }
         }
     }
 
@@ -227,9 +236,9 @@ struct SightingFormView: View {
             } catch {
                 switch error.code {
                 case .observedAtInFuture:
-                    dateError = String(localized: "The sighting date can't be in the future.")
+                    dateError = String(localized: "The sighting date can't be in the future.", bundle: .app)
                 case .invalidReference:
-                    speciesError = String(localized: "That species is no longer available. Choose another.")
+                    speciesError = String(localized: "That species is no longer available. Choose another.", bundle: .app)
                     model.species = nil
                 default:
                     errorMessage = error.userMessage
@@ -246,45 +255,20 @@ struct SpeciesPickerView: View {
     @Environment(\.dismiss) private var dismiss
     let onSelect: (Species) -> Void
 
-    @State private var query = ""
-    @State private var species: [Species] = []
-    @State private var page = 0
-    @State private var hasMore = true
-    @State private var isLoading = false
-    @State private var error: APIError?
+    @State private var search: SpeciesSearch?
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(species) { item in
-                    Button {
-                        onSelect(item)
+            Group {
+                if let search {
+                    SpeciesPickerList(search: search) { species in
+                        onSelect(species)
                         dismiss()
-                    } label: {
-                        VStack(alignment: .leading) {
-                            Text(item.name).foregroundStyle(.primary)
-                            if let scientific = item.scientificName {
-                                Text(scientific).font(.caption).italic().foregroundStyle(.secondary)
-                            }
-                        }
                     }
-                    .onAppear { if item.id == species.last?.id { Task { await loadMore() } } }
-                }
-                if isLoading {
-                    ProgressView().frame(maxWidth: .infinity)
-                } else if let error, species.isEmpty {
-                    ContentUnavailableView {
-                        Label("Couldn't load species", systemImage: "wifi.exclamationmark")
-                    } description: {
-                        Text(error.userMessage)
-                    } actions: {
-                        Button("Try Again") { Task { await reload() } }
-                    }
-                } else if species.isEmpty {
-                    ContentUnavailableView.search(text: query)
+                } else {
+                    ProgressView()
                 }
             }
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always))
             .navigationTitle("Choose Species")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -292,38 +276,46 @@ struct SpeciesPickerView: View {
                     Button("Cancel", role: .cancel) { dismiss() }
                 }
             }
-            .task(id: query) {
-                if !query.isEmpty { try? await Task.sleep(for: .milliseconds(300)) }
-                guard !Task.isCancelled else { return }
-                await reload()
+        }
+        .onAppear { if search == nil { search = SpeciesSearch(client: session.client) } }
+    }
+}
+
+private struct SpeciesPickerList: View {
+    @Bindable var search: SpeciesSearch
+    let onSelect: (Species) -> Void
+
+    var body: some View {
+        List {
+            ForEach(search.results) { species in
+                Button {
+                    onSelect(species)
+                } label: {
+                    VStack(alignment: .leading) {
+                        Text(species.name).foregroundStyle(.primary)
+                        if let scientific = species.scientificName {
+                            Text(scientific).font(.caption).italic().foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .task { await search.loadMoreIfNeeded(after: species) }
+            }
+            if search.isLoading {
+                ProgressView().frame(maxWidth: .infinity)
+            } else if let error = search.error, search.results.isEmpty {
+                ContentUnavailableView {
+                    Label("Couldn't load species", systemImage: "wifi.exclamationmark")
+                } description: {
+                    Text(error.userMessage)
+                } actions: {
+                    Button("Try Again") { Task { await search.reload() } }
+                }
+            } else if search.results.isEmpty, search.hasLoaded {
+                ContentUnavailableView.search(text: search.query)
             }
         }
-    }
-
-    private func reload() async {
-        page = 0
-        hasMore = true
-        species = []
-        await loadMore()
-    }
-
-    private func loadMore() async {
-        guard hasMore, !isLoading else { return }
-        isLoading = true
-        defer { isLoading = false }
-        let requestedQuery = query
-        do throws(APIError) {
-            let result = try await session.client.send(
-                SpeciesAPI.list(search: requestedQuery, page: page, language: AppLanguage.current.resolvedCode)
-            )
-            guard requestedQuery == query else { return }
-            species.append(contentsOf: result.content.filter { new in !species.contains { $0.id == new.id } })
-            hasMore = result.hasMore
-            page += 1
-            error = nil
-        } catch {
-            if !error.isCancellation { self.error = error }
-        }
+        .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always))
+        .task { await search.loadIfNeeded() }
     }
 }
 
@@ -335,13 +327,19 @@ struct LocationPickerView: View {
 
     @State private var position: MapCameraPosition
     @State private var center: CLLocationCoordinate2D?
+    @State private var isMoving = false
+    @State private var placeName: String?
+    @State private var locating = false
+    @State private var locationError: String?
+    private let hasInitial: Bool
 
     init(initial: CLLocationCoordinate2D?, onPick: @escaping (CLLocationCoordinate2D) -> Void) {
         self.onPick = onPick
+        hasInitial = initial != nil
         _center = State(initialValue: initial)
         _position = State(initialValue: initial.map {
             .region(MKCoordinateRegion(center: $0, latitudinalMeters: 800, longitudinalMeters: 800))
-        } ?? .userLocation(fallback: .automatic))
+        } ?? .automatic)
     }
 
     var body: some View {
@@ -350,35 +348,143 @@ struct LocationPickerView: View {
                 UserAnnotation()
             }
             .mapControls {
-                MapUserLocationButton()
                 MapCompass()
             }
             .onMapCameraChange(frequency: .continuous) { context in
                 center = context.region.center
+                isMoving = true
             }
-            .overlay {
-                Image(systemName: "mappin")
-                    .font(.largeTitle)
-                    .foregroundStyle(.red)
-                    .offset(y: -18)
-                    .allowsHitTesting(false)
-                    .accessibilityHidden(true)
+            .onMapCameraChange(frequency: .onEnd) { context in
+                center = context.region.center
+                isMoving = false
             }
+            .overlay { CenterPin(isLifted: isMoving).allowsHitTesting(false) }
+            .safeAreaInset(edge: .bottom) { bottomCard }
             .navigationTitle("Sighting Location")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) { dismiss() }
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        if let center { onPick(center) }
-                        dismiss()
-                    }
-                    .disabled(center == nil)
-                }
             }
+            .task { if !hasInitial { await locate() } }
+            .task(id: roundedCenter) { await lookUpPlaceName() }
         }
+    }
+
+    private var bottomCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 2) {
+                    if locating {
+                        Label("Finding your location…", systemImage: "location")
+                            .foregroundStyle(.secondary)
+                    } else if let locationError {
+                        Text(locationError)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(placeName ?? String(localized: "Move the map to place the pin", bundle: .app))
+                            .font(.headline)
+                            .lineLimit(2)
+                        if let center {
+                            Text(center.formattedCoordinates)
+                                .font(.caption.monospacedDigit())
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                Spacer()
+                Button {
+                    Task { await locate() }
+                } label: {
+                    Image(systemName: "location.fill")
+                        .frame(width: 22, height: 22)
+                }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.circle)
+                .disabled(locating)
+                .accessibilityLabel(Text("Use Current Location"))
+            }
+            Button {
+                if let center { onPick(center) }
+                dismiss()
+            } label: {
+                Text("Use This Location").frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .disabled(center == nil || isMoving)
+        }
+        .padding(16)
+        .background(.regularMaterial, in: .rect(cornerRadius: 24))
+        .padding(.horizontal, 12)
+        .padding(.bottom, 8)
+    }
+
+    private var roundedCenter: String? {
+        guard !isMoving, let center else { return nil }
+        return String(format: "%.4f,%.4f", center.latitude, center.longitude)
+    }
+
+    private func locate() async {
+        locating = true
+        locationError = nil
+        defer { locating = false }
+        do throws(LocationError) {
+            let location = try await LocationService.currentLocation()
+            withAnimation {
+                position = .region(MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 800, longitudinalMeters: 800))
+            }
+            center = location.coordinate
+        } catch {
+            locationError = error == .denied
+                ? String(localized: "Location access is off. Allow it in Settings or move the map to the spot.", bundle: .app)
+                : String(localized: "Couldn't find your location. Move the map to the spot.", bundle: .app)
+        }
+    }
+
+    private func lookUpPlaceName() async {
+        guard let center, !isMoving else { return }
+        try? await Task.sleep(for: .milliseconds(250))
+        guard !Task.isCancelled else { return }
+        placeName = await LocationService.placeName(for: center)
+    }
+}
+
+private struct CenterPin: View {
+    let isLifted: Bool
+
+    var body: some View {
+        ZStack {
+            Ellipse()
+                .fill(.black.opacity(0.25))
+                .frame(width: isLifted ? 14 : 10, height: 5)
+            VStack(spacing: 0) {
+                ZStack {
+                    Circle()
+                        .fill(.tint)
+                        .frame(width: 44, height: 44)
+                    Image(systemName: "bird.fill")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
+                .overlay { Circle().strokeBorder(.white, lineWidth: 3) }
+                .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
+                Rectangle()
+                    .fill(.tint)
+                    .frame(width: 3, height: 14)
+            }
+            .offset(y: isLifted ? -38 : -29)
+        }
+        .animation(.snappy(duration: 0.2), value: isLifted)
+        .accessibilityHidden(true)
+    }
+}
+
+private extension CLLocationCoordinate2D {
+    var formattedCoordinates: String {
+        String(format: "%.5f, %.5f", latitude, longitude)
     }
 }
 

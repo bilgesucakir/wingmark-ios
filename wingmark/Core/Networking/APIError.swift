@@ -81,16 +81,16 @@ enum APIError: Error, Sendable {
         case .network(let error):
             switch error.code {
             case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed:
-                return String(localized: "You're offline. Check your connection and try again.")
+                return String(localized: "You're offline. Check your connection and try again.", bundle: .app)
             case .timedOut:
-                return String(localized: "The server is taking too long to respond. Please try again.")
+                return String(localized: "The server is taking too long to respond. Please try again.", bundle: .app)
             default:
-                return String(localized: "Couldn't reach the server. Please try again.")
+                return String(localized: "Couldn't reach the server. Please try again.", bundle: .app)
             }
         case .decoding:
-            return String(localized: "Something went wrong. Please try again.")
+            return String(localized: "Something went wrong. Please try again.", bundle: .app)
         case .sessionExpired:
-            return String(localized: "Your session has ended. Please log in again.")
+            return String(localized: "Your session has ended. Please log in again.", bundle: .app)
         case .server(let status, let body):
             return Self.message(for: body?.code, status: status)
         }
@@ -99,44 +99,44 @@ enum APIError: Error, Sendable {
     private static func message(for code: APIErrorCode?, status: Int) -> String {
         switch code {
         case .validationFailed:
-            String(localized: "Please check the highlighted fields.")
+            String(localized: "Please check the highlighted fields.", bundle: .app)
         case .observedAtInFuture:
-            String(localized: "The sighting date can't be in the future.")
+            String(localized: "The sighting date can't be in the future.", bundle: .app)
         case .samePassword:
-            String(localized: "Your new password must be different from the current one.")
+            String(localized: "Your new password must be different from the current one.", bundle: .app)
         case .invalidProfilePicture:
-            String(localized: "Couldn't save that profile picture.")
+            String(localized: "Couldn't save that profile picture.", bundle: .app)
         case .invalidOrExpiredCode:
-            String(localized: "That code is wrong or has expired.")
+            String(localized: "That code is wrong or has expired.", bundle: .app)
         case .invalidFile, .unsupportedMediaType:
-            String(localized: "Couldn't read that photo.")
+            String(localized: "Couldn't read that photo.", bundle: .app)
         case .fileTooLarge:
-            String(localized: "That photo is too large.")
+            String(localized: "That photo is too large.", bundle: .app)
         case .invalidCredentials:
-            String(localized: "Wrong email or password.")
+            String(localized: "Wrong email or password.", bundle: .app)
         case .emailNotVerified:
-            String(localized: "Please verify your email address first.")
+            String(localized: "Please verify your email address first.", bundle: .app)
         case .wrongPassword:
-            String(localized: "The password is incorrect.")
+            String(localized: "The password is incorrect.", bundle: .app)
         case .notFound:
-            String(localized: "This item no longer exists.")
+            String(localized: "This item no longer exists.", bundle: .app)
         case .emailTaken:
-            String(localized: "An account with this email already exists.")
+            String(localized: "An account with this email already exists.", bundle: .app)
         case .usernameTaken:
-            String(localized: "This username is already taken.")
+            String(localized: "This username is already taken.", bundle: .app)
         case .invalidReference:
-            String(localized: "That species is no longer available.")
+            String(localized: "That species is no longer available.", bundle: .app)
         case .externalServiceError:
-            String(localized: "Bird sounds are unavailable right now.")
+            String(localized: "Bird sounds are unavailable right now.", bundle: .app)
         case .unauthenticated, .invalidOrExpiredToken:
-            String(localized: "Your session has ended. Please log in again.")
+            String(localized: "Your session has ended. Please log in again.", bundle: .app)
         case .lastAdmin, .conflict:
-            String(localized: "This action conflicts with the current state. Please refresh and try again.")
+            String(localized: "This action conflicts with the current state. Please refresh and try again.", bundle: .app)
         case .internalError:
-            String(localized: "The server ran into a problem. Please try again.")
+            String(localized: "The server ran into a problem. Please try again.", bundle: .app)
         case .malformedRequest, .invalidParameter, .badRequest, .invalidBounds, .forbidden,
              .cannotModifySelf, .methodNotAllowed, .unknown, nil:
-            String(localized: "Something went wrong. Please try again.")
+            String(localized: "Something went wrong. Please try again.", bundle: .app)
         }
     }
 }

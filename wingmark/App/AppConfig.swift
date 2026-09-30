@@ -17,4 +17,10 @@ enum AppConfig {
     }()
 
     static let requestTimeout: TimeInterval = 30
+
+    /// Absolute URL for a backend asset path such as `/uploads/abc.jpg`. Absolute URLs pass through.
+    static func assetURL(for path: String, baseURL: URL = baseURL) -> URL? {
+        if let url = URL(string: path), url.scheme != nil { return url }
+        return URL(string: path, relativeTo: baseURL)?.absoluteURL
+    }
 }

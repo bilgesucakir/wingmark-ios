@@ -24,12 +24,47 @@ enum BirdLogAPI {
     }
 }
 
+enum SpeciesSort: String, CaseIterable, Identifiable, Sendable {
+    case commonAscending, commonDescending, scientificAscending, scientificDescending
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .commonAscending: String(localized: "Name (A–Z)", bundle: .app)
+        case .commonDescending: String(localized: "Name (Z–A)", bundle: .app)
+        case .scientificAscending: String(localized: "Scientific Name (A–Z)", bundle: .app)
+        case .scientificDescending: String(localized: "Scientific Name (Z–A)", bundle: .app)
+        }
+    }
+
+    func parameter(language: String) -> String {
+        switch self {
+        case .commonAscending: "commonName.\(language),asc"
+        case .commonDescending: "commonName.\(language),desc"
+        case .scientificAscending: "scientificName,asc"
+        case .scientificDescending: "scientificName,desc"
+        }
+    }
+}
+
+struct SpeciesRecording: Decodable, Sendable, Identifiable, Hashable {
+    let id: String
+    let recordingUrl: String
+    let type: String?
+    let quality: String?
+    let recordist: String?
+    let licenseUrl: String?
+}
+
 enum SpeciesAPI {
-    static func list(search: String, page: Int, size: Int = 30, language: String) -> Endpoint<Page<Species>> {
+    static func list(
+        search: String, page: Int, size: Int = 30, sort: SpeciesSort = .commonAscending, language: String
+    ) -> Endpoint<Page<Species>> {
         var query = [
             URLQueryItem(name: "page", value: String(page)),
             URLQueryItem(name: "size", value: String(size)),
-            URLQueryItem(name: "sort", value: "commonName.\(language),asc"),
+            URLQueryItem(name: "sort", value: sort.parameter(language: language)),
         ]
         let search = search.trimmingCharacters(in: .whitespaces)
         if !search.isEmpty { query.append(URLQueryItem(name: "search", value: search)) }
@@ -38,6 +73,10 @@ enum SpeciesAPI {
 
     static func species(id: UUID) -> Endpoint<Species> {
         Endpoint(.get, "species/\(id.uuidString.lowercased())", requiresAuth: false)
+    }
+
+    static func sounds(id: UUID) -> Endpoint<[SpeciesRecording]> {
+        Endpoint(.get, "species/\(id.uuidString.lowercased())/sound", requiresAuth: false)
     }
 }
 

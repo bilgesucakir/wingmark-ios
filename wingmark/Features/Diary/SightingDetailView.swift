@@ -28,6 +28,7 @@ struct SightingDetailView: View {
                 Section {
                     RemoteImage(path: log.photoUrl, contentMode: .fit)
                         .frame(maxWidth: .infinity)
+                        .traitChips(lifeStage: log.lifeStage, gender: log.gender)
                         .listRowInsets(EdgeInsets())
                 }
             }
@@ -40,18 +41,20 @@ struct SightingDetailView: View {
                         Text(species).foregroundStyle(.secondary)
                     }
                 }
-                LabeledContent("Seen", value: log.observedAt.formatted(date: .long, time: .shortened))
+                LabeledContent("Seen") { Text(log.observedAt, format: .dateTime.day().month(.wide).year().hour().minute()) }
                 if log.speciesId != nil, let status = log.speciesStatus {
                     LabeledContent("Identification", value: status.title)
                 }
                 LabeledContent("Life Stage", value: log.lifeStage.title)
                 LabeledContent("Gender", value: log.gender.title)
                 if log.pet {
-                    LabeledContent("Pet", value: String(localized: "Yes"))
+                    LabeledContent("Pet", value: String(localized: "Yes", bundle: .app))
                 }
             }
 
+            if log.hasLocation || !(log.locationName ?? "").isEmpty {
             Section("Location") {
+                if log.hasLocation {
                 let coordinate = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
                 Map(initialPosition: .region(MKCoordinateRegion(
                     center: coordinate, latitudinalMeters: 1500, longitudinalMeters: 1500
@@ -60,9 +63,11 @@ struct SightingDetailView: View {
                 }
                 .frame(height: 180)
                 .listRowInsets(EdgeInsets())
+                }
                 if let place = log.locationName, !place.isEmpty {
                     Text(place)
                 }
+            }
             }
 
             if let note = log.note, !note.isEmpty {
@@ -74,17 +79,17 @@ struct SightingDetailView: View {
             Section {
                 Button("Delete Sighting", role: .destructive) { confirmDelete = true }
                     .disabled(isDeleting)
+                    .confirmationDialog("Delete this sighting?", isPresented: $confirmDelete, titleVisibility: .visible) {
+                        Button("Delete", role: .destructive) { delete(log) }
+                    } message: {
+                        Text("This can't be undone.")
+                    }
             } footer: {
                 FieldError(message: errorMessage)
             }
         }
         .toolbar {
             Button("Edit") { path.append(.edit(log.id)) }
-        }
-        .confirmationDialog("Delete this sighting?", isPresented: $confirmDelete, titleVisibility: .visible) {
-            Button("Delete", role: .destructive) { delete(log) }
-        } message: {
-            Text("This can't be undone.")
         }
     }
 
