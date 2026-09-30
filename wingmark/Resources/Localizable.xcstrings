@@ -135,6 +135,16 @@
         }
       }
     },
+    "Allow Wingmark to use your location in Settings to see where you are on the map." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada nerede olduğunu görmek için Ayarlar’dan Wingmark’ın konumunu kullanmasına izin ver."
+          }
+        }
+      }
+    },
     "Already have an account? Log In" : {
       "localizations" : {
         "en" : {
@@ -1293,6 +1303,16 @@
         }
       }
     },
+    "Location access is off" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum erişimi kapalı"
+          }
+        }
+      }
+    },
     "Location access is off. Allow it in Settings or move the map to the spot." : {
       "localizations" : {
         "tr" : {
@@ -1723,6 +1743,16 @@
         }
       }
     },
+    "Open Settings" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarları Aç"
+          }
+        }
+      }
+    },
     "Order" : {
       "localizations" : {
         "tr" : {
@@ -2141,6 +2171,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ayarlar"
+          }
+        }
+      }
+    },
+    "Show My Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumumu Göster"
           }
         }
       }

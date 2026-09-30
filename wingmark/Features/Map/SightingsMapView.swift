@@ -8,6 +8,9 @@ struct SightingsMapView: View {
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
+    @State private var isLocating = false
+    @State private var showLocationDenied = false
+    @Environment(\.openURL) private var openURL
 
     private var clusters: [MapCluster] {
         guard let region = store.region else { return [] }
@@ -32,7 +35,6 @@ struct SightingsMapView: View {
                 }
             }
             .mapControls {
-                MapUserLocationButton()
                 MapCompass()
                 MapScaleView()
             }
@@ -40,6 +42,31 @@ struct SightingsMapView: View {
                 store.regionDidChange(context.region)
             }
             .safeAreaInset(edge: .top) { overlayHeader }
+            .overlay(alignment: .topTrailing) {
+                Button(action: locate) {
+                    Group {
+                        if isLocating {
+                            ProgressView()
+                        } else {
+                            Image(systemName: "location.fill")
+                        }
+                    }
+                    .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .accessibilityLabel(Text("Show My Location"))
+                .padding(.trailing, 16)
+                .padding(.top, 64)
+            }
+            .alert("Location access is off", isPresented: $showLocationDenied) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Allow Wingmark to use your location in Settings to see where you are on the map.")
+            }
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     path.append(.add)
@@ -92,6 +119,23 @@ struct SightingsMapView: View {
             }
         }
         .padding(.top, 4)
+    }
+
+    private func locate() {
+        isLocating = true
+        Task {
+            defer { isLocating = false }
+            do throws(LocationError) {
+                let location = try await LocationService.currentLocation()
+                withAnimation {
+                    position = .region(MKCoordinateRegion(
+                        center: location.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000
+                    ))
+                }
+            } catch {
+                if error == .denied { showLocationDenied = true }
+            }
+        }
     }
 
     private func zoom(into cluster: MapCluster) {

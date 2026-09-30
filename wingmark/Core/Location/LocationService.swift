@@ -8,7 +8,7 @@ enum LocationError: Error {
 
 enum LocationService {
     /// Asks for When In Use permission if needed and returns one reasonably accurate fix.
-    static func currentLocation(timeout: Duration = .seconds(15)) async throws(LocationError) -> CLLocation {
+    static func currentLocation(timeout: Duration = .seconds(60)) async throws(LocationError) -> CLLocation {
         let session = CLServiceSession(authorization: .whenInUse)
         defer { session.invalidate() }
 
