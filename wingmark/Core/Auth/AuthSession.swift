@@ -23,6 +23,10 @@ final class AuthSession {
         client.onSessionExpired = { [weak self] in self?.handleSessionExpired() }
     }
 
+    var unitPreference: UnitPreference {
+        settings?.unitPreference ?? UnitPreference.current
+    }
+
     var userId: UUID? {
         if case .signedIn(let id) = state { return id }
         return nil

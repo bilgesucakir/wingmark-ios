@@ -247,6 +247,7 @@ private struct ClusterPin: View {
 }
 
 private struct SightingSummarySheet: View {
+    @Environment(AuthSession.self) private var session
     let log: BirdLog
     let onShowDetails: () -> Void
 
@@ -271,6 +272,11 @@ private struct SightingSummarySheet: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
+                }
+                if let meters = UserLocation.shared.distance(to: log) {
+                    Label(session.unitPreference.distanceAway(meters: meters), systemImage: "location")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
                 Button("View Details", action: onShowDetails)
                     .buttonStyle(.borderedProminent)

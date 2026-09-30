@@ -29,6 +29,7 @@ struct MainTabView: View {
             .environment(map)
             .environment(badges)
             .task { await badges.load() }
+            .task { UserLocation.shared.start() }
             .onChange(of: diary.revision) { Task { await badges.load() } }
             .overlay {
                 if !badges.newlyEarned.isEmpty {

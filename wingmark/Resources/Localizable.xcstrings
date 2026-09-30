@@ -4,6 +4,16 @@
     "" : {
       "shouldTranslate" : false
     },
+    "%@ away" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uzakta"
+          }
+        }
+      }
+    },
     "%lld / %lld" : {
       "shouldTranslate" : false
     },
@@ -2609,6 +2619,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Birimler"
+          }
+        }
+      }
+    },
+    "Units are used for distances to your sightings and for species sizes in the Guide." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Birimler gözlemlerine olan uzaklıklar ve Rehber’deki tür boyutları için kullanılır."
           }
         }
       }

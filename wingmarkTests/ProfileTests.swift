@@ -62,3 +62,25 @@ struct ProfileTests {
         #expect(AvatarPresets.style(for: "avatar-1").symbol == AvatarPresets.style(for: "avatar-1").symbol)
     }
 }
+
+struct UnitConversionTests {
+    private let us = Locale(identifier: "en_US")
+
+    @Test func convertsCentimetreRangesToInches() {
+        let text = UnitPreference.imperial.convertingLengths(in: "12.5-14cm, wingspan 20-22cm", locale: us)
+        #expect(text == "4.9–5.5 in, wingspan 7.9–8.7 in")
+    }
+
+    @Test func handlesTurkishDecimalsAndMetres() {
+        let text = UnitPreference.imperial.convertingLengths(in: "12,5-14 cm, kanat açıklığı 1,2 m", locale: us)
+        #expect(text == "4.9–5.5 in, kanat açıklığı 3.9 ft")
+    }
+
+    @Test func metricLeavesTextAlone() {
+        #expect(UnitPreference.metric.convertingLengths(in: "12.5-14cm", locale: us) == "12.5-14cm")
+    }
+
+    @Test func ignoresWordsThatStartWithM() {
+        #expect(UnitPreference.imperial.convertingLengths(in: "lives 5 months", locale: us) == "lives 5 months")
+    }
+}
