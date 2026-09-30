@@ -55,3 +55,35 @@ extension UnitPreference {
         }
     }
 }
+
+extension UnitPreference {
+    /// "2.3 km away" / "1.4 mi away".
+    func distanceAway(meters: Double, locale: Locale = .app) -> String {
+        String(localized: "\(format(meters: meters, locale: locale)) away", bundle: .app)
+    }
+
+    /// Rewrites metric lengths in free text (e.g. species sizes like "12,5-14 cm") as inches or feet.
+    /// Metric text is returned unchanged.
+    func convertingLengths(in text: String, locale: Locale = .app) -> String {
+        guard self == .imperial else { return text }
+        let pattern = /(\d+(?:[.,]\d+)?)(?:\s*[-–]\s*(\d+(?:[.,]\d+)?))?\s*(mm|cm|m)\b/
+        return text.replacing(pattern) { match in
+            let unit = String(match.output.3)
+            guard let low = Self.number(match.output.1) else { return String(match.output.0) }
+            let high = match.output.2.flatMap { Self.number($0) }
+            let (factor, symbol): (Double, String) = switch unit {
+            case "mm": (1 / 25.4, "in")
+            case "cm": (1 / 2.54, "in")
+            default: (3.28084, "ft")
+            }
+            let style = FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0...1)).locale(locale)
+            let lowText = (low * factor).formatted(style)
+            guard let high else { return "\(lowText) \(symbol)" }
+            return "\(lowText)–\((high * factor).formatted(style)) \(symbol)"
+        }
+    }
+
+    private static func number(_ text: Substring) -> Double? {
+        Double(text.replacingOccurrences(of: ",", with: "."))
+    }
+}

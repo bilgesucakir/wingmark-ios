@@ -48,7 +48,7 @@ struct SpeciesDetailView: View {
                 fact("Habitat", species.habitat)
                 fact("Diet", species.diet)
                 fact("Lifespan", species.lifespan)
-                fact("Size", species.sizeDescription)
+                fact("Size", species.sizeDescription, convertLengths: true)
                 fact("Conservation Status", species.conservationStatus)
                 fact("Native Range", species.nativeRange)
             }
@@ -65,8 +65,9 @@ struct SpeciesDetailView: View {
     }
 
     @ViewBuilder
-    private func fact(_ title: LocalizedStringKey, _ text: LocalizedText?) -> some View {
-        if let value = text?.resolved() {
+    private func fact(_ title: LocalizedStringKey, _ text: LocalizedText?, convertLengths: Bool = false) -> some View {
+        if let raw = text?.resolved() {
+            let value = convertLengths ? session.unitPreference.convertingLengths(in: raw) : raw
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.caption).foregroundStyle(.secondary)
                 Text(value)

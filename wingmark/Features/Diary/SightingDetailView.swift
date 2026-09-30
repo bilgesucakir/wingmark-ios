@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SightingDetailView: View {
     @Environment(DiaryStore.self) private var store
+    @Environment(AuthSession.self) private var session
     let logId: UUID
     @Binding var path: [DiaryRoute]
 
@@ -66,6 +67,10 @@ struct SightingDetailView: View {
                 }
                 if let place = log.locationName, !place.isEmpty {
                     Text(place)
+                }
+                if let meters = UserLocation.shared.distance(to: log) {
+                    Label(session.unitPreference.distanceAway(meters: meters), systemImage: "location")
+                        .foregroundStyle(.secondary)
                 }
             }
             }

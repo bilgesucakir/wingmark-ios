@@ -28,7 +28,10 @@ struct SettingsView: View {
                     ForEach(UnitPreference.allCases, id: \.self) { Text($0.title).tag($0) }
                 }
             } footer: {
-                FieldError(message: errorMessage)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Units are used for distances to your sightings and for species sizes in the Guide.")
+                    FieldError(message: errorMessage)
+                }
             }
 
             Section("Account") {

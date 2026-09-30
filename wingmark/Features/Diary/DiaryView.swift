@@ -159,7 +159,15 @@ extension View {
 }
 
 struct SightingRow: View {
+    @Environment(AuthSession.self) private var session
     let log: BirdLog
+
+    private var placeLine: String? {
+        let place = log.locationName.flatMap { $0.isEmpty ? nil : $0 }
+        let distance = UserLocation.shared.distance(to: log).map { session.unitPreference.format(meters: $0) }
+        let parts = [place, distance].compactMap { $0 }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -178,7 +186,7 @@ struct SightingRow: View {
                         .font(.caption.weight(.medium))
                         .foregroundStyle(.secondary)
                 }
-                if let place = log.locationName, !place.isEmpty {
+                if let place = placeLine {
                     Text(place)
                         .font(.caption)
                         .foregroundStyle(.secondary)
