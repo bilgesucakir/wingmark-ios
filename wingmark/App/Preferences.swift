@@ -41,10 +41,11 @@ extension UnitPreference {
     }
 
     /// Short distances in m/ft, longer ones in km/mi.
-    func format(meters: Double) -> String {
+    func format(meters: Double, locale: Locale = .autoupdatingCurrent) -> String {
         let measurement = Measurement(value: meters, unit: UnitLength.meters)
-        let style = Measurement<UnitLength>.FormatStyle.measurement(width: .abbreviated, usage: .asProvided,
-                                                                   numberFormatStyle: .number.precision(.fractionLength(0...1)))
+        let style = Measurement<UnitLength>.FormatStyle.measurement(
+            width: .abbreviated, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0...1))
+        ).locale(locale)
         switch self {
         case .metric:
             return meters < 1000 ? measurement.formatted(style) : measurement.converted(to: .kilometers).formatted(style)
