@@ -23,6 +23,20 @@ struct LanguageTests {
         }
     }
 
+    @Test func defaultsToTurkishOnlyOnTurkishDevices() {
+        #expect(AppLanguage.deviceDefault(preferredLanguages: ["tr-TR"]) == .turkish)
+        #expect(AppLanguage.deviceDefault(preferredLanguages: ["en-GB", "tr-TR"]) == .english)
+        #expect(AppLanguage.deviceDefault(preferredLanguages: ["de-DE"]) == .english)
+        #expect(AppLanguage.deviceDefault(preferredLanguages: []) == .english)
+    }
+
+    @Test func legacySystemChoiceFallsBackToDeviceDefault() {
+        let previous = UserDefaults.standard.string(forKey: AppLanguage.storageKey)
+        UserDefaults.standard.set("system", forKey: AppLanguage.storageKey)
+        #expect(AppLanguage.current == AppLanguage.deviceDefault())
+        UserDefaults.standard.set(previous, forKey: AppLanguage.storageKey)
+    }
+
     @Test func formFollowsSeenNowAndPhotoDate() async throws {
         let model = SightingFormModel(editing: nil)
         #expect(model.seenNow)

@@ -4,6 +4,10 @@ import Security
 struct TokenPair: Codable, Sendable, Equatable {
     let accessToken: String
     let refreshToken: String
+    /// Legal documents whose current version the user hasn't accepted. Raw strings so an unknown type can't break login.
+    var pendingConsents: [String]?
+
+    var pendingConsentTypes: [ConsentType] { (pendingConsents ?? []).compactMap(ConsentType.init(rawValue:)) }
 }
 
 protocol TokenStore: AnyObject {

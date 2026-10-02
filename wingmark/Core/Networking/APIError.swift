@@ -29,6 +29,9 @@ enum APIErrorCode: String, Decodable, Sendable {
     case invalidReference = "INVALID_REFERENCE"
     case internalError = "INTERNAL_ERROR"
     case externalServiceError = "EXTERNAL_SERVICE_ERROR"
+    case termsNotAccepted = "TERMS_NOT_ACCEPTED"
+    case privacyNotAccepted = "PRIVACY_NOT_ACCEPTED"
+    case consentVersionMismatch = "CONSENT_VERSION_MISMATCH"
     case unknown
 
     nonisolated init(from decoder: any Decoder) throws {
@@ -134,6 +137,8 @@ enum APIError: Error, Sendable {
             String(localized: "This action conflicts with the current state. Please refresh and try again.", bundle: .app)
         case .internalError:
             String(localized: "The server ran into a problem. Please try again.", bundle: .app)
+        case .termsNotAccepted, .privacyNotAccepted, .consentVersionMismatch:
+            String(localized: "Our terms were just updated. Please review and accept them again.", bundle: .app)
         case .malformedRequest, .invalidParameter, .badRequest, .invalidBounds, .forbidden,
              .cannotModifySelf, .methodNotAllowed, .unknown, nil:
             String(localized: "Something went wrong. Please try again.", bundle: .app)

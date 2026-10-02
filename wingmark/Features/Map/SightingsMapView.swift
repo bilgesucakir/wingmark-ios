@@ -26,9 +26,11 @@ struct SightingsMapView: View {
                         if cluster.logs.count == 1, let log = cluster.logs.first {
                             SightingPin(log: log, isSelected: selected?.id == log.id)
                                 .onTapGesture { selected = log }
+                                .accessibilityAction { selected = log }
                         } else {
                             ClusterPin(count: cluster.logs.count)
                                 .onTapGesture { zoom(into: cluster) }
+                                .accessibilityAction { zoom(into: cluster) }
                         }
                     }
                     .annotationTitles(.hidden)
@@ -222,9 +224,11 @@ private struct SightingPin: View {
             .overlay { Circle().strokeBorder(.white, lineWidth: 2.5) }
             .overlay { if isSelected { Circle().strokeBorder(.tint, lineWidth: 2) } }
             .shadow(radius: 3, y: 1)
+            .frame(minWidth: 44, minHeight: 44)
+            .contentShape(.circle)
             .animation(.snappy, value: isSelected)
             .accessibilityElement()
-            .accessibilityLabel(Text(log.displayName))
+            .accessibilityLabel(Text("\(log.displayName), seen \(log.observedAt, format: .dateTime.day().month())"))
             .accessibilityAddTraits(.isButton)
     }
 }
@@ -241,13 +245,15 @@ private struct ClusterPin: View {
             .background(Circle().fill(.tint))
             .overlay { Circle().strokeBorder(.white, lineWidth: 2.5) }
             .shadow(radius: 3, y: 1)
+            .frame(minWidth: 44, minHeight: 44)
+            .contentShape(.circle)
             .accessibilityLabel(Text("\(count) sightings"))
+            .accessibilityHint(Text("Zooms in to show them"))
             .accessibilityAddTraits(.isButton)
     }
 }
 
 private struct SightingSummarySheet: View {
-    @Environment(AuthSession.self) private var session
     let log: BirdLog
     let onShowDetails: () -> Void
 
@@ -274,7 +280,7 @@ private struct SightingSummarySheet: View {
                         .lineLimit(2)
                 }
                 if let meters = UserLocation.shared.distance(to: log) {
-                    Label(session.unitPreference.distanceAway(meters: meters), systemImage: "location")
+                    Label(UnitPreference.device.distanceAway(meters: meters), systemImage: "location")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }

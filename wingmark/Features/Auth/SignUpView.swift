@@ -13,6 +13,8 @@ struct SignUpView: View {
     @State private var serverErrors: [String: String] = [:]
     @State private var errorMessage: String?
     @State private var isLoading = false
+    @State private var legal = LegalDocuments.unpublished
+    @State private var accepted: Set<ConsentType> = []
     @FocusState private var focus: Field?
 
     private enum Field { case username, email, password, firstName, lastName }
@@ -26,6 +28,8 @@ struct SignUpView: View {
             && AuthValidation.emailError(email) == nil
             && AuthValidation.passwordError(password) == nil
     }
+
+    private var acceptedAll: Bool { Set(legal.published).isSubset(of: accepted) }
 
     var body: some View {
         Form {
@@ -76,9 +80,25 @@ struct SignUpView: View {
                     .onSubmit(signUp)
             }
 
+            if !legal.published.isEmpty {
+                Section {
+                    ForEach(legal.published, id: \.self) { type in
+                        if let url = legal.url(of: type) {
+                            Link(destination: url) {
+                                Label(type.title, systemImage: "doc.text")
+                            }
+                        }
+                        Toggle(type.acceptanceLabel, isOn: Binding(
+                            get: { accepted.contains(type) },
+                            set: { if $0 { accepted.insert(type) } else { accepted.remove(type) } }
+                        ))
+                    }
+                }
+            }
+
             Section {
                 PrimaryActionButton(title: "Create Account", isLoading: isLoading, action: signUp)
-                    .disabled(username.isEmpty || email.isEmpty || password.isEmpty || isLoading)
+                    .disabled(username.isEmpty || email.isEmpty || password.isEmpty || !acceptedAll || isLoading)
             } footer: {
                 FieldError(message: errorMessage)
             }
@@ -92,6 +112,7 @@ struct SignUpView: View {
         .navigationTitle("Create Account")
         .disabled(isLoading)
         .onAppear { focus = .username }
+        .task { await loadLegal() }
         .onChange(of: username) { serverErrors["username"] = nil }
         .onChange(of: email) { serverErrors["email"] = nil }
         .onChange(of: password) { serverErrors["password"] = nil }
@@ -99,9 +120,16 @@ struct SignUpView: View {
         .animation(.default, value: serverErrors)
     }
 
+    private func loadLegal() async {
+        if let documents = try? await session.legalDocuments() {
+            legal = documents
+            accepted.formIntersection(documents.published)
+        }
+    }
+
     private func signUp() {
         showValidation = true
-        guard isValid, !isLoading else { return }
+        guard isValid, acceptedAll, !isLoading else { return }
         errorMessage = nil
         isLoading = true
         let first = AuthValidation.trimmed(firstName)
@@ -111,7 +139,9 @@ struct SignUpView: View {
             password: password,
             username: AuthValidation.trimmed(username),
             firstName: first.isEmpty ? nil : first,
-            lastName: last.isEmpty ? nil : last
+            lastName: last.isEmpty ? nil : last,
+            acceptedTermsVersion: accepted.contains(.terms) ? legal.termsVersion : nil,
+            acceptedPrivacyVersion: accepted.contains(.privacy) ? legal.privacyVersion : nil
         )
         Task {
             defer { isLoading = false }
@@ -125,6 +155,11 @@ struct SignUpView: View {
                     serverErrors["username"] = String(localized: "This username is already taken.", bundle: .app)
                 case .validationFailed:
                     serverErrors = AuthValidation.serverFieldErrors(error)
+                case .termsNotAccepted, .privacyNotAccepted:
+                    // The documents changed since this screen loaded, so ask again for the new versions.
+                    accepted = []
+                    await loadLegal()
+                    errorMessage = error.userMessage
                 default:
                     errorMessage = error.userMessage
                 }

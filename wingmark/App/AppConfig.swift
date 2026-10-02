@@ -18,6 +18,13 @@ enum AppConfig {
 
     static let requestTimeout: TimeInterval = 30
 
+    // Business details shown in Settings → About. Placeholders until the real values are decided; never invent them.
+    static let developerName = "[[DEVELOPER_NAME]]"
+    static let supportEmail = "[[SUPPORT_EMAIL]]"
+
+    /// Governs use of the app itself while Wingmark publishes no custom terms.
+    static let appleStandardEULA = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+
     /// Absolute URL for a backend asset path such as `/uploads/abc.jpg`. Absolute URLs pass through.
     static func assetURL(for path: String, baseURL: URL = baseURL) -> URL? {
         if let url = URL(string: path), url.scheme != nil { return url }

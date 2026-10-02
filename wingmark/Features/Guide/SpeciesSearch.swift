@@ -61,7 +61,7 @@ final class SpeciesSearch {
         defer { if generation == self.generation { isLoading = false } }
         do throws(APIError) {
             let result = try await client.send(SpeciesAPI.list(
-                search: query, page: page, sort: sort, language: AppLanguage.current.resolvedCode
+                search: query, page: page, sort: sort, language: client.language
             ))
             guard generation == self.generation else { return }
             let known = Set(results.map(\.id))

@@ -37,3 +37,14 @@ struct Endpoint<Response: Decodable> {
 }
 
 struct EmptyResponse: Decodable, Sendable {}
+
+/// The undecoded response body, for downloads such as the data export.
+struct RawResponse: Decodable, Sendable {
+    let data: Data
+
+    init(data: Data) { self.data = data }
+
+    init(from decoder: any Decoder) throws {
+        throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "RawResponse is never decoded"))
+    }
+}

@@ -84,6 +84,9 @@ struct DiaryView: View {
                 .swipeActions {
                     Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
                 }
+                .contextMenu {
+                    Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+                }
             }
             .listStyle(.plain)
         }
@@ -159,12 +162,11 @@ extension View {
 }
 
 struct SightingRow: View {
-    @Environment(AuthSession.self) private var session
     let log: BirdLog
 
     private var placeLine: String? {
         let place = log.locationName.flatMap { $0.isEmpty ? nil : $0 }
-        let distance = UserLocation.shared.distance(to: log).map { session.unitPreference.format(meters: $0) }
+        let distance = UserLocation.shared.distance(to: log).map { UnitPreference.device.format(meters: $0) }
         let parts = [place, distance].compactMap { $0 }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }

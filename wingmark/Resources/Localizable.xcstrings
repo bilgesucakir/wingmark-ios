@@ -14,6 +14,16 @@
         }
       }
     },
+    "%@, seen %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, görülme: %@"
+          }
+        }
+      }
+    },
     "%lld / %lld" : {
       "shouldTranslate" : false
     },
@@ -89,6 +99,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hesap"
+          }
+        }
+      }
+    },
+    "Acknowledgements" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teşekkürler"
           }
         }
       }
@@ -265,6 +285,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozetler"
+          }
+        }
+      }
+    },
+    "Bird recordings come from xeno-canto. Each one is shared by its recordist under a Creative Commons license, shown next to the recording in the Guide." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuş kayıtları xeno-canto'dan gelir. Her kayıt, kaydeden kişi tarafından bir Creative Commons lisansıyla paylaşılır; lisans, Rehber'de kaydın yanında gösterilir."
+          }
+        }
+      }
+    },
+    "Bird Sounds" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuş Sesleri"
           }
         }
       }
@@ -473,6 +513,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Koruma Durumu"
+          }
+        }
+      }
+    },
+    "Contact Support" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destekle İletişime Geç"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devam Et"
           }
         }
       }
@@ -707,6 +767,16 @@
         }
       }
     },
+    "Developer" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştirici"
+          }
+        }
+      }
+    },
     "Diary" : {
       "localizations" : {
         "en" : {
@@ -771,6 +841,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitti"
+          }
+        }
+      }
+    },
+    "Download My Data" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verilerimi İndir"
           }
         }
       }
@@ -1041,6 +1121,16 @@
         }
       }
     },
+    "Get a copy of your profile, settings, sightings, badges and accepted terms as a JSON file." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profilinin, ayarlarının, gözlemlerinin, rozetlerinin ve kabul ettiğin koşulların bir kopyasını JSON dosyası olarak al."
+          }
+        }
+      }
+    },
     "Go to Login" : {
       "localizations" : {
         "tr" : {
@@ -1103,6 +1193,26 @@
         }
       }
     },
+    "I accept the Privacy Policy" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik Politikası'nı kabul ediyorum"
+          }
+        }
+      }
+    },
+    "I accept the Terms of Service" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanım Koşulları'nı kabul ediyorum"
+          }
+        }
+      }
+    },
     "I don't know the species" : {
       "localizations" : {
         "tr" : {
@@ -1143,16 +1253,6 @@
         }
       }
     },
-    "Imperial (ft, mi)" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İngiliz (ft, mil)"
-          }
-        }
-      }
-    },
     "Imperial (mi, ft)" : {
       "localizations" : {
         "en" : {
@@ -1168,6 +1268,9 @@
           }
         }
       }
+    },
+    "inaturalist.org" : {
+      "shouldTranslate" : false
     },
     "Join Wingmark" : {
       "localizations" : {
@@ -1243,6 +1346,16 @@
         }
       }
     },
+    "Legal" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yasal"
+          }
+        }
+      }
+    },
     "License" : {
       "localizations" : {
         "tr" : {
@@ -1299,6 +1412,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sesler yükleniyor…"
+          }
+        }
+      }
+    },
+    "Loading…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükleniyor…"
           }
         }
       }
@@ -1405,12 +1528,12 @@
         }
       }
     },
-    "Log the birds you see, learn every species and earn badges along the way." : {
+    "Log the birds you see, learn about their species and earn badges along the way." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gördüğün kuşları kaydet, her türü tanı ve yol boyunca rozetler kazan."
+            "value" : "Gördüğün kuşları kaydet, türlerini tanı ve yol boyunca rozetler kazan."
           }
         }
       }
@@ -1457,6 +1580,26 @@
         }
       }
     },
+    "Maps and Icons" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritalar ve Simgeler"
+          }
+        }
+      }
+    },
+    "Maps and place names are provided by Apple Maps. Icons are SF Symbols by Apple." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritalar ve yer adları Apple Haritalar tarafından sağlanır. Simgeler Apple'ın SF Symbols setindendir."
+          }
+        }
+      }
+    },
     "Member Since" : {
       "localizations" : {
         "tr" : {
@@ -1479,16 +1622,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Metrik (km, m)"
-          }
-        }
-      }
-    },
-    "Metric (m, km)" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Metrik (m, km)"
           }
         }
       }
@@ -1707,6 +1840,16 @@
         }
       }
     },
+    "Not available yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz yayımlanmadı"
+          }
+        }
+      }
+    },
     "Not sure yet" : {
       "localizations" : {
         "en" : {
@@ -1769,6 +1912,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Takım"
+          }
+        }
+      }
+    },
+    "Our Terms Changed" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koşullarımız Değişti"
+          }
+        }
+      }
+    },
+    "Our terms were just updated. Please review and accept them again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koşullarımız az önce güncellendi. Lütfen gözden geçirip yeniden kabul et."
           }
         }
       }
@@ -1865,6 +2028,26 @@
         }
       }
     },
+    "Photo of %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ fotoğrafı"
+          }
+        }
+      }
+    },
+    "Photo: %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf: %@"
+          }
+        }
+      }
+    },
     "Pick on Map" : {
       "localizations" : {
         "tr" : {
@@ -1911,6 +2094,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lütfen önce e-posta adresini doğrula."
+          }
+        }
+      }
+    },
+    "Privacy Policy" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik Politikası"
           }
         }
       }
@@ -2273,6 +2466,16 @@
         }
       }
     },
+    "Some species photos come from iNaturalist contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazı tür fotoğrafları, Creative Commons lisanslarıyla iNaturalist katılımcılarından gelir. Fotoğrafçı ve lisans, Rehber'de her fotoğrafın altında gösterilir."
+          }
+        }
+      }
+    },
     "Something went wrong. Please try again." : {
       "localizations" : {
         "tr" : {
@@ -2329,6 +2532,16 @@
         }
       }
     },
+    "Species Photos" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür Fotoğrafları"
+          }
+        }
+      }
+    },
     "Species Seen" : {
       "localizations" : {
         "tr" : {
@@ -2349,28 +2562,22 @@
         }
       }
     },
+    "Support" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destek"
+          }
+        }
+      }
+    },
     "System" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sistem"
-          }
-        }
-      }
-    },
-    "System Default" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System Default"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistem Varsayılanı"
           }
         }
       }
@@ -2397,6 +2604,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On Gözlem"
+          }
+        }
+      }
+    },
+    "Terms of Service" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanım Koşulları"
+          }
+        }
+      }
+    },
+    "Terms of Use (Apple Standard EULA)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanım Şartları (Apple Standart EULA)"
           }
         }
       }
@@ -2607,32 +2834,6 @@
         }
       }
     },
-    "Units" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Units"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Birimler"
-          }
-        }
-      }
-    },
-    "Units are used for distances to your sightings and for species sizes in the Guide." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Birimler gözlemlerine olan uzaklıklar ve Rehber’deki tür boyutları için kullanılır."
-          }
-        }
-      }
-    },
     "Unknown" : {
       "localizations" : {
         "en" : {
@@ -2731,6 +2932,16 @@
         }
       }
     },
+    "Version" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sürüm"
+          }
+        }
+      }
+    },
     "View Details" : {
       "localizations" : {
         "tr" : {
@@ -2751,6 +2962,16 @@
         }
       }
     },
+    "We've updated the documents below. Please review and accept them to keep using Wingmark." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aşağıdaki belgeleri güncelledik. Wingmark'ı kullanmaya devam etmek için lütfen gözden geçirip kabul et."
+          }
+        }
+      }
+    },
     "Wingmark" : {
       "shouldTranslate" : false
     },
@@ -2765,6 +2986,9 @@
       }
     },
     "xeno-canto" : {
+      "shouldTranslate" : false
+    },
+    "xeno-canto.org" : {
       "shouldTranslate" : false
     },
     "Yes" : {
@@ -2827,12 +3051,22 @@
         }
       }
     },
-    "Your account has been deleted." : {
+    "Your account has been deleted. We've sent you a confirmation email." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hesabın silindi."
+            "value" : "Hesabın silindi. Sana bir onay e-postası gönderdik."
+          }
+        }
+      }
+    },
+    "Your Data" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verilerin"
           }
         }
       }
@@ -2899,6 +3133,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm gözlemleri görmek için yakınlaştır"
+          }
+        }
+      }
+    },
+    "Zooms in to show them" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Göstermek için yakınlaştırır"
           }
         }
       }

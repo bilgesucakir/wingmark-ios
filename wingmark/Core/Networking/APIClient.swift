@@ -31,12 +31,16 @@ final class APIClient {
     private var refreshTask: Task<TokenPair, Error>?
 
     var onSessionExpired: (() -> Void)?
+    var onTokensRefreshed: ((TokenPair) -> Void)?
+
+    /// The language sent as `Accept-Language`, for parameters that must match it.
+    var language: String { languageCode() }
 
     init(
         baseURL: URL = AppConfig.baseURL,
         tokenStore: TokenStore,
         transport: HTTPTransport = URLSessionTransport(),
-        languageCode: @escaping () -> String = { AppLanguage.current.resolvedCode }
+        languageCode: @escaping () -> String = { AppLanguage.current.code }
     ) {
         self.baseURL = baseURL
         self.tokenStore = tokenStore
@@ -89,7 +93,8 @@ final class APIClient {
 
         guard (200..<300).contains(response.statusCode) else {
             let body = try? JSONCoding.makeDecoder().decode(APIErrorBody.self, from: data)
-            Self.log.error("\(endpoint.method.rawValue) \(endpoint.path) → \(response.statusCode) \(body?.code?.rawValue ?? "-") \(body?.message ?? "", privacy: .public)")
+            // Paths carry user ids and messages may echo input, so only the method, status and code are public.
+            Self.log.error("\(endpoint.method.rawValue, privacy: .public) \(endpoint.path, privacy: .private) → \(response.statusCode) \(body?.code?.rawValue ?? "-", privacy: .public) \(body?.message ?? "", privacy: .private)")
             throw .server(status: response.statusCode, body: body)
         }
         return (data, response)
@@ -107,6 +112,7 @@ final class APIClient {
                 defer { self.refreshTask = nil }
                 let tokens = try await self.requestNewTokens(refreshToken: refreshToken)
                 self.tokenStore.save(tokens)
+                self.onTokensRefreshed?(tokens)
                 return tokens
             }
             refreshTask = task
@@ -178,10 +184,11 @@ final class APIClient {
 
     private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws(APIError) -> T {
         if T.self == EmptyResponse.self, let empty = EmptyResponse() as? T { return empty }
+        if T.self == RawResponse.self, let raw = RawResponse(data: data) as? T { return raw }
         do {
             return try JSONCoding.makeDecoder().decode(T.self, from: data)
         } catch {
-            Self.log.error("Decoding \(T.self) failed: \(String(describing: error), privacy: .public)")
+            Self.log.error("Decoding \(T.self, privacy: .public) failed: \(String(describing: error), privacy: .private)")
             throw .decoding(String(describing: error))
         }
     }

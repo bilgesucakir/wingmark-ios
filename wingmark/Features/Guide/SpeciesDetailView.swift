@@ -10,6 +10,7 @@ struct SpeciesDetailView: View {
     @State private var recordingsState = LoadState.loading
     @State private var mySightings: [BirdLog] = []
     @State private var player = RecordingPlayer()
+    @State private var shownImageId: UUID?
 
     private enum LoadState: Equatable {
         case loading, loaded
@@ -24,8 +25,12 @@ struct SpeciesDetailView: View {
         List {
             if let images = species.images, !images.isEmpty {
                 Section {
-                    SpeciesImageCarousel(images: images)
+                    SpeciesImageCarousel(images: images, speciesName: species.name, selection: $shownImageId)
                         .listRowInsets(EdgeInsets())
+                } footer: {
+                    if let image = images.first(where: { $0.id == shownImageId }) ?? images.first {
+                        PhotoCredit(image: image)
+                    }
                 }
             }
 
@@ -48,7 +53,7 @@ struct SpeciesDetailView: View {
                 fact("Habitat", species.habitat)
                 fact("Diet", species.diet)
                 fact("Lifespan", species.lifespan)
-                fact("Size", species.sizeDescription, convertLengths: true)
+                fact("Size", species.sizeDescription, convertUnits: true)
                 fact("Conservation Status", species.conservationStatus)
                 fact("Native Range", species.nativeRange)
             }
@@ -65,9 +70,9 @@ struct SpeciesDetailView: View {
     }
 
     @ViewBuilder
-    private func fact(_ title: LocalizedStringKey, _ text: LocalizedText?, convertLengths: Bool = false) -> some View {
+    private func fact(_ title: LocalizedStringKey, _ text: LocalizedText?, convertUnits: Bool = false) -> some View {
         if let raw = text?.resolved() {
-            let value = convertLengths ? session.unitPreference.convertingLengths(in: raw) : raw
+            let value = convertUnits ? UnitPreference.device.convertingMeasurements(in: raw) : raw
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.caption).foregroundStyle(.secondary)
                 Text(value)
@@ -141,13 +146,19 @@ struct SpeciesDetailView: View {
 
 private struct SpeciesImageCarousel: View {
     let images: [SpeciesImage]
+    let speciesName: String
+    @Binding var selection: UUID?
 
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             ForEach(images) { image in
                 RemoteImage(path: image.imageUrl)
                     .traitChips(lifeStage: image.lifeStageValue, gender: image.genderValue, caption: image.caption)
                     .clipped()
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(Text("Photo of \(speciesName)"))
+                    .accessibilityAddTraits(.isImage)
+                    .tag(Optional(image.id))
             }
         }
         .tabViewStyle(.page(indexDisplayMode: images.count > 1 ? .always : .never))
@@ -207,6 +218,26 @@ private struct RecordingRow: View {
     }
 }
 
+/// Creative Commons licenses require crediting the photographer, so licensed photos always show this line.
+private struct PhotoCredit: View {
+    let image: SpeciesImage
+
+    var body: some View {
+        if let license = image.licenseCode {
+            let credit = image.attribution.map { "\($0) · \(license)" } ?? license
+            if let url = image.sourceUrl.flatMap(URL.init(string:)) {
+                Link(destination: url) {
+                    Text("Photo: \(credit)")
+                }
+                .font(.footnote)
+            } else {
+                Text("Photo: \(credit)")
+                    .font(.footnote)
+            }
+        }
+    }
+}
+
 @Observable
 final class RecordingPlayer {
     private(set) var currentId: String?
@@ -217,6 +248,7 @@ final class RecordingPlayer {
     private var player: AVPlayer?
     private var observers: [NSObjectProtocol] = []
     private var statusObservation: NSKeyValueObservation?
+    private var download: Task<Void, Never>?
 
     func toggle(_ recording: SpeciesRecording) {
         if currentId == recording.id, let player {
@@ -228,14 +260,12 @@ final class RecordingPlayer {
     }
 
     func stop() {
-        player?.pause()
-        player = nil
+        download?.cancel()
+        download = nil
+        tearDownPlayer()
         currentId = nil
         isPlaying = false
         isBuffering = false
-        statusObservation = nil
-        observers.forEach(NotificationCenter.default.removeObserver)
-        observers = []
     }
 
     private func play(_ recording: SpeciesRecording) {
@@ -244,22 +274,32 @@ final class RecordingPlayer {
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
         try? AVAudioSession.sharedInstance().setActive(true)
 
-        let item = AVPlayerItem(url: url)
-        let player = AVPlayer(playerItem: item)
-        self.player = player
         currentId = recording.id
         failed = false
         isBuffering = true
         isPlaying = true
+        start(url, recordingId: recording.id, canFallBack: true)
+    }
+
+    private func start(_ url: URL, recordingId: String, canFallBack: Bool) {
+        tearDownPlayer()
+        let item = AVPlayerItem(url: url)
+        let player = AVPlayer(playerItem: item)
+        self.player = player
 
         statusObservation = item.observe(\.status) { [weak self] item, _ in
             let status = item.status
             Task { @MainActor in
                 guard let self, self.player === player else { return }
-                self.isBuffering = false
-                if status == .failed {
-                    self.failed = true
-                    self.isPlaying = false
+                switch status {
+                case .readyToPlay:
+                    self.isBuffering = false
+                case .failed where canFallBack:
+                    self.playDownloaded(from: url, recordingId: recordingId)
+                case .failed:
+                    self.fail()
+                default:
+                    break
                 }
             }
         }
@@ -271,6 +311,52 @@ final class RecordingPlayer {
                 self?.player?.seek(to: .zero)
             }
         })
-        player.play()
+        if isPlaying { player.play() }
+    }
+
+    /// Xeno-canto ignores byte-range requests, which AVPlayer needs to stream WAV files (MP3 streams fine).
+    private func playDownloaded(from url: URL, recordingId: String) {
+        download = Task {
+            do {
+                let file = try await Self.cachedFile(for: url, recordingId: recordingId)
+                guard !Task.isCancelled, currentId == recordingId else { return }
+                start(file, recordingId: recordingId, canFallBack: false)
+            } catch {
+                guard !Task.isCancelled, currentId == recordingId else { return }
+                fail()
+            }
+        }
+    }
+
+    private func fail() {
+        isBuffering = false
+        isPlaying = false
+        failed = true
+    }
+
+    private func tearDownPlayer() {
+        player?.pause()
+        player = nil
+        statusObservation = nil
+        observers.forEach(NotificationCenter.default.removeObserver)
+        observers = []
+    }
+
+    private static func cachedFile(for url: URL, recordingId: String) async throws -> URL {
+        let directory = URL.cachesDirectory.appending(path: "recordings", directoryHint: .isDirectory)
+        let fileManager = FileManager.default
+        if let cached = try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+            .first(where: { $0.deletingPathExtension().lastPathComponent == recordingId }) {
+            return cached
+        }
+        let (temporary, response) = try await URLSession.shared.download(from: url)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
+        // AVPlayer picks the decoder from the file extension, which only the Content-Disposition name carries.
+        let ext = response.suggestedFilename.map { ($0 as NSString).pathExtension }.flatMap { $0.isEmpty ? nil : $0 } ?? "wav"
+        try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        let file = directory.appending(path: "\(recordingId).\(ext)")
+        try? fileManager.removeItem(at: file)
+        try fileManager.moveItem(at: temporary, to: file)
+        return file
     }
 }
