@@ -25,19 +25,10 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 }
 
 extension UnitPreference {
-    private static let storageKey = "unitPreference"
-
-    /// Cached locally so formatting works before settings load and offline.
-    static var current: UnitPreference {
-        get { UserDefaults.standard.string(forKey: storageKey).flatMap(UnitPreference.init(rawValue:)) ?? .metric }
-        set { UserDefaults.standard.set(newValue.rawValue, forKey: storageKey) }
-    }
-
-    var title: String {
-        switch self {
-        case .metric: String(localized: "Metric (m, km)", bundle: .app)
-        case .imperial: String(localized: "Imperial (ft, mi)", bundle: .app)
-        }
+    /// Follows the device region, like the map's scale bar. The in-app language override
+    /// carries no region, so it must not decide this.
+    static var device: UnitPreference {
+        Locale.autoupdatingCurrent.measurementSystem == .metric ? .metric : .imperial
     }
 
     /// Short distances in m/ft, longer ones in km/mi.
@@ -62,11 +53,11 @@ extension UnitPreference {
         String(localized: "\(format(meters: meters, locale: locale)) away", bundle: .app)
     }
 
-    /// Rewrites metric lengths in free text (e.g. species sizes like "12,5-14 cm") as inches or feet.
-    /// Metric text is returned unchanged.
-    func convertingLengths(in text: String, locale: Locale = .app) -> String {
+    /// Rewrites metric lengths and weights in free text (e.g. species sizes like "12,5-14 cm, about 30 g")
+    /// as inches, feet, ounces or pounds. Metric text is returned unchanged.
+    func convertingMeasurements(in text: String, locale: Locale = .app) -> String {
         guard self == .imperial else { return text }
-        let pattern = /(\d+(?:[.,]\d+)?)(?:\s*[-–]\s*(\d+(?:[.,]\d+)?))?\s*(mm|cm|m)\b/
+        let pattern = /(\d+(?:[.,]\d+)?)(?:\s*[-–]\s*(\d+(?:[.,]\d+)?))?\s*(mm|cm|m|kg|g)\b/
         return text.replacing(pattern) { match in
             let unit = String(match.output.3)
             guard let low = Self.number(match.output.1) else { return String(match.output.0) }
@@ -74,6 +65,8 @@ extension UnitPreference {
             let (factor, symbol): (Double, String) = switch unit {
             case "mm": (1 / 25.4, "in")
             case "cm": (1 / 2.54, "in")
+            case "g": (1 / 28.3495, "oz")
+            case "kg": (2.20462, "lb")
             default: (3.28084, "ft")
             }
             let style = FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0...1)).locale(locale)

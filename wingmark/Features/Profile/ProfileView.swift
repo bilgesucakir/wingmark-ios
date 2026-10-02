@@ -6,11 +6,12 @@ struct ProfileView: View {
 
     @State private var allLogs: [BirdLog] = []
     @State private var showEditProfile = false
+    @SceneStorage("profile.settingsOpen") private var settingsOpen = false
 
     private var distinctSpecies: Int { Set(allLogs.compactMap(\.speciesId)).count }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: settingsPath) {
             List {
                 if let profile = session.profile {
                     header(profile)
@@ -35,14 +36,13 @@ struct ProfileView: View {
                 }
 
                 Section {
-                    NavigationLink {
-                        SettingsView()
-                    } label: {
+                    NavigationLink(value: ProfileRoute.settings) {
                         Label("Settings", systemImage: "gearshape")
                     }
                 }
             }
             .navigationTitle("Profile")
+            .navigationDestination(for: ProfileRoute.self) { _ in SettingsView() }
             .toolbar {
                 if session.profile != nil {
                     Button("Edit") { showEditProfile = true }
@@ -57,6 +57,14 @@ struct ProfileView: View {
             .task(id: diary.revision) { await loadStats() }
             .task { if session.profile == nil { await session.refreshProfile() } }
         }
+    }
+
+    /// Kept in scene storage so Settings stays open when a language change rebuilds the tabs.
+    private var settingsPath: Binding<[ProfileRoute]> {
+        Binding(
+            get: { settingsOpen ? [.settings] : [] },
+            set: { settingsOpen = $0.contains(.settings) }
+        )
     }
 
     private func header(_ profile: UserProfile) -> some View {
@@ -92,4 +100,8 @@ private extension Optional where Wrapped == String {
         guard let value = self?.trimmingCharacters(in: .whitespaces), !value.isEmpty else { return "—" }
         return value
     }
+}
+
+enum ProfileRoute: Hashable {
+    case settings
 }

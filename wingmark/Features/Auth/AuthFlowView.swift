@@ -47,13 +47,13 @@ struct WelcomeView: View {
                     .accessibilityHidden(true)
                 Text("Wingmark")
                     .font(.largeTitle.bold())
-                Text("Log the birds you see, learn every species and earn badges along the way.")
+                Text("Log the birds you see, learn about their species and earn badges along the way.")
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
             if session.accountDeletedNotice {
-                Label("Your account has been deleted.", systemImage: "checkmark.circle")
+                Label("Your account has been deleted. We've sent you a confirmation email.", systemImage: "checkmark.circle")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else if session.sessionExpiredNotice {

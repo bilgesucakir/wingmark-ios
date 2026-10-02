@@ -196,6 +196,8 @@ struct SightingFormView: View {
                 .frame(height: 150)
                 .listRowInsets(EdgeInsets())
                 .onTapGesture { showLocationPicker = true }
+                // "Adjust on Map" below does the same for VoiceOver and keyboard users.
+                .accessibilityHidden(true)
             }
             switch model.locationStatus {
             case .locating:

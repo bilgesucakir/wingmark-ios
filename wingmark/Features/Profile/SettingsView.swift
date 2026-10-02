@@ -2,14 +2,15 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AuthSession.self) private var session
-    @Environment(DiaryStore.self) private var diary
     @AppStorage(AppAppearance.storageKey) private var appearance = AppAppearance.system
-    @AppStorage(AppLanguage.storageKey) private var language = AppLanguage.system
+    @AppStorage(AppLanguage.storageKey) private var language = AppLanguage.current
 
-    @State private var units = UnitPreference.current
     @State private var errorMessage: String?
     @State private var confirmLogoutAll = false
     @State private var isWorking = false
+    @State private var isExporting = false
+    @State private var exportError: String?
+    @State private var exportFile: ExportFile?
 
     var body: some View {
         Form {
@@ -20,21 +21,14 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
 
-            Section {
+            Section("Language") {
                 Picker("Language", selection: $language) {
                     ForEach(AppLanguage.allCases) { Text($0.displayName).tag($0) }
                 }
-                Picker("Units", selection: $units) {
-                    ForEach(UnitPreference.allCases, id: \.self) { Text($0.title).tag($0) }
-                }
-            } footer: {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Units are used for distances to your sightings and for species sizes in the Guide.")
-                    FieldError(message: errorMessage)
-                }
+                .pickerStyle(.segmented)
             }
 
-            Section("Account") {
+            Section {
                 NavigationLink("Change Password") { ChangePasswordView() }
                 Button("Log Out") {
                     Task { await session.logOut() }
@@ -45,40 +39,58 @@ struct SettingsView: View {
                     } message: {
                         Text("You'll be signed out on every device, including this one.")
                     }
+            } header: {
+                Text("Account")
+            } footer: {
+                FieldError(message: errorMessage)
             }
 
             Section {
+                Button {
+                    exportData()
+                } label: {
+                    HStack {
+                        Label("Download My Data", systemImage: "square.and.arrow.down")
+                        if isExporting { Spacer(); ProgressView() }
+                    }
+                }
+                .disabled(isExporting)
                 NavigationLink {
                     DeleteAccountView()
                 } label: {
                     Text("Delete Account").foregroundStyle(.red)
                 }
+            } header: {
+                Text("Your Data")
+            } footer: {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Get a copy of your profile, settings, sightings, badges and accepted terms as a JSON file.")
+                    FieldError(message: exportError)
+                }
+            }
+
+            Section {
+                NavigationLink("About") { AboutView() }
             }
         }
         .navigationTitle("Settings")
         .disabled(isWorking)
-        .onAppear { units = session.settings?.unitPreference ?? UnitPreference.current }
-        .onChange(of: language) { _, newValue in
-            save(locale: newValue.resolvedCode) {
-                await session.refreshProfile()
-                await diary.load()
-            }
-        }
-        .onChange(of: units) { _, newValue in
-            guard newValue != session.settings?.unitPreference else { return }
-            save(unitPreference: newValue)
+        .sheet(item: $exportFile) { file in
+            ShareSheet(items: [file.url])
+                .presentationDetents([.medium, .large])
         }
     }
 
-    private func save(unitPreference: UnitPreference? = nil, locale: String? = nil, then: (() async -> Void)? = nil) {
-        errorMessage = nil
+    private func exportData() {
+        isExporting = true
+        exportError = nil
         Task {
+            defer { isExporting = false }
             do throws(APIError) {
-                try await session.updateSettings(unitPreference: unitPreference, locale: locale)
+                exportFile = ExportFile(url: try await session.exportData())
             } catch {
-                errorMessage = error.userMessage
+                exportError = error.userMessage
             }
-            await then?()
         }
     }
 
@@ -243,4 +255,19 @@ struct DeleteAccountView: View {
             }
         }
     }
+}
+
+private struct ExportFile: Identifiable {
+    let url: URL
+    var id: URL { url }
+}
+
+private struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }

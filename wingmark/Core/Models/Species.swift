@@ -17,7 +17,7 @@ struct LocalizedText: Codable, Sendable, Hashable {
         try container.encode(values)
     }
 
-    func resolved(_ language: String = AppLanguage.current.resolvedCode) -> String? {
+    func resolved(_ language: String = AppLanguage.current.code) -> String? {
         let value = values[language] ?? values["en"] ?? values.values.first
         return value?.isEmpty == false ? value : values["en"]
     }
@@ -29,6 +29,10 @@ struct SpeciesImage: Codable, Sendable, Hashable, Identifiable {
     let gender: String?
     let imageUrl: String
     let caption: String?
+    /// Null for Wingmark's own uploads; set for openly licensed photos, which must show `attribution`.
+    var licenseCode: String?
+    var attribution: String?
+    var sourceUrl: String?
 }
 
 struct Species: Codable, Sendable, Hashable, Identifiable {

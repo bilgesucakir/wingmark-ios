@@ -118,6 +118,9 @@ private struct BadgeCard: View {
                 .font(.subheadline.weight(.semibold))
                 .multilineTextAlignment(.center)
                 .lineLimit(2, reservesSpace: true)
+            Text(badge.tier.title)
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(.secondary)
             if badge.earned, let earnedAt = badge.earnedAt {
                 Text(earnedAt, format: .dateTime.day().month().year())
                     .font(.caption)

@@ -14,13 +14,13 @@ struct ProfileTests {
         #expect(object["favoriteSpeciesId"] is NSNull)
     }
 
-    @Test func updateSettingsSendsBothFieldsAndCachesUnits() async throws {
+    @Test func updateSettingsSendsLocaleAndKeepsStoredUnits() async throws {
         let transport = MockTransport { request in
             if request.url?.path.hasSuffix("/settings") == true, request.httpMethod == "PUT" {
                 return .init(status: 200, body: #"{"unitPreference":"IMPERIAL","locale":"tr"}"#)
             }
             if request.url?.path.hasSuffix("/settings") == true {
-                return .init(status: 200, body: #"{"unitPreference":"METRIC","locale":"en"}"#)
+                return .init(status: 200, body: #"{"unitPreference":"IMPERIAL","locale":"en"}"#)
             }
             return .init(status: 200, body: Fixtures.userJSON)
         }
@@ -28,16 +28,14 @@ struct ProfileTests {
                                tokenStore: InMemoryTokenStore(Fixtures.tokens("a")), transport: transport)
         let session = AuthSession(client: client)
         await session.restore()
-        #expect(session.settings == UserSettings(unitPreference: .metric, locale: "en"))
+        #expect(session.settings == UserSettings(unitPreference: .imperial, locale: "en"))
 
-        try await session.updateSettings(unitPreference: .imperial)
+        try await session.updateSettings(locale: "tr")
 
         let put = try #require(transport.requests.last { $0.httpMethod == "PUT" })
         let body = try #require(put.httpBody.flatMap { try JSONSerialization.jsonObject(with: $0) as? [String: String] })
-        #expect(body == ["unitPreference": "IMPERIAL", "locale": "en"])
-        #expect(session.settings?.unitPreference == .imperial)
-        #expect(UnitPreference.current == .imperial)
-        UnitPreference.current = .metric
+        #expect(body == ["unitPreference": "IMPERIAL", "locale": "tr"])
+        #expect(session.settings?.locale == "tr")
     }
 
     @Test func legacyProfileWithoutCreatedAtDecodes() throws {
@@ -67,20 +65,30 @@ struct UnitConversionTests {
     private let us = Locale(identifier: "en_US")
 
     @Test func convertsCentimetreRangesToInches() {
-        let text = UnitPreference.imperial.convertingLengths(in: "12.5-14cm, wingspan 20-22cm", locale: us)
+        let text = UnitPreference.imperial.convertingMeasurements(in: "12.5-14cm, wingspan 20-22cm", locale: us)
         #expect(text == "4.9–5.5 in, wingspan 7.9–8.7 in")
     }
 
     @Test func handlesTurkishDecimalsAndMetres() {
-        let text = UnitPreference.imperial.convertingLengths(in: "12,5-14 cm, kanat açıklığı 1,2 m", locale: us)
+        let text = UnitPreference.imperial.convertingMeasurements(in: "12,5-14 cm, kanat açıklığı 1,2 m", locale: us)
         #expect(text == "4.9–5.5 in, kanat açıklığı 3.9 ft")
     }
 
     @Test func metricLeavesTextAlone() {
-        #expect(UnitPreference.metric.convertingLengths(in: "12.5-14cm", locale: us) == "12.5-14cm")
+        #expect(UnitPreference.metric.convertingMeasurements(in: "12.5-14cm", locale: us) == "12.5-14cm")
     }
 
     @Test func ignoresWordsThatStartWithM() {
-        #expect(UnitPreference.imperial.convertingLengths(in: "lives 5 months", locale: us) == "lives 5 months")
+        #expect(UnitPreference.imperial.convertingMeasurements(in: "lives 5 months", locale: us) == "lives 5 months")
+    }
+
+    @Test func convertsWeightsToOuncesAndPounds() {
+        let text = UnitPreference.imperial.convertingMeasurements(in: "11-14 cm long, about 30 g", locale: us)
+        #expect(text == "4.3–5.5 in long, about 1.1 oz")
+        #expect(UnitPreference.imperial.convertingMeasurements(in: "1-1,4 kg", locale: us) == "2.2–3.1 lb")
+    }
+
+    @Test func ignoresWordsThatStartWithG() {
+        #expect(UnitPreference.imperial.convertingMeasurements(in: "yaklaşık 5 gün", locale: us) == "yaklaşık 5 gün")
     }
 }

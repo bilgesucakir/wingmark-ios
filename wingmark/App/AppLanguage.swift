@@ -1,7 +1,6 @@
 import Foundation
 
 nonisolated enum AppLanguage: String, CaseIterable, Identifiable {
-    case system
     case english = "en"
     case turkish = "tr"
 
@@ -9,42 +8,31 @@ nonisolated enum AppLanguage: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var code: String { rawValue }
+
     var displayName: String {
         switch self {
-        case .system: String(localized: "System Default", bundle: .app)
         case .english: "English"
         case .turkish: "Türkçe"
         }
     }
 
-    var locale: Locale? {
-        switch self {
-        case .system: nil
-        case .english: Locale(identifier: "en")
-        case .turkish: Locale(identifier: "tr")
-        }
-    }
+    var locale: Locale { Locale(identifier: rawValue) }
 
-    var resolvedCode: String {
-        switch self {
-        case .english: "en"
-        case .turkish: "tr"
-        case .system:
-            Locale.preferredLanguages.first?.lowercased().hasPrefix("tr") == true ? "tr" : "en"
-        }
+    /// Used until the person picks a language: Turkish on a Turkish device, English everywhere else.
+    static func deviceDefault(preferredLanguages: [String] = Locale.preferredLanguages) -> AppLanguage {
+        preferredLanguages.first?.lowercased().hasPrefix("tr") == true ? .turkish : .english
     }
 
     static var current: AppLanguage {
-        UserDefaults.standard.string(forKey: storageKey).flatMap(AppLanguage.init(rawValue:)) ?? .system
+        UserDefaults.standard.string(forKey: storageKey).flatMap(AppLanguage.init(rawValue:)) ?? deviceDefault()
     }
 }
 
 extension Bundle {
     /// Follows the in-app language rather than the device language.
     nonisolated static var app: Bundle {
-        let language = AppLanguage.current
-        guard language != .system,
-              let path = Bundle.main.path(forResource: language.rawValue, ofType: "lproj"),
+        guard let path = Bundle.main.path(forResource: AppLanguage.current.rawValue, ofType: "lproj"),
               let bundle = Bundle(path: path)
         else { return .main }
         return bundle
@@ -52,5 +40,5 @@ extension Bundle {
 }
 
 extension Locale {
-    nonisolated static var app: Locale { AppLanguage.current.locale ?? .autoupdatingCurrent }
+    nonisolated static var app: Locale { AppLanguage.current.locale }
 }

@@ -5,23 +5,24 @@ struct MainTabView: View {
     @State private var diary: DiaryStore?
     @State private var map: MapStore?
     @State private var badges: BadgesStore?
+    @SceneStorage("selectedTab") private var selectedTab = MainTab.map
 
     var body: some View {
         if let diary, let map, let badges {
-            TabView {
-                Tab("Map", systemImage: "map") {
+            TabView(selection: $selectedTab) {
+                Tab("Map", systemImage: "map", value: .map) {
                     SightingsMapView()
                 }
-                Tab("Guide", systemImage: "text.book.closed") {
+                Tab("Guide", systemImage: "text.book.closed", value: .guide) {
                     GuideView()
                 }
-                Tab("Diary", systemImage: "book") {
+                Tab("Diary", systemImage: "book", value: .diary) {
                     DiaryView()
                 }
-                Tab("Badges", systemImage: "trophy") {
+                Tab("Badges", systemImage: "trophy", value: .badges) {
                     BadgesView()
                 }
-                Tab("Profile", systemImage: "person.crop.circle") {
+                Tab("Profile", systemImage: "person.crop.circle", value: .profile) {
                     ProfileView()
                 }
             }
@@ -40,6 +41,9 @@ struct MainTabView: View {
                 }
             }
             .animation(.default, value: badges.newlyEarned.isEmpty)
+            .fullScreenCover(isPresented: Binding(get: { !session.pendingConsents.isEmpty }, set: { _ in })) {
+                ConsentUpdateView()
+            }
         } else {
             ProgressView()
                 .onAppear {
@@ -50,4 +54,8 @@ struct MainTabView: View {
                 }
         }
     }
+}
+
+enum MainTab: String {
+    case map, guide, diary, badges, profile
 }
