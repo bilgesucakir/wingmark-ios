@@ -84,9 +84,11 @@ struct ResetPasswordView: View {
 
     private enum Field { case code, password, confirmation }
 
+    private var rules: PasswordRules { PasswordRules(password: password, email: email) }
+
     private var isValid: Bool {
         AuthValidation.isValidCode(code)
-            && AuthValidation.passwordError(password) == nil
+            && rules.isSatisfied
             && AuthValidation.confirmationError(password, confirmation) == nil
     }
 
@@ -122,7 +124,8 @@ struct ResetPasswordView: View {
                         .submitLabel(.next)
                         .onSubmit { focus = .confirmation }
                     FieldError(message: passwordServerError
-                        ?? (showValidation ? AuthValidation.passwordError(password) : nil))
+                        ?? (showValidation ? AuthValidation.passwordError(password, email: email) : nil))
+                    PasswordRequirements(rules: rules)
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     SecureField("Confirm New Password", text: $confirmation)
@@ -138,7 +141,7 @@ struct ResetPasswordView: View {
 
             Section {
                 PrimaryActionButton(title: "Reset Password", isLoading: isLoading, action: reset)
-                    .disabled(code.count < 6 || password.isEmpty || confirmation.isEmpty || isLoading)
+                    .disabled(code.count < 6 || !rules.isSatisfied || confirmation.isEmpty || isLoading)
             }
         }
         .navigationTitle("Enter Code")
@@ -167,6 +170,8 @@ struct ResetPasswordView: View {
                     codeIsDead = true
                 case .samePassword:
                     passwordServerError = String(localized: "Choose a different password than your current one.", bundle: .app)
+                case .weakPassword, .passwordBreached:
+                    passwordServerError = error.userMessage
                 case .validationFailed:
                     let fields = error.validationErrors
                     if fields["code"] != nil { codeError = AuthValidation.serverFieldMessage(for: "code") }

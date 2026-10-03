@@ -32,6 +32,10 @@ enum APIErrorCode: String, Decodable, Sendable {
     case termsNotAccepted = "TERMS_NOT_ACCEPTED"
     case privacyNotAccepted = "PRIVACY_NOT_ACCEPTED"
     case consentVersionMismatch = "CONSENT_VERSION_MISMATCH"
+    case weakPassword = "WEAK_PASSWORD"
+    case passwordBreached = "PASSWORD_BREACHED"
+    case rateLimited = "RATE_LIMITED"
+    case requestTooLarge = "REQUEST_TOO_LARGE"
     case unknown
 
     nonisolated init(from decoder: any Decoder) throws {
@@ -46,6 +50,8 @@ struct APIErrorBody: Decodable, Sendable, Equatable {
     let message: String?
     let path: String?
     let validationErrors: [String: String]?
+    /// From the `Retry-After` header on 429 responses, in seconds.
+    var retryAfter: TimeInterval?
 }
 
 enum APIError: Error, Sendable {
@@ -67,6 +73,13 @@ enum APIError: Error, Sendable {
     var validationErrors: [String: String] {
         if case .server(_, let body) = self { return body?.validationErrors ?? [:] }
         return [:]
+    }
+
+    var isRateLimited: Bool { status == 429 || code == .rateLimited }
+
+    var retryAfter: TimeInterval? {
+        if case .server(_, let body) = self { return body?.retryAfter }
+        return nil
     }
 
     var isAuthRejection: Bool {
@@ -95,8 +108,16 @@ enum APIError: Error, Sendable {
         case .sessionExpired:
             return String(localized: "Your session has ended. Please log in again.", bundle: .app)
         case .server(let status, let body):
+            if isRateLimited { return Self.rateLimitMessage(retryAfter: body?.retryAfter) }
             return Self.message(for: body?.code, status: status)
         }
+    }
+
+    static func rateLimitMessage(retryAfter: TimeInterval?) -> String {
+        let minutes = Int(((retryAfter ?? 60) / 60).rounded(.up))
+        return minutes <= 1
+            ? String(localized: "Too many attempts. Try again in a minute.", bundle: .app)
+            : String(localized: "Too many attempts. Try again in \(minutes) minutes.", bundle: .app)
     }
 
     private static func message(for code: APIErrorCode?, status: Int) -> String {
@@ -137,9 +158,15 @@ enum APIError: Error, Sendable {
             String(localized: "This action conflicts with the current state. Please refresh and try again.", bundle: .app)
         case .internalError:
             String(localized: "The server ran into a problem. Please try again.", bundle: .app)
+        case .weakPassword:
+            String(localized: "Choose a less predictable password that doesn't include your email or username.", bundle: .app)
+        case .passwordBreached:
+            String(localized: "This password appeared in a data breach. Please choose another.", bundle: .app)
+        case .rateLimited:
+            rateLimitMessage(retryAfter: nil)
         case .termsNotAccepted, .privacyNotAccepted, .consentVersionMismatch:
             String(localized: "Our terms were just updated. Please review and accept them again.", bundle: .app)
-        case .malformedRequest, .invalidParameter, .badRequest, .invalidBounds, .forbidden,
+        case .malformedRequest, .invalidParameter, .badRequest, .invalidBounds, .forbidden, .requestTooLarge,
              .cannotModifySelf, .methodNotAllowed, .unknown, nil:
             String(localized: "Something went wrong. Please try again.", bundle: .app)
         }

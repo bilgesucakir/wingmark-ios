@@ -12,7 +12,10 @@ struct WingmarkApp: App {
                 .environment(session)
                 .environment(\.locale, language.locale)
                 .preferredColorScheme(appearance.colorScheme)
-                .task { await session.restore() }
+                .task {
+                    LocalData.clearSessionFromPreviousInstall(session.client.tokenStore)
+                    await session.restore()
+                }
         }
     }
 }
