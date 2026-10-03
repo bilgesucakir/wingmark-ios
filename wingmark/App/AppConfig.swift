@@ -19,8 +19,8 @@ enum AppConfig {
     static let requestTimeout: TimeInterval = 30
 
     // Business details shown in Settings → About. Placeholders until the real values are decided; never invent them.
-    static let developerName = "[[DEVELOPER_NAME]]"
-    static let supportEmail = "[[SUPPORT_EMAIL]]"
+    static let developerName = "Bilgesu Çakır"
+    static let supportEmail = "support.wingmark@gmail.com"
 
     /// Governs use of the app itself while Wingmark publishes no custom terms.
     static let appleStandardEULA = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
