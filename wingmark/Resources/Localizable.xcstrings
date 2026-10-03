@@ -60,6 +60,16 @@
     "000000" : {
       "shouldTranslate" : false
     },
+    "10–72 characters" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10–72 karakter"
+          }
+        }
+      }
+    },
     "6-digit code" : {
       "localizations" : {
         "tr" : {
@@ -227,6 +237,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Görünüm"
+          }
+        }
+      }
+    },
+    "At least one letter and one number" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En az bir harf ve bir rakam"
           }
         }
       }
@@ -407,6 +427,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mevcut şifrenden farklı bir şifre seç."
+          }
+        }
+      }
+    },
+    "Choose a less predictable password that doesn't include your email or username." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-postanı veya kullanıcı adını içermeyen, tahmin edilmesi daha zor bir şifre seç."
           }
         }
       }
@@ -819,6 +849,16 @@
         }
       }
     },
+    "Doesn't include your email or username" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-postanı veya kullanıcı adını içermiyor"
+          }
+        }
+      }
+    },
     "Don't have an account? Sign Up" : {
       "localizations" : {
         "en" : {
@@ -831,6 +871,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hesabın yok mu? Kayıt Ol"
+          }
+        }
+      }
+    },
+    "Don't include your email or username in your password." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrende e-postanı veya kullanıcı adını kullanma."
           }
         }
       }
@@ -1610,6 +1660,16 @@
         }
       }
     },
+    "Met" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karşılandı"
+          }
+        }
+      }
+    },
     "Metric (km, m)" : {
       "localizations" : {
         "en" : {
@@ -1850,6 +1910,16 @@
         }
       }
     },
+    "Not met" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karşılanmadı"
+          }
+        }
+      }
+    },
     "Not sure yet" : {
       "localizations" : {
         "en" : {
@@ -1968,16 +2038,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifreler eşleşmiyor."
-          }
-        }
-      }
-    },
-    "Passwords need 8–72 characters with at least one letter and one number." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şifre 8–72 karakter olmalı ve en az bir harf ile bir rakam içermeli."
           }
         }
       }
@@ -2768,6 +2828,16 @@
         }
       }
     },
+    "This password appeared in a data breach. Please choose another." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu şifre bir veri sızıntısında yer almış. Lütfen başka bir şifre seç."
+          }
+        }
+      }
+    },
     "This sighting no longer exists." : {
       "localizations" : {
         "tr" : {
@@ -2784,6 +2854,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu kullanıcı adı zaten alınmış."
+          }
+        }
+      }
+    },
+    "Too many attempts. Try again in %lld minutes." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çok fazla deneme yapıldı. %lld dakika sonra tekrar dene."
+          }
+        }
+      }
+    },
+    "Too many attempts. Try again in a minute." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çok fazla deneme yapıldı. Bir dakika sonra tekrar dene."
           }
         }
       }
@@ -2850,22 +2940,22 @@
         }
       }
     },
+    "Use 10–72 characters with at least one letter and one number." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En az bir harf ve bir rakam içeren 10–72 karakter kullan."
+          }
+        }
+      }
+    },
     "Use 3–30 characters." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "3–30 karakter kullan."
-          }
-        }
-      }
-    },
-    "Use 8–72 characters with at least one letter and one number." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En az bir harf ve bir rakam içeren 8–72 karakter kullan."
           }
         }
       }
@@ -2958,6 +3048,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "**%@** adresine bir doğrulama bağlantısı gönderdik. Hesabını etkinleştirmek için bağlantıyı aç, sonra giriş yap."
+          }
+        }
+      }
+    },
+    "We've emailed you a confirmation." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sana bir onay e-postası gönderdik."
           }
         }
       }
@@ -3081,12 +3181,12 @@
         }
       }
     },
-    "Your password was reset. Log in with your new password." : {
+    "Your password was reset. We've emailed you a confirmation. Log in with your new password." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şifren sıfırlandı. Yeni şifrenle giriş yap."
+            "value" : "Şifren sıfırlandı. Sana bir onay e-postası gönderdik. Yeni şifrenle giriş yap."
           }
         }
       }

@@ -24,7 +24,7 @@ struct AuthFlowView: View {
                         ForgotPasswordView(path: $path, initialEmail: email)
                     case .resetPassword(let email):
                         ResetPasswordView(email: email) {
-                            loginNotice = "Your password was reset. Log in with your new password."
+                            loginNotice = "Your password was reset. We've emailed you a confirmation. Log in with your new password."
                             path = [.login]
                         }
                     }
@@ -78,6 +78,7 @@ struct WelcomeView: View {
                 .buttonStyle(.bordered)
             }
             .controlSize(.large)
+            LegalLinks()
         }
         .padding(24)
         .toolbar(.hidden, for: .navigationBar)

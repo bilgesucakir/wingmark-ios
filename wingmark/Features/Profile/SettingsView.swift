@@ -121,8 +121,12 @@ struct ChangePasswordView: View {
     @State private var isSaving = false
     @State private var didSave = false
 
+    private var rules: PasswordRules {
+        PasswordRules(password: new, email: session.profile?.email ?? "", username: session.profile?.username ?? "")
+    }
+
     private var isValid: Bool {
-        !current.isEmpty && AuthValidation.passwordError(new) == nil
+        !current.isEmpty && rules.isSatisfied
             && AuthValidation.confirmationError(new, confirmation) == nil
     }
 
@@ -139,7 +143,9 @@ struct ChangePasswordView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     SecureField("New Password", text: $new)
                         .textContentType(.newPassword)
-                    FieldError(message: newServerError ?? (showValidation ? AuthValidation.passwordError(new) : nil))
+                    FieldError(message: newServerError ?? (showValidation
+                        ? AuthValidation.passwordError(new, email: rules.email, username: rules.username) : nil))
+                    PasswordRequirements(rules: rules)
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     SecureField("Confirm New Password", text: $confirmation)
@@ -154,7 +160,7 @@ struct ChangePasswordView: View {
             }
             Section {
                 PrimaryActionButton(title: "Change Password", isLoading: isSaving, action: save)
-                    .disabled(current.isEmpty || new.isEmpty || confirmation.isEmpty || isSaving)
+                    .disabled(current.isEmpty || !rules.isSatisfied || confirmation.isEmpty || isSaving)
             }
         }
         .navigationTitle("Change Password")
@@ -163,6 +169,8 @@ struct ChangePasswordView: View {
         .onChange(of: new) { newServerError = nil }
         .alert("Password changed", isPresented: $didSave) {
             Button("OK") { dismiss() }
+        } message: {
+            Text("We've emailed you a confirmation.")
         }
     }
 
@@ -184,6 +192,8 @@ struct ChangePasswordView: View {
                     newServerError = String(localized: "Your new password must be different from the current one.", bundle: .app)
                 case .validationFailed:
                     newServerError = AuthValidation.serverFieldMessage(for: "newPassword")
+                case .weakPassword, .passwordBreached:
+                    newServerError = error.userMessage
                 default:
                     errorMessage = error.userMessage
                 }

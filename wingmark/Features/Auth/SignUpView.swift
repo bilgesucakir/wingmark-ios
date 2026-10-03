@@ -23,10 +23,12 @@ struct SignUpView: View {
         serverErrors[field] ?? (showValidation ? client : nil)
     }
 
+    private var rules: PasswordRules { PasswordRules(password: password, email: email, username: username) }
+
     private var isValid: Bool {
         AuthValidation.usernameError(username) == nil
             && AuthValidation.emailError(email) == nil
-            && AuthValidation.passwordError(password) == nil
+            && rules.isSatisfied
     }
 
     private var acceptedAll: Bool { Set(legal.published).isSubset(of: accepted) }
@@ -61,10 +63,9 @@ struct SignUpView: View {
                         .focused($focus, equals: .password)
                         .submitLabel(.next)
                         .onSubmit { focus = .firstName }
-                    FieldError(message: error(for: "password", client: AuthValidation.passwordError(password)))
+                    FieldError(message: error(for: "password", client: AuthValidation.passwordError(password, email: email, username: username)))
+                    PasswordRequirements(rules: rules)
                 }
-            } footer: {
-                Text("Passwords need 8–72 characters with at least one letter and one number.")
             }
 
             Section("Name (Optional)") {
@@ -98,7 +99,7 @@ struct SignUpView: View {
 
             Section {
                 PrimaryActionButton(title: "Create Account", isLoading: isLoading, action: signUp)
-                    .disabled(username.isEmpty || email.isEmpty || password.isEmpty || !acceptedAll || isLoading)
+                    .disabled(username.isEmpty || email.isEmpty || !rules.isSatisfied || !acceptedAll || isLoading)
             } footer: {
                 FieldError(message: errorMessage)
             }
@@ -155,6 +156,8 @@ struct SignUpView: View {
                     serverErrors["username"] = String(localized: "This username is already taken.", bundle: .app)
                 case .validationFailed:
                     serverErrors = AuthValidation.serverFieldErrors(error)
+                case .weakPassword, .passwordBreached:
+                    serverErrors["password"] = error.userMessage
                 case .termsNotAccepted, .privacyNotAccepted:
                     // The documents changed since this screen loaded, so ask again for the new versions.
                     accepted = []

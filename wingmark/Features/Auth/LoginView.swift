@@ -10,6 +10,7 @@ struct LoginView: View {
     @State private var showValidation = false
     @State private var errorMessage: String?
     @State private var isLoading = false
+    @State private var isRateLimited = false
     @FocusState private var focus: Field?
 
     private enum Field { case email, password }
@@ -48,7 +49,7 @@ struct LoginView: View {
 
             Section {
                 PrimaryActionButton(title: "Log In", isLoading: isLoading, action: logIn)
-                    .disabled(email.isEmpty || password.isEmpty || isLoading)
+                    .disabled(email.isEmpty || password.isEmpty || isLoading || isRateLimited)
             }
 
             Section {
@@ -58,6 +59,8 @@ struct LoginView: View {
                 Button("Create an Account") {
                     path = [.signUp]
                 }
+            } footer: {
+                LegalLinks()
             }
         }
         .navigationTitle("Log In")
@@ -69,7 +72,7 @@ struct LoginView: View {
 
     private func logIn() {
         showValidation = true
-        guard AuthValidation.emailError(email) == nil, !password.isEmpty, !isLoading else { return }
+        guard AuthValidation.emailError(email) == nil, !password.isEmpty, !isLoading, !isRateLimited else { return }
         errorMessage = nil
         notice = nil
         isLoading = true
@@ -81,7 +84,20 @@ struct LoginView: View {
                 errorMessage = error.code == .invalidCredentials
                     ? String(localized: "Wrong email or password.", bundle: .app)
                     : error.userMessage
+                if error.isRateLimited { lockUntilRetry(after: error.retryAfter ?? 60) }
             }
+        }
+    }
+}
+
+extension LoginView {
+    /// The server refuses logins until `Retry-After` passes, so trying earlier would only extend the wait.
+    private func lockUntilRetry(after seconds: TimeInterval) {
+        isRateLimited = true
+        Task {
+            try? await Task.sleep(for: .seconds(seconds))
+            isRateLimited = false
+            errorMessage = nil
         }
     }
 }

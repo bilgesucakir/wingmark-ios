@@ -142,4 +142,55 @@ struct ComplianceTests {
             #expect(body?.code != .unknown)
         }
     }
+
+    @Test func rateLimitIsReportedWithRetryAfterAndNeverRefreshes() async throws {
+        let (session, transport) = makeSession { request in
+            var reply = Fixtures.error(status: 429, code: "RATE_LIMITED")
+            reply.headers = ["Retry-After": "300"]
+            return reply
+        }
+        await session.restore()
+        do {
+            try await session.logIn(email: "ada@example.com", password: "birdsong2026")
+            Issue.record("expected a rate-limit error")
+        } catch {
+            #expect(error.isRateLimited)
+            #expect(error.retryAfter == 300)
+            #expect(error.userMessage == APIError.rateLimitMessage(retryAfter: 300))
+        }
+        #expect(transport.requests(to: "/api/auth/refresh").isEmpty)
+        #expect(transport.requests.count == 1)
+    }
+
+    @Test func rateLimitWithoutBodyIsStillRecognized() async throws {
+        let (session, _) = makeSession { _ in .init(status: 429, body: "", headers: ["Retry-After": "30"]) }
+        await session.restore()
+        await #expect(throws: APIError.self) { try await session.requestPasswordReset(email: "ada@example.com") }
+        do {
+            try await session.requestPasswordReset(email: "ada@example.com")
+        } catch {
+            #expect(error.isRateLimited)
+            #expect(error.userMessage == APIError.rateLimitMessage(retryAfter: 30))
+        }
+    }
+
+    @Test func passwordStrengthErrorsHaveTheirOwnMessages() {
+        let weak = APIError.server(status: 400, body: APIErrorBody(status: 400, code: .weakPassword, message: nil, path: nil, validationErrors: nil))
+        let breached = APIError.server(status: 400, body: APIErrorBody(status: 400, code: .passwordBreached, message: nil, path: nil, validationErrors: nil))
+        let generic = APIError.server(status: 500, body: nil).userMessage
+        #expect(weak.userMessage != generic && breached.userMessage != generic && weak.userMessage != breached.userMessage)
+    }
+}
+
+struct ReinstallTests {
+    @Test func freshInstallClearsLeftoverTokensOnce() throws {
+        let defaults = try #require(UserDefaults(suiteName: "reinstall-\(UUID().uuidString)"))
+        let store = InMemoryTokenStore(Fixtures.tokens("a"))
+        LocalData.clearSessionFromPreviousInstall(store, defaults: defaults)
+        #expect(store.tokens == nil)
+
+        store.save(Fixtures.tokens("b"))
+        LocalData.clearSessionFromPreviousInstall(store, defaults: defaults)
+        #expect(store.tokens == Fixtures.tokens("b"))
+    }
 }

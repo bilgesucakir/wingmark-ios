@@ -92,7 +92,13 @@ final class APIClient {
         }
 
         guard (200..<300).contains(response.statusCode) else {
-            let body = try? JSONCoding.makeDecoder().decode(APIErrorBody.self, from: data)
+            var body = try? JSONCoding.makeDecoder().decode(APIErrorBody.self, from: data)
+            if response.statusCode == 429 {
+                // Never retried automatically; the caller shows the wait from Retry-After.
+                let retryAfter = response.value(forHTTPHeaderField: "Retry-After").flatMap(TimeInterval.init)
+                body = body ?? APIErrorBody(status: 429, code: .rateLimited, message: nil, path: nil, validationErrors: nil)
+                body?.retryAfter = retryAfter
+            }
             // Paths carry user ids and messages may echo input, so only the method, status and code are public.
             Self.log.error("\(endpoint.method.rawValue, privacy: .public) \(endpoint.path, privacy: .private) → \(response.statusCode) \(body?.code?.rawValue ?? "-", privacy: .public) \(body?.message ?? "", privacy: .private)")
             throw .server(status: response.statusCode, body: body)

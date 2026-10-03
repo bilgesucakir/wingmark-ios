@@ -75,3 +75,46 @@ struct OneTimeCodeField: View {
             }
     }
 }
+
+/// Live checklist of the password rules, shown under new-password fields.
+struct PasswordRequirements: View {
+    let rules: PasswordRules
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            row("10–72 characters", met: rules.hasValidLength)
+            row("At least one letter and one number", met: rules.hasLetterAndDigit)
+            row("Doesn't include your email or username", met: rules.avoidsPersonalInfo)
+        }
+        .font(.footnote)
+    }
+
+    private func row(_ title: LocalizedStringKey, met: Bool) -> some View {
+        Label {
+            Text(title)
+        } icon: {
+            Image(systemName: met ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(met ? AnyShapeStyle(.green) : AnyShapeStyle(.secondary))
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(met ? Text("Met") : Text("Not met"))
+    }
+}
+
+/// Privacy Policy and Terms links for the signed-out screens (Guideline 5.1.1(i)); hidden until a document is published.
+struct LegalLinks: View {
+    @Environment(AuthSession.self) private var session
+    @State private var legal = LegalDocuments.unpublished
+
+    var body: some View {
+        HStack(spacing: 16) {
+            ForEach(ConsentType.allCases.reversed(), id: \.self) { type in
+                if let url = legal.url(of: type) {
+                    Link(type.title, destination: url)
+                }
+            }
+        }
+        .font(.footnote)
+        .task { if let documents = try? await session.legalDocuments() { legal = documents } }
+    }
+}
