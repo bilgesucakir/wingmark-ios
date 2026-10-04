@@ -145,7 +145,6 @@ struct ChangePasswordView: View {
                         .textContentType(.newPassword)
                     FieldError(message: newServerError ?? (showValidation
                         ? AuthValidation.passwordError(new, email: rules.email, username: rules.username) : nil))
-                    PasswordRequirements(rules: rules)
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     SecureField("Confirm New Password", text: $confirmation)
@@ -153,14 +152,16 @@ struct ChangePasswordView: View {
                     FieldError(message: showValidation ? AuthValidation.confirmationError(new, confirmation) : nil)
                 }
             } footer: {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("You'll stay logged in here; other devices will be signed out.")
-                    FieldError(message: errorMessage)
-                }
+                PasswordRequirements(rules: rules)
             }
             Section {
                 PrimaryActionButton(title: "Change Password", isLoading: isSaving, action: save)
                     .disabled(current.isEmpty || !rules.isSatisfied || confirmation.isEmpty || isSaving)
+            } footer: {
+                VStack(alignment: .leading, spacing: 8) {
+                    FieldError(message: errorMessage)
+                    Text("You'll stay logged in here; other devices will be signed out.")
+                }
             }
         }
         .navigationTitle("Change Password")
