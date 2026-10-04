@@ -84,15 +84,7 @@ struct SignUpView: View {
 
             if !legal.published.isEmpty {
                 Section {
-                    ForEach(legal.published, id: \.self) { type in
-                        if let url = legal.url(of: type) {
-                            LegalDocumentLink(title: type.title, url: url)
-                        }
-                        Toggle(type.acceptanceLabel, isOn: Binding(
-                            get: { accepted.contains(type) },
-                            set: { if $0 { accepted.insert(type) } else { accepted.remove(type) } }
-                        ))
-                    }
+                    ConsentRows(types: legal.published, documents: legal, accepted: $accepted)
                 }
             }
 
