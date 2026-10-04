@@ -123,6 +123,16 @@
         }
       }
     },
+    "Add a photo, and the place and time can fill in for you. Pick the species, or mark it as a guess." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir fotoğraf ekle; yer ve zaman senin için otomatik dolabilir. Türü seç ya da tahmin olarak işaretle."
+          }
+        }
+      }
+    },
     "Add Sighting" : {
       "localizations" : {
         "en" : {
@@ -351,6 +361,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bronz"
+          }
+        }
+      }
+    },
+    "Browse species in the Guide, listen to recordings, and earn badges as your diary grows." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rehber'de türlere göz at, kayıtları dinle ve günlüğün büyüdükçe rozetler kazan."
           }
         }
       }
@@ -1031,6 +1051,16 @@
         }
       }
     },
+    "Every bird you log becomes a pin. Filter the map by identification, gender or life stage." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydettiğin her kuş haritada bir iğne olur. Haritayı tanımlama, cinsiyet veya yaş evresine göre filtrele."
+          }
+        }
+      }
+    },
     "Family" : {
       "localizations" : {
         "tr" : {
@@ -1089,6 +1119,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtrele"
+          }
+        }
+      }
+    },
+    "Filter your map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritanı filtrele"
           }
         }
       }
@@ -1303,6 +1343,16 @@
         }
       }
     },
+    "If the photo has a location and date, they fill in where and when you saw the bird." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafta konum ve tarih varsa, kuşu nerede ve ne zaman gördüğün otomatik dolar."
+          }
+        }
+      }
+    },
     "Imperial (mi, ft)" : {
       "localizations" : {
         "en" : {
@@ -1392,6 +1442,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soyad"
+          }
+        }
+      }
+    },
+    "Learn and earn badges" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğren ve rozet kazan"
           }
         }
       }
@@ -1516,6 +1576,16 @@
         }
       }
     },
+    "Log a sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem kaydet"
+          }
+        }
+      }
+    },
     "Log In" : {
       "localizations" : {
         "en" : {
@@ -1584,6 +1654,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gördüğün kuşları kaydet, türlerini tanı ve yol boyunca rozetler kazan."
+          }
+        }
+      }
+    },
+    "Log what you see" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gördüğünü kaydet"
           }
         }
       }
@@ -1754,6 +1834,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ad (Z–A)"
+          }
+        }
+      }
+    },
+    "Narrow the pins by identification, gender or life stage." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İğneleri tanımlama, cinsiyet veya yaş evresine göre daralt."
           }
         }
       }
@@ -2002,6 +2092,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Koşullarımız az önce güncellendi. Lütfen gözden geçirip yeniden kabul et."
+          }
+        }
+      }
+    },
+    "Page %lld of %lld" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sayfa %lld / %lld"
           }
         }
       }
@@ -2366,6 +2466,16 @@
         }
       }
     },
+    "See your sightings on a map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlerini haritada gör"
+          }
+        }
+      }
+    },
     "Seen" : {
       "localizations" : {
         "tr" : {
@@ -2612,6 +2722,16 @@
         }
       }
     },
+    "Start with a photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir fotoğrafla başla"
+          }
+        }
+      }
+    },
     "Stats" : {
       "localizations" : {
         "tr" : {
@@ -2648,6 +2768,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotoğraf Çek"
+          }
+        }
+      }
+    },
+    "Tap + to add a bird you've seen. A photo can fill in the place and time." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gördüğün bir kuşu eklemek için + simgesine dokun. Fotoğraf, yer ve zamanı doldurabilir."
           }
         }
       }

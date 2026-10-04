@@ -43,8 +43,10 @@ struct LoginView: View {
                     .focused($focus, equals: .password)
                     .submitLabel(.go)
                     .onSubmit(logIn)
-            } footer: {
-                FieldError(message: errorMessage)
+                // A row only when there is an error, so no empty footer pushes the button down.
+                if let errorMessage {
+                    FieldError(message: errorMessage)
+                }
             }
 
             Section {
@@ -63,6 +65,7 @@ struct LoginView: View {
                 LegalLinks()
             }
         }
+        .listSectionSpacing(.compact)
         .navigationTitle("Log In")
         .disabled(isLoading)
         .onAppear { if email.isEmpty { focus = .email } }

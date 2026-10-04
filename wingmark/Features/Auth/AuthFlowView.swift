@@ -36,32 +36,20 @@ struct AuthFlowView: View {
 struct WelcomeView: View {
     @Environment(AuthSession.self) private var session
     @Binding var path: [AuthRoute]
+    @State private var page = 0
 
     var body: some View {
-        VStack(spacing: 32) {
-            Spacer()
-            VStack(spacing: 12) {
-                Image(systemName: "bird.fill")
-                    .font(.system(size: 64))
-                    .foregroundStyle(.tint)
-                    .accessibilityHidden(true)
-                Text("Wingmark")
-                    .font(.largeTitle.bold())
-                Text("Log the birds you see, learn about their species and earn badges along the way.")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
+        VStack(spacing: 16) {
+            TabView(selection: $page) {
+                introPage.tag(0)
+                ForEach(Array(OnboardingPage.allCases.enumerated()), id: \.element) { index, item in
+                    OnboardingPageView(page: item).tag(index + 1)
+                }
             }
-            if session.accountDeletedNotice {
-                Label("Your account has been deleted. We've sent you a confirmation email.", systemImage: "checkmark.circle")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            } else if session.sessionExpiredNotice {
-                Label("Your session has ended. Please log in again.", systemImage: "info.circle")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            PageDots(count: OnboardingPage.allCases.count + 1, selection: $page)
+
+            notice
             VStack(spacing: 12) {
                 Button {
                     path.append(.login)
@@ -82,6 +70,37 @@ struct WelcomeView: View {
         }
         .padding(24)
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var introPage: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "bird.fill")
+                .font(.system(size: 64))
+                .foregroundStyle(.tint)
+                .accessibilityHidden(true)
+            Text("Wingmark")
+                .font(.largeTitle.bold())
+            Text("Log the birds you see, learn about their species and earn badges along the way.")
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 48)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    @ViewBuilder
+    private var notice: some View {
+        if session.accountDeletedNotice {
+            Label("Your account has been deleted. We've sent you a confirmation email.", systemImage: "checkmark.circle")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        } else if session.sessionExpiredNotice {
+            Label("Your session has ended. Please log in again.", systemImage: "info.circle")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 

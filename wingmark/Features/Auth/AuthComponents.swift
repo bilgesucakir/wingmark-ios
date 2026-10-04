@@ -43,17 +43,21 @@ struct CooldownButton: View {
     var body: some View {
         TimelineView(.periodic(from: .now, by: 1)) { context in
             let remaining = Int(availableAt.timeIntervalSince(context.date).rounded(.up))
-            Button(action: action) {
-                if isLoading {
-                    ProgressView()
-                } else if remaining > 0 {
-                    Text("Resend in \(remaining) s")
-                        .monospacedDigit()
-                } else {
-                    Text(title)
+            if remaining > 0 && !isLoading {
+                // Plain gray text: a disabled button fades its label until it can hardly be read.
+                Text("Resend in \(remaining) s")
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+            } else {
+                Button(action: action) {
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        Text(title)
+                    }
                 }
+                .disabled(isLoading)
             }
-            .disabled(remaining > 0 || isLoading)
         }
     }
 }

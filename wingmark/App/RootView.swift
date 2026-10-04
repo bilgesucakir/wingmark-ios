@@ -19,6 +19,7 @@ struct RootView: View {
                     .id(language)
             }
         }
+        .opensLinksInApp()
         .animation(.default, value: session.state)
         .onChange(of: language) { _, newValue in
             Task {

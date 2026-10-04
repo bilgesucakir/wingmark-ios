@@ -78,9 +78,11 @@ final class AuthSession {
     func logIn(email: String, password: String) async throws(APIError) {
         do throws(APIError) {
             let tokens = try await client.send(AuthAPI.login(email: email, password: password))
-            try adopt(tokens)
+            // Known before the signed-in UI appears, so nothing there can show over the terms screen.
             pendingConsents = tokens.pendingConsentTypes
+            try adopt(tokens)
         } catch {
+            pendingConsents = []
             guard error.code == .emailNotVerified else { throw error }
             state = .needsVerification(email: email)
             return
