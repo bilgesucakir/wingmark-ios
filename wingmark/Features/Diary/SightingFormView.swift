@@ -1,6 +1,7 @@
 import MapKit
 import PhotosUI
 import SwiftUI
+import TipKit
 
 struct SightingFormView: View {
     @Environment(DiaryStore.self) private var store
@@ -112,8 +113,13 @@ struct SightingFormView: View {
             PhotosPicker(selection: $pickerItem, matching: .images, preferredItemEncoding: .current) {
                 Label(isPhotoEmpty ? "Choose Photo" : "Replace Photo", systemImage: "photo.on.rectangle")
             }
+            .popoverTip(PhotoPrefillTip(), arrowEdge: .top)
+            .onChange(of: pickerItem) { PhotoPrefillTip().invalidate(reason: .actionPerformed) }
             if isCameraAvailable {
-                Button("Take Photo", systemImage: "camera") { showCamera = true }
+                Button("Take Photo", systemImage: "camera") {
+                    PhotoPrefillTip().invalidate(reason: .actionPerformed)
+                    showCamera = true
+                }
             }
             if !isPhotoEmpty {
                 Button("Remove Photo", systemImage: "trash", role: .destructive) { model.removePhoto() }

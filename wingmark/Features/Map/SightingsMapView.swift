@@ -1,5 +1,6 @@
 import MapKit
 import SwiftUI
+import TipKit
 
 struct SightingsMapView: View {
     @Environment(MapStore.self) private var store
@@ -8,6 +9,11 @@ struct SightingsMapView: View {
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
+    // Ordered, so only one tip shows at a time: add a sighting first, then filters.
+    @State private var tips = TipGroup(.ordered) {
+        AddSightingTip()
+        MapFiltersTip()
+    }
     @State private var isLocating = false
     @State private var showLocationDenied = false
     @Environment(\.openURL) private var openURL
@@ -71,6 +77,7 @@ struct SightingsMapView: View {
             }
             .overlay(alignment: .bottomTrailing) {
                 Button {
+                    AddSightingTip().invalidate(reason: .actionPerformed)
                     path.append(.add)
                 } label: {
                     Label("Add Sighting", systemImage: "plus")
@@ -80,6 +87,7 @@ struct SightingsMapView: View {
                 }
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.circle)
+                .popoverTip(tips.currentTip as? AddSightingTip, arrowEdge: .bottom)
                 .padding(.trailing, 16)
                 .padding(.bottom, 24)
             }
@@ -101,6 +109,10 @@ struct SightingsMapView: View {
     private var overlayHeader: some View {
         VStack(spacing: 8) {
             MapFilterChips()
+                .popoverTip(tips.currentTip as? MapFiltersTip, arrowEdge: .top)
+                .onChange(of: store.filter.isActive) { _, isActive in
+                    if isActive { MapFiltersTip().invalidate(reason: .actionPerformed) }
+                }
             if store.isTruncated {
                 Label("Zoom in to see all sightings", systemImage: "plus.magnifyingglass")
                     .font(.footnote)
