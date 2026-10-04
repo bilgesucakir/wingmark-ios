@@ -51,6 +51,7 @@ struct ConsentUpdateView: View {
                     }
                 }
             }
+            .opensLinksInApp()
             .navigationTitle("Our Terms Changed")
             .disabled(isSaving)
             .task { await load() }

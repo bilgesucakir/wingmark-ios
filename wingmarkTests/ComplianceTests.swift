@@ -1,3 +1,4 @@
+import Observation
 import Foundation
 import Testing
 @testable import wingmark
@@ -192,5 +193,37 @@ struct ReinstallTests {
         store.save(Fixtures.tokens("b"))
         LocalData.clearSessionFromPreviousInstall(store, defaults: defaults)
         #expect(store.tokens == Fixtures.tokens("b"))
+    }
+}
+
+struct InAppBrowserTests {
+    @Test func onlyWebLinksOpenInTheApp() throws {
+        #expect(try #require(URL(string: "https://bilgesucakir.github.io/wingmark/privacy.html")).opensInApp)
+        #expect(try #require(URL(string: "HTTP://example.com")).opensInApp)
+        #expect(try !#require(URL(string: "mailto:support.wingmark@gmail.com")).opensInApp)
+        #expect(try !#require(URL(string: "app-settings:")).opensInApp)
+    }
+}
+
+struct TermsOrderingTests {
+    private final class Seen: @unchecked Sendable { var consents: [ConsentType]? }
+
+    @Test func pendingTermsAreKnownBeforeTheSignedInScreensAppear() async throws {
+        let transport = MockTransport { request in
+            request.url?.path == "/api/auth/login"
+                ? .init(status: 200, body: #"{"accessToken":"\#(Fixtures.tokens("a").accessToken)","refreshToken":"r","expiresInMs":900000,"pendingConsents":["PRIVACY"]}"#)
+                : .init(status: 200, body: Fixtures.userJSON)
+        }
+        let client = APIClient(baseURL: URL(string: "https://api.test")!, tokenStore: InMemoryTokenStore(), transport: transport)
+        let session = AuthSession(client: client, wipeLocalData: {})
+        await session.restore()
+
+        let seen = Seen()
+        withObservationTracking { _ = session.state } onChange: {
+            MainActor.assumeIsolated { seen.consents = session.pendingConsents }
+        }
+        try await session.logIn(email: "ada@example.com", password: "birdsong2026")
+
+        #expect(seen.consents == [.privacy])
     }
 }

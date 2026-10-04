@@ -5,6 +5,7 @@ import TipKit
 struct SightingsMapView: View {
     @Environment(MapStore.self) private var store
     @Environment(DiaryStore.self) private var diary
+    @Environment(AuthSession.self) private var session
 
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
@@ -87,7 +88,7 @@ struct SightingsMapView: View {
                 }
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.circle)
-                .popoverTip(tips.currentTip as? AddSightingTip, arrowEdge: .bottom)
+                .popoverTip(tipsAllowed ? tips.currentTip as? AddSightingTip : nil, arrowEdge: .bottom)
                 .padding(.trailing, 16)
                 .padding(.bottom, 24)
             }
@@ -106,10 +107,13 @@ struct SightingsMapView: View {
         }
     }
 
+    /// The Map tab is built under the "Our Terms Changed" screen, so tips wait until nothing is left to accept.
+    private var tipsAllowed: Bool { session.pendingConsents.isEmpty }
+
     private var overlayHeader: some View {
         VStack(spacing: 8) {
             MapFilterChips()
-                .popoverTip(tips.currentTip as? MapFiltersTip, arrowEdge: .top)
+                .popoverTip(tipsAllowed ? tips.currentTip as? MapFiltersTip : nil, arrowEdge: .top)
                 .onChange(of: store.filter.isActive) { _, isActive in
                     if isActive { MapFiltersTip().invalidate(reason: .actionPerformed) }
                 }
