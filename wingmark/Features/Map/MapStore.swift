@@ -66,12 +66,25 @@ struct MapCluster: Identifiable, Equatable {
         lhs.id == rhs.id && lhs.logs.map(\.id) == rhs.logs.map(\.id)
     }
 
+    /// Sightings within about a metre of each other count as the same spot (5 decimal places of a degree).
+    static func spotKey(_ log: BirdLog) -> String {
+        "\(Int((log.latitude * 100_000).rounded())):\(Int((log.longitude * 100_000).rounded()))"
+    }
+
+    /// False when every sighting in the cluster is at one spot, so zooming in could never separate them.
+    var hasSeparateSpots: Bool { Set(logs.map(Self.spotKey)).count > 1 }
+
     /// Buckets logs into a grid sized to the visible span; single-log buckets stay plain pins.
+    /// Fully zoomed in, only sightings at the same spot are grouped, so none is hidden under another pin.
     static func make(from logs: [BirdLog], region: MKCoordinateRegion, columns: Double = 5, rows: Double = 7) -> [MapCluster] {
         let box = GeoBox(region: region)
         let visible = logs.filter { $0.hasLocation && box.contains(latitude: $0.latitude, longitude: $0.longitude) }
         guard region.span.latitudeDelta > 0.002 else {
-            return visible.map { MapCluster(id: $0.id.uuidString, coordinate: $0.coordinate, logs: [$0]) }
+            return Dictionary(grouping: visible, by: spotKey).map { key, members in
+                members.count == 1
+                    ? MapCluster(id: members[0].id.uuidString, coordinate: members[0].coordinate, logs: members)
+                    : MapCluster(id: "spot-\(key)", coordinate: members[0].coordinate, logs: members)
+            }
         }
         let cellLat = region.span.latitudeDelta / rows
         let cellLng = min(region.span.longitudeDelta, 360) / columns

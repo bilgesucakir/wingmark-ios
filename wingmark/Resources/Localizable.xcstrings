@@ -2266,6 +2266,16 @@
         }
       }
     },
+    "Shows the sightings in a list" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemleri liste olarak gösterir"
+          }
+        }
+      }
+    },
     "Sighting Location" : {
       "localizations" : {
         "tr" : {
@@ -2975,22 +2985,22 @@
         }
       }
     },
+    "Zoom In" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yakınlaştır"
+          }
+        }
+      }
+    },
     "Zoom in to see all sightings" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm gözlemleri görmek için yakınlaştır"
-          }
-        }
-      }
-    },
-    "Zooms in to show them" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Göstermek için yakınlaştırır"
           }
         }
       }

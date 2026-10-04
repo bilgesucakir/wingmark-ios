@@ -67,6 +67,27 @@ struct ClusterTests {
         #expect(MapCluster.make(from: logs, region: region).allSatisfy { $0.logs.count == 1 })
     }
 
+    @Test func groupsSightingsAtTheSameSpotEvenWhenFullyZoomedIn() throws {
+        let logs = [try log(1, 41.0, 29.0), try log(2, 41.0, 29.0), try log(3, 41.0, 29.0), try log(4, 41.0004, 29.0004)]
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41, longitude: 29),
+                                        span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+        let clusters = MapCluster.make(from: logs, region: region)
+        #expect(clusters.count == 2)
+        let sameSpot = try #require(clusters.first { $0.logs.count == 3 })
+        #expect(Set(sameSpot.logs.map(\.id)) == Set(logs.prefix(3).map(\.id)))
+        #expect(!sameSpot.hasSeparateSpots)
+        #expect(clusters.contains { $0.logs.count == 1 })
+    }
+
+    @Test func aClusterKnowsWhetherZoomingInCouldSeparateIt() throws {
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 42, longitude: 31),
+                                        span: MKCoordinateSpan(latitudeDelta: 14, longitudeDelta: 14))
+        let apart = MapCluster.make(from: [try log(1, 41.001, 29.001), try log(2, 41.002, 29.002)], region: region)
+        #expect(apart.count == 1 && apart[0].hasSeparateSpots)
+        let together = MapCluster.make(from: [try log(1, 41.001, 29.001), try log(2, 41.001, 29.001)], region: region)
+        #expect(together.count == 1 && !together[0].hasSeparateSpots)
+    }
+
     @Test func skipsLogsOutsideTheRegion() throws {
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41, longitude: 29),
                                         span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))

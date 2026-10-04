@@ -10,6 +10,7 @@ struct SightingsMapView: View {
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
+    @State private var listedCluster: MapCluster?
     // Ordered, so only one tip shows at a time: add a sighting first, then filters.
     @State private var tips = TipGroup(.ordered) {
         AddSightingTip()
@@ -32,12 +33,12 @@ struct SightingsMapView: View {
                     Annotation("", coordinate: cluster.coordinate, anchor: .center) {
                         if cluster.logs.count == 1, let log = cluster.logs.first {
                             SightingPin(log: log, isSelected: selected?.id == log.id)
-                                .onTapGesture { selected = log }
-                                .accessibilityAction { selected = log }
+                                .onTapGesture { select(log) }
+                                .accessibilityAction { select(log) }
                         } else {
                             ClusterPin(count: cluster.logs.count)
-                                .onTapGesture { zoom(into: cluster) }
-                                .accessibilityAction { zoom(into: cluster) }
+                                .onTapGesture { list(cluster) }
+                                .accessibilityAction { list(cluster) }
                         }
                     }
                     .annotationTitles(.hidden)
@@ -101,6 +102,20 @@ struct SightingsMapView: View {
                 .presentationDetents([.height(220), .medium])
                 .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             }
+            .sheet(item: $listedCluster) { cluster in
+                ClusterListSheet(
+                    cluster: cluster,
+                    onZoomIn: cluster.hasSeparateSpots ? {
+                        listedCluster = nil
+                        zoom(into: cluster)
+                    } : nil,
+                    onShowDetails: { log in
+                        listedCluster = nil
+                        path.append(.detail(log.id))
+                    }
+                )
+                .presentationDetents([.medium, .large])
+            }
             .sightingDestinations(path: $path)
             .onChange(of: diary.revision) { store.reset() }
             .onAppear { store.reload() }
@@ -154,6 +169,16 @@ struct SightingsMapView: View {
                 if error == .denied { showLocationDenied = true }
             }
         }
+    }
+
+    private func select(_ log: BirdLog) {
+        listedCluster = nil
+        selected = log
+    }
+
+    private func list(_ cluster: MapCluster) {
+        selected = nil
+        listedCluster = cluster
     }
 
     private func zoom(into cluster: MapCluster) {
@@ -264,8 +289,42 @@ private struct ClusterPin: View {
             .frame(minWidth: 44, minHeight: 44)
             .contentShape(.circle)
             .accessibilityLabel(Text("\(count) sightings"))
-            .accessibilityHint(Text("Zooms in to show them"))
+            .accessibilityHint(Text("Shows the sightings in a list"))
             .accessibilityAddTraits(.isButton)
+    }
+}
+
+/// The sightings under a numbered pin, newest first. Tapping one shows the same summary as a single pin.
+struct ClusterListSheet: View {
+    let cluster: MapCluster
+    let onZoomIn: (() -> Void)?
+    let onShowDetails: (BirdLog) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List(cluster.logs.sorted { $0.observedAt > $1.observedAt }) { log in
+                NavigationLink {
+                    SightingSummarySheet(log: log) { onShowDetails(log) }
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    SightingRow(log: log)
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle("\(cluster.logs.count) sightings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                if let onZoomIn {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Zoom In", systemImage: "plus.magnifyingglass", action: onZoomIn)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(role: .close) { dismiss() }
+                }
+            }
+        }
     }
 }
 
