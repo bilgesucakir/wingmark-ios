@@ -271,38 +271,6 @@
         }
       }
     },
-    "Baby" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baby"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yavru"
-          }
-        }
-      }
-    },
-    "Baby Watcher" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baby Watcher"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yavru Gözlemcisi"
-          }
-        }
-      }
-    },
     "Badges" : {
       "localizations" : {
         "en" : {
@@ -391,22 +359,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifreyi Değiştir"
-          }
-        }
-      }
-    },
-    "Changes take effect immediately." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Changes take effect immediately."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Değişiklikler hemen uygulanır."
           }
         }
       }
@@ -507,16 +459,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtreleri Temizle"
-          }
-        }
-      }
-    },
-    "Coming soon." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yakında."
           }
         }
       }
@@ -879,38 +821,12 @@
         }
       }
     },
-    "Don't have an account? Sign Up" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Don't have an account? Sign Up"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hesabın yok mu? Kayıt Ol"
-          }
-        }
-      }
-    },
     "Don't include your email or username in your password." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifrende e-postanı veya kullanıcı adını kullanma."
-          }
-        }
-      }
-    },
-    "Done" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bitti"
           }
         }
       }
@@ -1097,22 +1013,6 @@
         }
       }
     },
-    "Fifty Sightings" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fifty Sightings"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elli Gözlem"
-          }
-        }
-      }
-    },
     "Filter" : {
       "localizations" : {
         "tr" : {
@@ -1155,38 +1055,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ad"
-          }
-        }
-      }
-    },
-    "First Sighting" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "First Sighting"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İlk Gözlem"
-          }
-        }
-      }
-    },
-    "Five Species" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Five Species"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beş Tür"
           }
         }
       }
@@ -1353,56 +1221,8 @@
         }
       }
     },
-    "Imperial (mi, ft)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Imperial (mi, ft)"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İngiliz birimi (mil, ft)"
-          }
-        }
-      }
-    },
     "inaturalist.org" : {
       "shouldTranslate" : false
-    },
-    "Join Wingmark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Join Wingmark"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wingmark'a Katıl"
-          }
-        }
-      }
-    },
-    "Just a guess" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Just a guess"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sadece tahmin"
-          }
-        }
-      }
     },
     "Juvenile" : {
       "localizations" : {
@@ -1750,44 +1570,12 @@
         }
       }
     },
-    "Metric (km, m)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Metric (km, m)"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Metrik (km, m)"
-          }
-        }
-      }
-    },
     "Move the map to place the pin" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "İğneyi yerleştirmek için haritayı kaydır"
-          }
-        }
-      }
-    },
-    "Mystery Bird" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mystery Bird"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizemli Kuş"
           }
         }
       }
@@ -1964,22 +1752,6 @@
         }
       }
     },
-    "No species identified yet" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No species identified yet"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Henüz tür belirlenmedi"
-          }
-        }
-      }
-    },
     "None" : {
       "localizations" : {
         "tr" : {
@@ -2006,22 +1778,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Karşılanmadı"
-          }
-        }
-      }
-    },
-    "Not sure yet" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not sure yet"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Henüz emin değilim"
           }
         }
       }
@@ -2162,22 +1918,6 @@
         }
       }
     },
-    "Pet Lover" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pet Lover"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evcil Hayvan Sever"
-          }
-        }
-      }
-    },
     "Photo" : {
       "localizations" : {
         "tr" : {
@@ -2306,22 +2046,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profil Fotoğrafı"
-          }
-        }
-      }
-    },
-    "Public" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Public"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Herkese Açık"
           }
         }
       }
@@ -2496,22 +2220,6 @@
         }
       }
     },
-    "Select a sighting" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select a sighting"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir gözlem seçin"
-          }
-        }
-      }
-    },
     "Send Code" : {
       "localizations" : {
         "tr" : {
@@ -2590,22 +2298,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gözlemler"
-          }
-        }
-      }
-    },
-    "Sign Up" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign Up"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kayıt Ol"
           }
         }
       }
@@ -2778,22 +2470,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gördüğün bir kuşu eklemek için + simgesine dokun. Fotoğraf, yer ve zamanı doldurabilir."
-          }
-        }
-      }
-    },
-    "Ten Sightings" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ten Sightings"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On Gözlem"
           }
         }
       }
@@ -3018,22 +2694,6 @@
         }
       }
     },
-    "Twenty Species" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twenty Species"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yirmi Tür"
-          }
-        }
-      }
-    },
     "Unidentified" : {
       "localizations" : {
         "tr" : {
@@ -3132,22 +2792,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kullanıcı Adı"
-          }
-        }
-      }
-    },
-    "Username: 3-30 characters. Password: at least 8 characters with a letter and a number." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Username: 3-30 characters. Password: at least 8 characters with a letter and a number."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kullanıcı adı: 3-30 karakter. Şifre: en az 8 karakter, bir harf ve bir rakam içermeli."
           }
         }
       }
@@ -3271,16 +2915,6 @@
         }
       }
     },
-    "You're signed in." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Giriş yaptın."
-          }
-        }
-      }
-    },
     "Your account has been deleted. We've sent you a confirmation email." : {
       "localizations" : {
         "tr" : {
@@ -3337,22 +2971,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gözlemlerin"
-          }
-        }
-      }
-    },
-    "Your sightings, mapped" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your sightings, mapped"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlemleriniz haritada"
           }
         }
       }
