@@ -214,12 +214,23 @@ struct BadgeCelebration: View {
                         }
                     }
                 }
-                Button("Nice!", action: onDismiss)
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
             }
-            .padding(28)
+            .padding(.horizontal, 28)
+            .padding(.bottom, 28)
+            .padding(.top, 48)
             .background(.regularMaterial, in: .rect(cornerRadius: 28))
+            .overlay(alignment: .topTrailing) {
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Close"))
+                .padding(8)
+            }
             .padding(32)
         }
         .sensoryFeedback(.success, trigger: appeared)
@@ -227,5 +238,6 @@ struct BadgeCelebration: View {
             withAnimation(reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.55)) { appeared = true }
         }
         .accessibilityAddTraits(.isModal)
+        .accessibilityAction(.escape, onDismiss)
     }
 }
