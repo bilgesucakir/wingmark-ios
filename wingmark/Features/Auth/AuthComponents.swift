@@ -89,15 +89,11 @@ struct PasswordRequirements: View {
         .font(.footnote)
     }
 
+    /// Gray once met, red until then. VoiceOver says "Met" / "Not met" so color isn't the only signal.
     private func row(_ title: LocalizedStringKey, met: Bool) -> some View {
-        Label {
-            Text(title)
-        } icon: {
-            Image(systemName: met ? "checkmark.circle.fill" : "circle")
-                .foregroundStyle(met ? AnyShapeStyle(.green) : AnyShapeStyle(.secondary))
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityValue(met ? Text("Met") : Text("Not met"))
+        Text(title)
+            .foregroundStyle(met ? AnyShapeStyle(.secondary) : AnyShapeStyle(Color.red))
+            .accessibilityValue(met ? Text("Met") : Text("Not met"))
     }
 }
 
@@ -116,5 +112,24 @@ struct LegalLinks: View {
         }
         .font(.footnote)
         .task { if let documents = try? await session.legalDocuments() { legal = documents } }
+    }
+}
+
+/// A link row for a legal document. The icon trails the title so the row's divider lines up with the toggle below it.
+struct LegalDocumentLink: View {
+    let title: String
+    let url: URL
+
+    var body: some View {
+        Link(destination: url) {
+            HStack {
+                Text(title)
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+            }
+        }
     }
 }

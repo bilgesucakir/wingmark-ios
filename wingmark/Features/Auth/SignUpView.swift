@@ -35,6 +35,19 @@ struct SignUpView: View {
 
     var body: some View {
         Form {
+            Section("Name (Optional)") {
+                TextField("First Name", text: $firstName)
+                    .textContentType(.givenName)
+                    .focused($focus, equals: .firstName)
+                    .submitLabel(.next)
+                    .onSubmit { focus = .lastName }
+                TextField("Last Name", text: $lastName)
+                    .textContentType(.familyName)
+                    .focused($focus, equals: .lastName)
+                    .submitLabel(.next)
+                    .onSubmit { focus = .username }
+            }
+
             Section {
                 VStack(alignment: .leading, spacing: 6) {
                     TextField("Username", text: $username)
@@ -61,33 +74,19 @@ struct SignUpView: View {
                     SecureField("Password", text: $password)
                         .textContentType(.newPassword)
                         .focused($focus, equals: .password)
-                        .submitLabel(.next)
-                        .onSubmit { focus = .firstName }
+                        .submitLabel(.join)
+                        .onSubmit(signUp)
                     FieldError(message: error(for: "password", client: AuthValidation.passwordError(password, email: email, username: username)))
-                    PasswordRequirements(rules: rules)
                 }
-            }
-
-            Section("Name (Optional)") {
-                TextField("First Name", text: $firstName)
-                    .textContentType(.givenName)
-                    .focused($focus, equals: .firstName)
-                    .submitLabel(.next)
-                    .onSubmit { focus = .lastName }
-                TextField("Last Name", text: $lastName)
-                    .textContentType(.familyName)
-                    .focused($focus, equals: .lastName)
-                    .submitLabel(.join)
-                    .onSubmit(signUp)
+            } footer: {
+                PasswordRequirements(rules: rules)
             }
 
             if !legal.published.isEmpty {
                 Section {
                     ForEach(legal.published, id: \.self) { type in
                         if let url = legal.url(of: type) {
-                            Link(destination: url) {
-                                Label(type.title, systemImage: "doc.text")
-                            }
+                            LegalDocumentLink(title: type.title, url: url)
                         }
                         Toggle(type.acceptanceLabel, isOn: Binding(
                             get: { accepted.contains(type) },

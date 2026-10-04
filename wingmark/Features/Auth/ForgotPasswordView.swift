@@ -125,7 +125,6 @@ struct ResetPasswordView: View {
                         .onSubmit { focus = .confirmation }
                     FieldError(message: passwordServerError
                         ?? (showValidation ? AuthValidation.passwordError(password, email: email) : nil))
-                    PasswordRequirements(rules: rules)
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     SecureField("Confirm New Password", text: $confirmation)
@@ -136,7 +135,10 @@ struct ResetPasswordView: View {
                     FieldError(message: showValidation ? AuthValidation.confirmationError(password, confirmation) : nil)
                 }
             } footer: {
-                FieldError(message: errorMessage)
+                VStack(alignment: .leading, spacing: 8) {
+                    PasswordRequirements(rules: rules)
+                    FieldError(message: errorMessage)
+                }
             }
 
             Section {

@@ -21,9 +21,7 @@ struct ConsentUpdateView: View {
                     Section {
                         ForEach(session.pendingConsents, id: \.self) { type in
                             if let url = documents.url(of: type) {
-                                Link(destination: url) {
-                                    Label(type.title, systemImage: "doc.text")
-                                }
+                                LegalDocumentLink(title: type.title, url: url)
                             }
                             Toggle(type.acceptanceLabel, isOn: Binding(
                                 get: { accepted.contains(type) },
