@@ -463,6 +463,16 @@
         }
       }
     },
+    "Close" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
+          }
+        }
+      }
+    },
     "Confidence" : {
       "localizations" : {
         "tr" : {
@@ -1698,16 +1708,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Önce En Yeni"
-          }
-        }
-      }
-    },
-    "Nice!" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Harika!"
           }
         }
       }
