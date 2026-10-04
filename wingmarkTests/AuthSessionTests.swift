@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct AuthSessionTests {
     private func makeSession(
         tokens: TokenPair? = nil,

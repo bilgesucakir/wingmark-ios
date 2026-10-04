@@ -19,6 +19,7 @@ enum DiaryFixtures {
     }
 }
 
+@MainActor
 struct BirdLogCodingTests {
     @Test func decodesBackendLog() throws {
         let json = DiaryFixtures.logJSON(
@@ -89,6 +90,7 @@ struct BirdLogCodingTests {
     }
 }
 
+@MainActor
 struct PhotoProcessingTests {
     private func jpegWithMetadata(latitude: Double, longitude: Double, date: String, offset: String?) throws -> Data {
         let image = UIGraphicsImageRenderer(size: CGSize(width: 4000, height: 3000)).image { context in
@@ -135,6 +137,7 @@ struct PhotoProcessingTests {
     }
 }
 
+@MainActor
 struct DiaryStoreTests {
     private func makeStore(
         handler: @escaping (URLRequest) async throws -> MockTransport.Reply
@@ -213,6 +216,7 @@ struct DiaryStoreTests {
     }
 }
 
+@MainActor
 struct LegacyBirdLogTests {
     @Test func toleratesNullDatesCoordinatesAndEnums() throws {
         let json = #"{"id":"11111111-1111-1111-1111-111111111111","userId":"3f2504e0-4f89-11d3-9a0c-0305e82c3301","speciesId":null,"speciesCommonName":null,"speciesStatus":null,"pet":false,"customName":null,"lifeStage":null,"gender":null,"photoUrl":null,"note":null,"latitude":null,"longitude":null,"locationName":null,"observedAt":null,"visibility":"PRIVATE","createdAt":"2026-09-01T10:00:00Z"}"#
@@ -231,6 +235,7 @@ struct LegacyBirdLogTests {
     }
 }
 
+@MainActor
 struct TraitTests {
     @Test func summaryHidesUnknownValues() throws {
         var log = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(

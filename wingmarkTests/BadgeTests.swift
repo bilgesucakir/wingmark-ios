@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct BadgeTests {
     static let catalogJSON = """
     [{"id":"00000000-0000-0000-0000-000000000001","name":{"en":"First Flight"},"description":{"en":"Log a bird."},"icon":"🐦","criteriaType":"TOTAL_LOGS","criteriaValue":1,"criteriaMetadata":null,"tier":"BRONZE"},

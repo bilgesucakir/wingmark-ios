@@ -3,6 +3,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 @Suite(.serialized)
 struct LanguageTests {
     private func withLanguage(_ language: AppLanguage, _ body: () -> Void) {

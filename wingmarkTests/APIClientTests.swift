@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct APIClientTests {
     private let base = URL(string: "https://api.test")!
 

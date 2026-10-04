@@ -3,6 +3,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct ComplianceTests {
     private func makeSession(
         tokens: TokenPair? = nil,
@@ -183,6 +184,7 @@ struct ComplianceTests {
     }
 }
 
+@MainActor
 struct ReinstallTests {
     @Test func freshInstallClearsLeftoverTokensOnce() throws {
         let defaults = try #require(UserDefaults(suiteName: "reinstall-\(UUID().uuidString)"))
@@ -196,6 +198,7 @@ struct ReinstallTests {
     }
 }
 
+@MainActor
 struct InAppBrowserTests {
     @Test func onlyWebLinksOpenInTheApp() throws {
         #expect(try #require(URL(string: "https://bilgesucakir.github.io/wingmark/privacy.html")).opensInApp)
@@ -205,6 +208,7 @@ struct InAppBrowserTests {
     }
 }
 
+@MainActor
 struct TermsOrderingTests {
     private final class Seen: @unchecked Sendable { var consents: [ConsentType]? }
 

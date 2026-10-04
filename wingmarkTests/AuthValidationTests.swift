@@ -1,6 +1,7 @@
 import Testing
 @testable import wingmark
 
+@MainActor
 struct AuthValidationTests {
     @Test(arguments: ["ada@example.com", "  ada@example.co.uk ", "a.b+c@d.io"])
     func validEmails(_ email: String) {

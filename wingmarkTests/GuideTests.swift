@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct GuideTests {
     private func speciesJSON(_ index: Int) -> String {
         let id = String(format: "00000000-0000-0000-0000-%012d", index)
