@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct ProfileTests {
     @Test func profileUpdateSendsEveryFieldIncludingNulls() throws {
         let profile = try JSONCoding.makeDecoder().decode(UserProfile.self, from: Data(Fixtures.userJSON.utf8))
@@ -61,6 +62,7 @@ struct ProfileTests {
     }
 }
 
+@MainActor
 struct UnitConversionTests {
     private let us = Locale(identifier: "en_US")
 

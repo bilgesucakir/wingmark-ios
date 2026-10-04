@@ -103,7 +103,10 @@ struct EditProfileView: View {
         }
     }
 
+    @ViewBuilder
     private var avatarSection: some View {
+        // The preview is its own section so the choices below get a card with rounded corners on every side.
+        // As the first row of that card, a transparent preview left the card with a flat, unfinished top edge.
         Section {
             HStack {
                 Spacer()
@@ -121,7 +124,12 @@ struct EditProfileView: View {
                 Spacer()
             }
             .listRowBackground(Color.clear)
+        } header: {
+            Text("Profile Picture")
+        }
+        .listSectionSpacing(.compact)
 
+        Section {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
                 ForEach(avatarKeys, id: \.self) { key in
                     Button {
@@ -153,8 +161,6 @@ struct EditProfileView: View {
                     newPhoto = nil
                 }
             }
-        } header: {
-            Text("Profile Picture")
         }
     }
 

@@ -110,8 +110,10 @@ struct SightingFormView: View {
             if model.isProcessingPhoto {
                 HStack { ProgressView(); Text("Reading photo…") }
             }
+            // Read before the picker: its label closure can't touch main-actor state directly.
+            let photoIsEmpty = isPhotoEmpty
             PhotosPicker(selection: $pickerItem, matching: .images, preferredItemEncoding: .current) {
-                Label(isPhotoEmpty ? "Choose Photo" : "Replace Photo", systemImage: "photo.on.rectangle")
+                Label(photoIsEmpty ? "Choose Photo" : "Replace Photo", systemImage: "photo.on.rectangle")
             }
             .popoverTip(PhotoPrefillTip(), arrowEdge: .top)
             .onChange(of: pickerItem) { PhotoPrefillTip().invalidate(reason: .actionPerformed) }

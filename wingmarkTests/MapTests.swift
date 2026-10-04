@@ -3,6 +3,7 @@ import MapKit
 import Testing
 @testable import wingmark
 
+@MainActor
 struct GeoBoxTests {
     @Test func regularRegion() {
         let box = GeoBox(region: MKCoordinateRegion(
@@ -40,6 +41,7 @@ struct GeoBoxTests {
     }
 }
 
+@MainActor
 struct ClusterTests {
     private func log(_ id: Int, _ latitude: Double, _ longitude: Double) throws -> BirdLog {
         let uuid = String(format: "00000000-0000-0000-0000-%012d", id)
@@ -72,6 +74,7 @@ struct ClusterTests {
     }
 }
 
+@MainActor
 struct MapStoreTests {
     private let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41, longitude: 29),
                                             span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))

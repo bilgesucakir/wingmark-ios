@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 struct DecodingTests {
     @Test func userProfileDecodesMicrosecondDates() throws {
         let user = try JSONCoding.makeDecoder().decode(UserProfile.self, from: Data(Fixtures.userJSON.utf8))

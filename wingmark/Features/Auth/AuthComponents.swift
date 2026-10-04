@@ -137,3 +137,22 @@ struct LegalDocumentLink: View {
         }
     }
 }
+
+/// For each legal document: its link and an "I accept" switch. Shared by sign-up and the "Our Terms Changed" screen.
+struct ConsentRows: View {
+    let types: [ConsentType]
+    let documents: LegalDocuments
+    @Binding var accepted: Set<ConsentType>
+
+    var body: some View {
+        ForEach(types, id: \.self) { type in
+            if let url = documents.url(of: type) {
+                LegalDocumentLink(title: type.title, url: url)
+            }
+            Toggle(type.acceptanceLabel, isOn: Binding(
+                get: { accepted.contains(type) },
+                set: { if $0 { accepted.insert(type) } else { accepted.remove(type) } }
+            ))
+        }
+    }
+}

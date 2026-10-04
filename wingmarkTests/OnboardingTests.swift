@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import wingmark
 
+@MainActor
 @Suite(.serialized)
 struct OnboardingTests {
     private func withLanguage(_ language: AppLanguage, _ body: () -> Void) {
