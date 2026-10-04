@@ -61,27 +61,26 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
         return min(Double(progress) / Double(target), 1)
     }
 
-    /// Catalog order and text, with the user's progress where the backend has any.
+    /// The user's badges in the order the server sent them (its `displayOrder`), with text and tier from the catalog.
+    /// A catalog badge missing from the user's list isn't shown: the server leaves out badges that don't apply to this
+    /// user, such as the favorite-species badges for someone with no favorite species.
     static func merge(catalog: [CatalogBadge], user: [UserBadge]) -> [BadgeProgress] {
-        let userById = Dictionary(user.map { ($0.badgeId, $0) }, uniquingKeysWith: { first, _ in first })
-        return catalog.map { badge in
-            let mine = userById[badge.id]
+        let catalogById = Dictionary(catalog.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        var seen = Set<UUID>()
+        return user.compactMap { mine in
+            guard seen.insert(mine.badgeId).inserted else { return nil }
+            let badge = catalogById[mine.badgeId]
             return BadgeProgress(
-                id: badge.id,
-                name: badge.name.resolved() ?? mine?.badgeName ?? "",
-                description: badge.description?.resolved(),
-                icon: badge.icon ?? mine?.badgeIcon,
-                tier: badge.tier ?? .bronze,
-                earned: mine?.earned ?? false,
-                earnedAt: mine?.earnedAt,
-                progress: mine?.progress ?? 0,
-                target: mine?.targetValue ?? badge.criteriaValue ?? 0
+                id: mine.badgeId,
+                name: badge?.name.resolved() ?? mine.badgeName ?? "",
+                description: badge?.description?.resolved(),
+                icon: badge?.icon ?? mine.badgeIcon,
+                tier: badge?.tier ?? .bronze,
+                earned: mine.earned,
+                earnedAt: mine.earnedAt,
+                progress: mine.progress,
+                target: mine.targetValue
             )
-        }
-        .sorted { lhs, rhs in
-            if lhs.earned != rhs.earned { return lhs.earned }
-            if lhs.earned { return (lhs.earnedAt ?? .distantPast) > (rhs.earnedAt ?? .distantPast) }
-            return lhs.fraction > rhs.fraction
         }
     }
 }

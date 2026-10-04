@@ -16,17 +16,51 @@ struct BadgeTests {
         """
     }
 
-    @Test func mergesCatalogWithProgressAndSorts() throws {
+    @Test func keepsTheServersOrderAndOmitsBadgesTheUserDoesNotHave() throws {
         let decoder = JSONCoding.makeDecoder()
         let catalog = try decoder.decode([CatalogBadge].self, from: Data(Self.catalogJSON.utf8))
-        let user = try decoder.decode([UserBadge].self, from: Data(Self.userJSON(firstEarned: true).utf8))
+        // The server's order puts the unearned Explorer first and leaves Legend out (it doesn't apply to this user).
+        let userJSON = """
+        [{"badgeId":"00000000-0000-0000-0000-000000000002","badgeName":"Explorer","badgeIcon":"🔍","earned":false,"earnedAt":null,"progress":3,"targetValue":5},
+         {"badgeId":"00000000-0000-0000-0000-000000000001","badgeName":"First Flight","badgeIcon":"🐦","earned":true,"earnedAt":"2026-09-30T10:00:00Z","progress":1,"targetValue":1}]
+        """
+        let user = try decoder.decode([UserBadge].self, from: Data(userJSON.utf8))
         let merged = BadgeProgress.merge(catalog: catalog, user: user)
 
-        #expect(merged.map(\.name) == ["First Flight", "Explorer", "Legend"])
-        #expect(merged[0].earned)
-        #expect(merged[1].fraction == 0.6)
-        #expect(merged[2].target == 100 && merged[2].progress == 0)
-        #expect(merged[2].tier == .bronze)
+        #expect(merged.map(\.name) == ["Explorer", "First Flight"])
+        #expect(merged[0].fraction == 0.6)
+        #expect(merged[1].earned)
+        #expect(merged[0].tier == .silver)
+        #expect(merged[0].description == nil && merged[1].description == "Log a bird.")
+    }
+
+    @Test func fallsBackToBronzeForAnUnknownTierAndIgnoresDuplicates() throws {
+        let decoder = JSONCoding.makeDecoder()
+        let catalog = try decoder.decode([CatalogBadge].self, from: Data(Self.catalogJSON.utf8))
+        let userJSON = """
+        [{"badgeId":"00000000-0000-0000-0000-000000000003","badgeName":"Legend","badgeIcon":"👑","earned":false,"earnedAt":null,"progress":0,"targetValue":100},
+         {"badgeId":"00000000-0000-0000-0000-000000000003","badgeName":"Legend","badgeIcon":"👑","earned":false,"earnedAt":null,"progress":0,"targetValue":100}]
+        """
+        let user = try decoder.decode([UserBadge].self, from: Data(userJSON.utf8))
+        let merged = BadgeProgress.merge(catalog: catalog, user: user)
+
+        #expect(merged.count == 1)
+        #expect(merged[0].tier == .bronze)
+        #expect(merged[0].target == 100 && merged[0].progress == 0)
+    }
+
+    @Test func aBadgeThatAppearsLaterJoinsTheListInTheServersPosition() throws {
+        let decoder = JSONCoding.makeDecoder()
+        let catalog = try decoder.decode([CatalogBadge].self, from: Data(Self.catalogJSON.utf8))
+        let without = try decoder.decode([UserBadge].self, from: Data(Self.userJSON(firstEarned: false).utf8))
+        #expect(BadgeProgress.merge(catalog: catalog, user: without).count == 2)
+
+        // Setting a favorite species makes the server add a badge; the list grows without an app change.
+        let with = try decoder.decode([UserBadge].self, from: Data("""
+        [{"badgeId":"00000000-0000-0000-0000-000000000003","badgeName":"Legend","badgeIcon":"👑","earned":false,"earnedAt":null,"progress":2,"targetValue":100},
+         {"badgeId":"00000000-0000-0000-0000-000000000001","badgeName":"First Flight","badgeIcon":"🐦","earned":false,"earnedAt":null,"progress":0,"targetValue":1}]
+        """.utf8))
+        #expect(BadgeProgress.merge(catalog: catalog, user: with).map(\.name) == ["Legend", "First Flight"])
     }
 
     @Test func detectsNewlyEarnedBadgesOnReload() async {
