@@ -32,6 +32,7 @@ enum APIErrorCode: String, Decodable, Sendable {
     case termsNotAccepted = "TERMS_NOT_ACCEPTED"
     case privacyNotAccepted = "PRIVACY_NOT_ACCEPTED"
     case consentVersionMismatch = "CONSENT_VERSION_MISMATCH"
+    case ageNotConfirmed = "AGE_NOT_CONFIRMED"
     case weakPassword = "WEAK_PASSWORD"
     case passwordBreached = "PASSWORD_BREACHED"
     case rateLimited = "RATE_LIMITED"
@@ -164,6 +165,8 @@ enum APIError: Error, Sendable {
             String(localized: "This password appeared in a data breach. Please choose another.", bundle: .app)
         case .rateLimited:
             rateLimitMessage(retryAfter: nil)
+        case .ageNotConfirmed:
+            String(localized: "Please confirm your age to create an account.", bundle: .app)
         case .termsNotAccepted, .privacyNotAccepted, .consentVersionMismatch:
             String(localized: "Our terms were just updated. Please review and accept them again.", bundle: .app)
         case .malformedRequest, .invalidParameter, .badRequest, .invalidBounds, .forbidden, .requestTooLarge,

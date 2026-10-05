@@ -9,6 +9,7 @@ enum AuthAPI {
         let lastName: String?
         var acceptedTermsVersion: String?
         var acceptedPrivacyVersion: String?
+        var confirmedAge13: Bool?
     }
 
     static func login(email: String, password: String) -> Endpoint<TokenPair> {
