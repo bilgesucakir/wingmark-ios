@@ -14,12 +14,13 @@ struct GuideTests {
     }
 
     private func makeSearch(
+        pause: Pause = .immediate,
         handler: @escaping (URLRequest) async throws -> MockTransport.Reply
     ) -> (SpeciesSearch, MockTransport) {
         let transport = MockTransport(handler: handler)
         let client = APIClient(baseURL: URL(string: "https://api.test")!, tokenStore: InMemoryTokenStore(),
                                transport: transport, languageCode: { "tr" })
-        return (SpeciesSearch(client: client), transport)
+        return (SpeciesSearch(client: client, pause: pause), transport)
     }
 
     private func query(_ request: URLRequest?) -> [String: String] {
@@ -48,26 +49,35 @@ struct GuideTests {
         #expect(transport.requests.first?.value(forHTTPHeaderField: "Authorization") == nil)
     }
 
-    @Test func sortChangeReloadsWithNewParameter() async throws {
-        let (search, transport) = makeSearch { _ in .init(status: 200, body: self.pageJSON(0..<3, number: 0, totalPages: 1)) }
+    @Test func sortChangeReloadsWithNewParameterWithoutWaiting() async throws {
+        let gate = GatedPause()
+        let (search, transport) = makeSearch(pause: gate.pause) { _ in
+            .init(status: 200, body: self.pageJSON(0..<3, number: 0, totalPages: 1))
+        }
         await search.reload()
         search.sort = .scientificDescending
-        for _ in 0..<100 where transport.requests.count < 2 || search.isLoading {
-            try await Task.sleep(for: .milliseconds(10))
-        }
+        await search.settled()
         #expect(query(transport.requests.last)["sort"] == "scientificName,desc")
         #expect(search.results.count == 3)
+        #expect(gate.requested.isEmpty, "a sort change must not be debounced")
     }
 
     @Test func typingIsDebouncedIntoOneRequest() async throws {
-        let (search, transport) = makeSearch { _ in .init(status: 200, body: self.pageJSON(0..<1, number: 0, totalPages: 1)) }
+        let gate = GatedPause()
+        let (search, transport) = makeSearch(pause: gate.pause) { _ in
+            .init(status: 200, body: self.pageJSON(0..<1, number: 0, totalPages: 1))
+        }
         search.query = "r"
         search.query = "ro"
         search.query = "rob"
-        for _ in 0..<100 where transport.requests.isEmpty || search.isLoading {
-            try await Task.sleep(for: .milliseconds(10))
-        }
-        try await Task.sleep(for: .milliseconds(350))
+        await gate.waitUntilWaiting(count: 3)
+
+        // Every keystroke is waiting out the 300 ms pause; nothing has been sent yet.
+        #expect(gate.requested == Array(repeating: .milliseconds(300), count: 3))
+        #expect(transport.requests.isEmpty)
+
+        gate.release()
+        await search.settled()
         #expect(transport.requests.count == 1)
         #expect(query(transport.requests.first)["search"] == "rob")
     }

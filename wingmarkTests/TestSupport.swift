@@ -74,3 +74,40 @@ extension URLRequest {
         return object
     }
 }
+
+extension Pause {
+    /// A debounce that doesn't wait. Superseded work is still cancelled, so coalescing behaves the same.
+    nonisolated static let immediate = Pause { _ in }
+}
+
+/// A pause that stays put until the test lets it go, and remembers how long each wait asked for.
+@MainActor
+final class GatedPause {
+    private(set) var requested: [Duration] = []
+    private var waiting: [CheckedContinuation<Void, Never>] = []
+
+    var pause: Pause {
+        Pause { [self] duration in await wait(duration) }
+    }
+
+    private func wait(_ duration: Duration) async {
+        requested.append(duration)
+        await withCheckedContinuation { waiting.append($0) }
+    }
+
+    /// Lets every waiting debounce continue. Cancelled ones then see they were superseded and stop.
+    func release() {
+        let continuations = waiting
+        waiting = []
+        continuations.forEach { $0.resume() }
+    }
+
+    /// Returns once `count` debounces are waiting.
+    func waitUntilWaiting(count: Int) async {
+        var attempts = 0
+        while requested.count < count, attempts < 10_000 {
+            await Task.yield()
+            attempts += 1
+        }
+    }
+}

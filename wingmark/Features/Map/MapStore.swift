@@ -127,11 +127,13 @@ final class MapStore {
 
     private let session: AuthSession
     private let diary: DiaryStore
+    private let pause: Pause
     private var loadTask: Task<Void, Never>?
 
-    init(session: AuthSession, diary: DiaryStore) {
+    init(session: AuthSession, diary: DiaryStore, pause: Pause = .live) {
         self.session = session
         self.diary = diary
+        self.pause = pause
     }
 
     func regionDidChange(_ region: MKCoordinateRegion) {
@@ -152,10 +154,15 @@ final class MapStore {
     private func schedule(debounce: Bool) {
         loadTask?.cancel()
         loadTask = Task {
-            if debounce { try? await Task.sleep(for: .milliseconds(300)) }
+            if debounce { try? await pause.wait(.milliseconds(300)) }
             guard !Task.isCancelled, let region else { return }
             await load(region: region)
         }
+    }
+
+    /// Returns once the load scheduled by the latest region, filter or reload request has finished.
+    func settled() async {
+        await loadTask?.value
     }
 
     private func load(region: MKCoordinateRegion) async {
