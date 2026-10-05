@@ -10,6 +10,7 @@ struct SightingFormView: View {
     @State private var model: SightingFormModel
     @State private var pickerItem: PhotosPickerItem?
     @State private var showCamera = false
+    @State private var cameraIssue: PermissionIssue?
     @State private var showSpeciesPicker = false
     @State private var showLocationPicker = false
     @State private var isSaving = false
@@ -85,6 +86,14 @@ struct SightingFormView: View {
             }
             .ignoresSafeArea()
         }
+        .permissionAlert($cameraIssue)
+    }
+
+    private func openCamera() async {
+        switch await CameraAccess.resolve() {
+        case .open: showCamera = true
+        case .blocked(let issue): cameraIssue = issue
+        }
     }
 
     // MARK: - Sections
@@ -120,7 +129,7 @@ struct SightingFormView: View {
             if isCameraAvailable {
                 Button("Take Photo", systemImage: "camera") {
                     PhotoPrefillTip().invalidate(reason: .actionPerformed)
-                    showCamera = true
+                    Task { await openCamera() }
                 }
             }
             if !isPhotoEmpty {

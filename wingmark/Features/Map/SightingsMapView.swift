@@ -17,8 +17,7 @@ struct SightingsMapView: View {
         MapFiltersTip()
     }
     @State private var isLocating = false
-    @State private var showLocationDenied = false
-    @Environment(\.openURL) private var openURL
+    @State private var locationIssue: PermissionIssue?
 
     private var clusters: [MapCluster] {
         guard let region = store.region else { return [] }
@@ -69,14 +68,7 @@ struct SightingsMapView: View {
                 .padding(.trailing, 16)
                 .padding(.top, 64)
             }
-            .alert("Location access is off", isPresented: $showLocationDenied) {
-                Button("Open Settings") {
-                    if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
-                }
-                Button("Cancel", role: .cancel) {}
-            } message: {
-                Text("Allow Wingmark to use your location in Settings to see where you are on the map.")
-            }
+            .permissionAlert($locationIssue)
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     AddSightingTip().invalidate(reason: .actionPerformed)
@@ -166,7 +158,7 @@ struct SightingsMapView: View {
                     ))
                 }
             } catch {
-                if error == .denied { showLocationDenied = true }
+                if error == .denied { locationIssue = PermissionIssue(kind: .location, state: .notAllowed) }
             }
         }
     }

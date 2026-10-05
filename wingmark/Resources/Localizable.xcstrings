@@ -185,12 +185,32 @@
         }
       }
     },
+    "Allow Wingmark to use the camera in Settings to take bird photos. You can still choose a photo from your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuş fotoğrafı çekmek için Ayarlar'dan Wingmark'ın kamerayı kullanmasına izin ver. Yine de kütüphanenden bir fotoğraf seçebilirsin."
+          }
+        }
+      }
+    },
     "Allow Wingmark to use your location in Settings to see where you are on the map." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Haritada nerede olduğunu görmek için Ayarlar’dan Wingmark’ın konumunu kullanmasına izin ver."
+          }
+        }
+      }
+    },
+    "Allowed" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzin verildi"
           }
         }
       }
@@ -339,6 +359,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rehber'de türlere göz at, kayıtları dinle ve günlüğün büyüdükçe rozetler kazan."
+          }
+        }
+      }
+    },
+    "Camera" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera"
+          }
+        }
+      }
+    },
+    "Camera access is off" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera erişimi kapalı"
+          }
+        }
+      }
+    },
+    "Camera is restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera kısıtlı"
           }
         }
       }
@@ -1406,6 +1456,26 @@
         }
       }
     },
+    "Location is restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum kısıtlı"
+          }
+        }
+      }
+    },
+    "Location is restricted on this iPhone, so Wingmark can't use it." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum bu iPhone'da kısıtlı, bu yüzden Wingmark onu kullanamıyor."
+          }
+        }
+      }
+    },
     "Log a sighting" : {
       "localizations" : {
         "tr" : {
@@ -1762,6 +1832,26 @@
         }
       }
     },
+    "Not allowed" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzin verilmedi"
+          }
+        }
+      }
+    },
+    "Not asked yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz sorulmadı"
+          }
+        }
+      }
+    },
     "Not available yet" : {
       "localizations" : {
         "tr" : {
@@ -1904,6 +1994,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duraklat"
+          }
+        }
+      }
+    },
+    "Permissions" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzinler"
           }
         }
       }
@@ -2146,6 +2246,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifreyi Sıfırla"
+          }
+        }
+      }
+    },
+    "Restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısıtlı"
           }
         }
       }
@@ -2544,6 +2654,16 @@
         }
       }
     },
+    "The camera is restricted on this iPhone, so Wingmark can't use it. You can still choose a photo from your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera bu iPhone'da kısıtlı, bu yüzden Wingmark onu kullanamıyor. Yine de kütüphanenden bir fotoğraf seçebilirsin."
+          }
+        }
+      }
+    },
     "The code is wrong or has expired." : {
       "localizations" : {
         "tr" : {
@@ -2790,6 +2910,26 @@
         }
       }
     },
+    "Used to save where you spotted each bird and to show you on the map." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her kuşu nerede gördüğünü kaydetmek ve seni haritada göstermek için kullanılır."
+          }
+        }
+      }
+    },
+    "Used to take photos of the birds you spot." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gördüğün kuşların fotoğraflarını çekmek için kullanılır."
+          }
+        }
+      }
+    },
     "Username" : {
       "localizations" : {
         "en" : {
@@ -2858,6 +2998,16 @@
     },
     "Wingmark" : {
       "shouldTranslate" : false
+    },
+    "Wingmark asks the first time you use a feature. You can change these in the Settings app." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wingmark bir özelliği ilk kullandığında sorar. Bunları Ayarlar uygulamasından değiştirebilirsin."
+          }
+        }
+      }
     },
     "Wrong email or password." : {
       "localizations" : {

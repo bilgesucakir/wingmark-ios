@@ -28,11 +28,32 @@ struct BadgeTests {
         let user = try decoder.decode([UserBadge].self, from: Data(userJSON.utf8))
         let merged = BadgeProgress.merge(catalog: catalog, user: user)
 
-        #expect(merged.map(\.name) == ["Explorer", "First Flight"])
-        #expect(merged[0].fraction == 0.6)
-        #expect(merged[1].earned)
-        #expect(merged[0].tier == .silver)
-        #expect(merged[0].description == nil && merged[1].description == "Log a bird.")
+        // The earned First Flight moves ahead of the unearned Explorer; Legend stays hidden.
+        #expect(merged.map(\.name) == ["First Flight", "Explorer"])
+        #expect(merged[0].earned)
+        #expect(merged[1].fraction == 0.6)
+        #expect(merged[1].tier == .silver)
+        #expect(merged[0].description == "Log a bird." && merged[1].description == nil)
+    }
+
+    @Test func earnedBadgesComeFirstAndKeepTheServerOrderWithinEachGroup() throws {
+        func badge(_ n: Int, earned: Bool) -> String {
+            let id = String(format: "00000000-0000-0000-0000-%012d", n)
+            return #"{"badgeId":"\#(id)","badgeName":"b\#(n)","badgeIcon":"🐦","earned":\#(earned),"earnedAt":\#(earned ? "\"2026-09-30T10:00:00Z\"" : "null"),"progress":\#(earned ? 1 : 0),"targetValue":1}"#
+        }
+        // Server order b1 to b5; b3 and b1 are earned (b3 earned most recently).
+        let json = "[" + [badge(1, earned: true), badge(2, earned: false), badge(3, earned: true), badge(4, earned: false), badge(5, earned: false)].joined(separator: ",") + "]"
+        let user = try JSONCoding.makeDecoder().decode([UserBadge].self, from: Data(json.utf8))
+        let merged = BadgeProgress.merge(catalog: [], user: user)
+        #expect(merged.map(\.name) == ["b1", "b3", "b2", "b4", "b5"])
+        #expect(merged.map(\.earned) == [true, true, false, false, false])
+    }
+
+    @Test func withNothingEarnedTheServerOrderIsUnchanged() throws {
+        let decoder = JSONCoding.makeDecoder()
+        let catalog = try decoder.decode([CatalogBadge].self, from: Data(Self.catalogJSON.utf8))
+        let user = try decoder.decode([UserBadge].self, from: Data(Self.userJSON(firstEarned: false).utf8))
+        #expect(BadgeProgress.merge(catalog: catalog, user: user).map(\.name) == ["First Flight", "Explorer"])
     }
 
     @Test func fallsBackToBronzeForAnUnknownTierAndIgnoresDuplicates() throws {

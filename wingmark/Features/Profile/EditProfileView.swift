@@ -13,6 +13,7 @@ struct EditProfileView: View {
     @State private var avatarKeys = AvatarPresets.fallbackKeys
     @State private var pickerItem: PhotosPickerItem?
     @State private var showCamera = false
+    @State private var cameraIssue: PermissionIssue?
     @State private var showSpeciesPicker = false
     @State private var isSaving = false
     @State private var errorMessage: String?
@@ -100,6 +101,14 @@ struct EditProfileView: View {
                 }
                 .ignoresSafeArea()
             }
+            .permissionAlert($cameraIssue)
+        }
+    }
+
+    private func openCamera() async {
+        switch await CameraAccess.resolve() {
+        case .open: showCamera = true
+        case .blocked(let issue): cameraIssue = issue
         }
     }
 
@@ -153,7 +162,7 @@ struct EditProfileView: View {
                 Label("Use My Photo", systemImage: "photo.on.rectangle")
             }
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                Button("Take Photo", systemImage: "camera") { showCamera = true }
+                Button("Take Photo", systemImage: "camera") { Task { await openCamera() } }
             }
             if profilePicture != nil || newPhoto != nil {
                 Button("Remove Photo", systemImage: "trash", role: .destructive) {
