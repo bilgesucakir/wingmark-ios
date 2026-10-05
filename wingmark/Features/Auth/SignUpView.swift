@@ -133,7 +133,8 @@ struct SignUpView: View {
             firstName: first.isEmpty ? nil : first,
             lastName: last.isEmpty ? nil : last,
             acceptedTermsVersion: accepted.contains(.terms) ? legal.termsVersion : nil,
-            acceptedPrivacyVersion: accepted.contains(.privacy) ? legal.privacyVersion : nil
+            acceptedPrivacyVersion: accepted.contains(.privacy) ? legal.privacyVersion : nil,
+            confirmedAge13: accepted.contains(.age) ? true : nil
         )
         Task {
             defer { isLoading = false }
@@ -149,7 +150,7 @@ struct SignUpView: View {
                     serverErrors = AuthValidation.serverFieldErrors(error)
                 case .weakPassword, .passwordBreached:
                     serverErrors["password"] = error.userMessage
-                case .termsNotAccepted, .privacyNotAccepted:
+                case .termsNotAccepted, .privacyNotAccepted, .ageNotConfirmed:
                     // The documents changed since this screen loaded, so ask again for the new versions.
                     accepted = []
                     await loadLegal()

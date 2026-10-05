@@ -8,14 +8,26 @@ struct ConsentUpdateView: View {
     @State private var accepted: Set<ConsentType> = []
     @State private var errorMessage: String?
     @State private var isSaving = false
+    /// What the screen is about; kept after the last item is accepted so the text doesn't change as it closes.
+    @State private var shownTypes: [ConsentType] = []
 
     private var acceptedAll: Bool { Set(session.pendingConsents).isSubset(of: accepted) }
+
+    private var ageOnly: Bool { (session.pendingConsents.isEmpty ? shownTypes : session.pendingConsents).isAgeOnly }
+
+    private var title: LocalizedStringKey { ageOnly ? "Confirm Your Age" : "Our Terms Changed" }
+
+    private var intro: LocalizedStringKey {
+        ageOnly
+            ? "To keep using Wingmark, please confirm your age."
+            : "We've updated the documents below. Please review and accept them to keep using Wingmark."
+    }
 
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    Text("We've updated the documents below. Please review and accept them to keep using Wingmark.")
+                    Text(intro)
                 }
                 if let documents {
                     Section {
@@ -44,9 +56,12 @@ struct ConsentUpdateView: View {
                 }
             }
             .opensLinksInApp()
-            .navigationTitle("Our Terms Changed")
+            .navigationTitle(title)
             .disabled(isSaving)
             .task { await load() }
+            .onChange(of: session.pendingConsents, initial: true) { _, types in
+                if !types.isEmpty { shownTypes = types }
+            }
         }
         .interactiveDismissDisabled()
     }

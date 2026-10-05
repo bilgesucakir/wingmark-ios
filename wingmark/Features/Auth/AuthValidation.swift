@@ -76,4 +76,15 @@ struct PasswordRules {
     }
 
     var isSatisfied: Bool { hasValidLength && hasLetterAndDigit && avoidsPersonalInfo }
+
+    /// Nothing typed yet: the rules are just listed, not marked as failing.
+    var isUntouched: Bool { password.isEmpty }
+
+    func state(isMet: Bool) -> PasswordRuleState {
+        isUntouched ? .neutral : (isMet ? .met : .unmet)
+    }
+}
+
+enum PasswordRuleState: Equatable {
+    case neutral, met, unmet
 }

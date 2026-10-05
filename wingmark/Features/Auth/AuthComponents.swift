@@ -86,18 +86,36 @@ struct PasswordRequirements: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            row("10–72 characters", met: rules.hasValidLength)
-            row("At least one letter and one number", met: rules.hasLetterAndDigit)
-            row("Doesn't include your email or username", met: rules.avoidsPersonalInfo)
+            row("10–72 characters", state: rules.state(isMet: rules.hasValidLength))
+            row("At least one letter and one number", state: rules.state(isMet: rules.hasLetterAndDigit))
+            row("Doesn't include your email or username", state: rules.state(isMet: rules.avoidsPersonalInfo))
         }
         .font(.footnote)
     }
 
-    /// Gray once met, red until then. VoiceOver says "Met" / "Not met" so color isn't the only signal.
-    private func row(_ title: LocalizedStringKey, met: Bool) -> some View {
-        Text(title)
-            .foregroundStyle(met ? AnyShapeStyle(.secondary) : AnyShapeStyle(Color.red))
-            .accessibilityValue(met ? Text("Met") : Text("Not met"))
+    /// Neutral dot until the person types; then a gray check once met, or a red cross until then. The mark, not just
+    /// the color, carries the state, and VoiceOver says "Met" / "Not met". The red is darker in light mode for contrast.
+    private func row(_ title: LocalizedStringKey, state: PasswordRuleState) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Image(systemName: symbol(for: state))
+                .font(.caption2.weight(.bold))
+                .frame(width: 14)
+                .accessibilityHidden(true)
+            Text(title)
+        }
+        .foregroundStyle(state == .unmet ? AnyShapeStyle(Color("UnmetRule")) : AnyShapeStyle(.secondary))
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(
+            state == .neutral ? Text(verbatim: "") : (state == .met ? Text("Met") : Text("Not met"))
+        )
+    }
+
+    private func symbol(for state: PasswordRuleState) -> String {
+        switch state {
+        case .neutral: "circle.fill"
+        case .met: "checkmark"
+        case .unmet: "xmark"
+        }
     }
 }
 
@@ -149,7 +167,7 @@ struct ConsentRows: View {
             if let url = documents.url(of: type) {
                 LegalDocumentLink(title: type.title, url: url)
             }
-            Toggle(type.acceptanceLabel, isOn: Binding(
+            Toggle(documents.acceptanceLabel(of: type), isOn: Binding(
                 get: { accepted.contains(type) },
                 set: { if $0 { accepted.insert(type) } else { accepted.remove(type) } }
             ))

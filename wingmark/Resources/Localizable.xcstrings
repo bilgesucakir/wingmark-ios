@@ -559,6 +559,16 @@
         }
       }
     },
+    "Confirm Your Age" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yaşını Onayla"
+          }
+        }
+      }
+    },
     "Conservation Status" : {
       "localizations" : {
         "tr" : {
@@ -1231,6 +1241,16 @@
         }
       }
     },
+    "I am %lld or older" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld yaşında veya daha büyüğüm"
+          }
+        }
+      }
+    },
     "I don't know the species" : {
       "localizations" : {
         "tr" : {
@@ -1646,6 +1666,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Karşılandı"
+          }
+        }
+      }
+    },
+    "Minimum age" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asgari yaş"
           }
         }
       }
@@ -2084,6 +2114,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lütfen işaretli alanları kontrol et."
+          }
+        }
+      }
+    },
+    "Please confirm your age to create an account." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesap oluşturmak için lütfen yaşını onayla."
           }
         }
       }
@@ -2790,6 +2830,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu kullanıcı adı zaten alınmış."
+          }
+        }
+      }
+    },
+    "To keep using Wingmark, please confirm your age." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wingmark'ı kullanmaya devam etmek için lütfen yaşını onayla."
           }
         }
       }

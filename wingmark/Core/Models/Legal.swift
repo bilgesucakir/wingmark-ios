@@ -3,21 +3,20 @@ import Foundation
 enum ConsentType: String, Codable, Sendable, CaseIterable {
     case terms = "TERMS"
     case privacy = "PRIVACY"
+    case age = "AGE"
 
     var title: String {
         switch self {
         case .terms: String(localized: "Terms of Service", bundle: .app)
         case .privacy: String(localized: "Privacy Policy", bundle: .app)
+        case .age: String(localized: "Minimum age", bundle: .app)
         }
     }
+}
 
-    /// Whole sentences, since Turkish inflects the document name.
-    var acceptanceLabel: String {
-        switch self {
-        case .terms: String(localized: "I accept the Terms of Service", bundle: .app)
-        case .privacy: String(localized: "I accept the Privacy Policy", bundle: .app)
-        }
-    }
+extension [ConsentType] {
+    /// Existing users only need to confirm their age, so the screen shouldn't talk about changed terms.
+    var isAgeOnly: Bool { !isEmpty && allSatisfy { $0 == .age } }
 }
 
 /// A null version means that document isn't published yet, so nothing needs accepting.
@@ -26,13 +25,17 @@ struct LegalDocuments: Codable, Sendable, Equatable {
     var termsUrl: String?
     var privacyVersion: String?
     var privacyUrl: String?
+    /// The age people must confirm; null on a server that doesn't ask for it.
+    var minimumAge: Int?
 
     static let unpublished = LegalDocuments()
 
+    /// For age the "version" is the minimum age as text, which is what the server records and compares.
     func version(of type: ConsentType) -> String? {
         switch type {
         case .terms: termsVersion
         case .privacy: privacyVersion
+        case .age: minimumAge.map(String.init)
         }
     }
 
@@ -40,11 +43,21 @@ struct LegalDocuments: Codable, Sendable, Equatable {
         let value = switch type {
         case .terms: termsUrl
         case .privacy: privacyUrl
+        case .age: String?.none
         }
         return value.flatMap(URL.init(string:))
     }
 
-    /// Documents with a published version, in display order.
+    /// Whole sentences, since Turkish inflects the document name.
+    func acceptanceLabel(of type: ConsentType) -> String {
+        switch type {
+        case .terms: String(localized: "I accept the Terms of Service", bundle: .app)
+        case .privacy: String(localized: "I accept the Privacy Policy", bundle: .app)
+        case .age: String(localized: "I am \(minimumAge ?? 13) or older", bundle: .app)
+        }
+    }
+
+    /// Items with a published version, in display order.
     var published: [ConsentType] { ConsentType.allCases.filter { version(of: $0) != nil } }
 }
 
