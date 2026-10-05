@@ -18,12 +18,14 @@ final class SpeciesSearch {
     }
 
     private let client: APIClient
+    private let pause: Pause
     private var page = 0
     private var generation = 0
     private var reloadTask: Task<Void, Never>?
 
-    init(client: APIClient) {
+    init(client: APIClient, pause: Pause = .live) {
         self.client = client
+        self.pause = pause
     }
 
     func loadIfNeeded() async {
@@ -48,10 +50,15 @@ final class SpeciesSearch {
     private func scheduleReload(debounce: Bool) {
         reloadTask?.cancel()
         reloadTask = Task {
-            if debounce { try? await Task.sleep(for: .milliseconds(300)) }
+            if debounce { try? await pause.wait(.milliseconds(300)) }
             guard !Task.isCancelled else { return }
             await reload()
         }
+    }
+
+    /// Returns once the reload scheduled by the latest query or sort change has finished.
+    func settled() async {
+        await reloadTask?.value
     }
 
     private func loadMore() async {

@@ -101,6 +101,7 @@ struct MapStoreTests {
                                             span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
 
     private func makeStore(
+        pause: Pause = .immediate,
         handler: @escaping (URLRequest) async throws -> MockTransport.Reply
     ) async -> (MapStore, DiaryStore, MockTransport) {
         let transport = MockTransport(handler: handler)
@@ -109,13 +110,7 @@ struct MapStoreTests {
         let session = AuthSession(client: client)
         await session.restore()
         let diary = DiaryStore(session: session)
-        return (MapStore(session: session, diary: diary), diary, transport)
-    }
-
-    private func waitForLoad(_ store: MapStore, _ transport: MockTransport, requests: Int) async {
-        for _ in 0..<200 where transport.requests(to: "/api/bird-logs/location").count < requests || store.isLoading {
-            try? await Task.sleep(for: .milliseconds(10))
-        }
+        return (MapStore(session: session, diary: diary, pause: pause), diary, transport)
     }
 
     @Test func loadsRegionWithFilterAndReadsTruncation() async throws {
@@ -130,7 +125,7 @@ struct MapStoreTests {
         }
         store.filter.gender = .female
         store.regionDidChange(region)
-        await waitForLoad(store, transport, requests: 1)
+        await store.settled()
 
         #expect(store.logs.count == 1)
         #expect(store.isTruncated)
@@ -143,7 +138,7 @@ struct MapStoreTests {
     @Test func untruncatedReloadDropsLogsMissingFromTheBox() async throws {
         let id = "11111111-1111-1111-1111-111111111111"
         var serverLogs = [DiaryFixtures.logJSON(id: id, observedAt: "2026-09-29T07:30:00Z")]
-        let (store, _, transport) = await makeStore { request in
+        let (store, _, _) = await makeStore { request in
             guard request.url?.path == "/api/bird-logs/location" else {
                 return .init(status: 200, body: request.url?.path.hasSuffix("settings") == true
                              ? #"{"unitPreference":"METRIC","locale":"en"}"# : Fixtures.userJSON)
@@ -151,13 +146,34 @@ struct MapStoreTests {
             return .init(status: 200, body: "[\(serverLogs.joined(separator: ","))]")
         }
         store.regionDidChange(region)
-        await waitForLoad(store, transport, requests: 1)
+        await store.settled()
         #expect(store.logs.count == 1)
 
         serverLogs = []
         store.reload()
-        await waitForLoad(store, transport, requests: 2)
+        await store.settled()
         #expect(store.logs.isEmpty)
         #expect(!store.isTruncated)
+    }
+
+    @Test func panningIsDebouncedIntoOneLoad() async throws {
+        let gate = GatedPause()
+        let (store, _, transport) = await makeStore(pause: gate.pause) { request in
+            request.url?.path == "/api/bird-logs/location"
+                ? .init(status: 200, body: "[]")
+                : .init(status: 200, body: request.url?.path.hasSuffix("settings") == true
+                        ? #"{"unitPreference":"METRIC","locale":"en"}"# : Fixtures.userJSON)
+        }
+        store.regionDidChange(region)
+        store.regionDidChange(region)
+        store.regionDidChange(region)
+        await gate.waitUntilWaiting(count: 3)
+
+        #expect(gate.requested == Array(repeating: .milliseconds(300), count: 3))
+        #expect(transport.requests(to: "/api/bird-logs/location").isEmpty)
+
+        gate.release()
+        await store.settled()
+        #expect(transport.requests(to: "/api/bird-logs/location").count == 1)
     }
 }
