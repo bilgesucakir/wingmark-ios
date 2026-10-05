@@ -28,6 +28,8 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
 
+            PermissionsSection()
+
             Section {
                 NavigationLink("Change Password") { ChangePasswordView() }
                 Button("Log Out") {
