@@ -61,13 +61,13 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
         return min(Double(progress) / Double(target), 1)
     }
 
-    /// The user's badges in the order the server sent them (its `displayOrder`), with text and tier from the catalog.
-    /// A catalog badge missing from the user's list isn't shown: the server leaves out badges that don't apply to this
-    /// user, such as the favorite-species badges for someone with no favorite species.
+    /// The user's badges, earned ones first, each group in the order the server sent them (its `displayOrder`), with
+    /// text and tier from the catalog. A catalog badge missing from the user's list isn't shown: the server leaves out
+    /// badges that don't apply to this user, such as the favorite-species badges for someone with no favorite species.
     static func merge(catalog: [CatalogBadge], user: [UserBadge]) -> [BadgeProgress] {
         let catalogById = Dictionary(catalog.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         var seen = Set<UUID>()
-        return user.compactMap { mine in
+        let inServerOrder: [BadgeProgress] = user.compactMap { mine in
             guard seen.insert(mine.badgeId).inserted else { return nil }
             let badge = catalogById[mine.badgeId]
             return BadgeProgress(
@@ -82,6 +82,8 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
                 target: mine.targetValue
             )
         }
+        // A stable split: earned badges move up without being reordered among themselves or the rest.
+        return inServerOrder.filter(\.earned) + inServerOrder.filter { !$0.earned }
     }
 }
 
