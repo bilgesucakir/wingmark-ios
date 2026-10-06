@@ -94,7 +94,7 @@ struct PermissionTests {
         func texts() -> [String] {
             PermissionKind.allCases.flatMap { [$0.title, $0.reason] }
                 + [PermissionState.allowed, .notAllowed, .notAsked, .restricted].map(\.title)
-                + [PermissionKind.camera, .location].flatMap { kind in
+                + PermissionKind.allCases.flatMap { kind in
                     [PermissionState.notAllowed, .restricted].flatMap { [PermissionIssue(kind: kind, state: $0).title, PermissionIssue(kind: kind, state: $0).message] }
                 }
         }

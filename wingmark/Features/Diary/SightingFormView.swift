@@ -100,6 +100,7 @@ struct SightingFormView: View {
 
     private var photoSection: some View {
         Section {
+            TipView(PhotoPrefillTip())
             switch model.photo {
             case .none:
                 EmptyView()
@@ -124,7 +125,6 @@ struct SightingFormView: View {
             PhotosPicker(selection: $pickerItem, matching: .images, preferredItemEncoding: .current) {
                 Label(photoIsEmpty ? "Choose Photo" : "Replace Photo", systemImage: "photo.on.rectangle")
             }
-            .popoverTip(PhotoPrefillTip(), arrowEdge: .top)
             .onChange(of: pickerItem) { PhotoPrefillTip().invalidate(reason: .actionPerformed) }
             if isCameraAvailable {
                 Button("Take Photo", systemImage: "camera") {

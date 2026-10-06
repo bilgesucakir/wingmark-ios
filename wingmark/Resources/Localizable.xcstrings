@@ -3204,6 +3204,116 @@
           }
         }
       }
+    },
+    "Photos" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraflar"
+          }
+        }
+      }
+    },
+    "Used to save a sighting's photo to your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir gözlemin fotoğrafını kitaplığına kaydetmek için kullanılır."
+          }
+        }
+      }
+    },
+    "Saving photos is restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydetme kısıtlı"
+          }
+        }
+      }
+    },
+    "Saving photos is off" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydetme kapalı"
+          }
+        }
+      }
+    },
+    "Saving to Photos is restricted on this iPhone, so Wingmark can't save this picture." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraflara kaydetme bu iPhone'da kısıtlı, bu yüzden Wingmark bu fotoğrafı kaydedemiyor."
+          }
+        }
+      }
+    },
+    "Allow Wingmark to add photos in Settings to save this picture to your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu fotoğrafı kitaplığına kaydetmek için Ayarlar'da Wingmark'ın fotoğraf eklemesine izin ver."
+          }
+        }
+      }
+    },
+    "Save Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kaydet"
+          }
+        }
+      }
+    },
+    "Photo saved" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydedildi"
+          }
+        }
+      }
+    },
+    "Couldn't save the photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydedilemedi"
+          }
+        }
+      }
+    },
+    "The photo is now in your Photos library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf artık Fotoğraflar kitaplığında."
+          }
+        }
+      }
+    },
+    "Check your connection and try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantını kontrol edip tekrar dene."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

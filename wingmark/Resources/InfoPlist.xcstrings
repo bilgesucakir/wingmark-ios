@@ -10,6 +10,12 @@
         "tr" : { "stringUnit" : { "state" : "translated", "value" : "Gördüğün kuşun fotoğrafını çek." } }
       }
     },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save a sighting's photo to your library." } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Bir gözlemin fotoğrafını kitaplığına kaydet." } }
+      }
+    },
     "NSLocationWhenInUseUsageDescription" : {
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Your location is saved with each sighting so it appears on your map." } },

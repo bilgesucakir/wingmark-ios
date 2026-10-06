@@ -1,10 +1,11 @@
 import AVFoundation
 import CoreLocation
+import Photos
 import SwiftUI
 
-/// What the app asks the system for. Photos (add only) joins when saving a sighting's photo ships.
+/// What the app asks the system for. Photos is add-only: the app can save a picture but never reads the library.
 enum PermissionKind: CaseIterable, Identifiable {
-    case camera, location
+    case camera, location, photos
 
     var id: Self { self }
 
@@ -12,6 +13,7 @@ enum PermissionKind: CaseIterable, Identifiable {
         switch self {
         case .camera: String(localized: "Camera", bundle: .app)
         case .location: String(localized: "Location", bundle: .app)
+        case .photos: String(localized: "Photos", bundle: .app)
         }
     }
 
@@ -19,6 +21,7 @@ enum PermissionKind: CaseIterable, Identifiable {
         switch self {
         case .camera: "camera"
         case .location: "location"
+        case .photos: "photo.on.rectangle"
         }
     }
 
@@ -27,6 +30,7 @@ enum PermissionKind: CaseIterable, Identifiable {
         switch self {
         case .camera: String(localized: "Used to take photos of the birds you spot.", bundle: .app)
         case .location: String(localized: "Used to save where you spotted each bird and to show you on the map.", bundle: .app)
+        case .photos: String(localized: "Used to save a sighting's photo to your library.", bundle: .app)
         }
     }
 }
@@ -57,6 +61,16 @@ enum PermissionState: Equatable {
         }
     }
 
+    init(photosAddOnly status: PHAuthorizationStatus) {
+        switch status {
+        case .authorized, .limited: self = .allowed
+        case .denied: self = .notAllowed
+        case .restricted: self = .restricted
+        case .notDetermined: self = .notAsked
+        @unknown default: self = .notAllowed
+        }
+    }
+
     init(location status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse, .authorizedAlways: self = .allowed
@@ -72,15 +86,18 @@ enum PermissionState: Equatable {
 struct PermissionClient {
     var state: (PermissionKind) -> PermissionState
     var requestCamera: () async -> Bool
+    var requestPhotosAddOnly: () async -> Bool = { false }
 
     static let live = PermissionClient(
         state: { kind in
             switch kind {
             case .camera: PermissionState(camera: AVCaptureDevice.authorizationStatus(for: .video))
             case .location: PermissionState(location: CLLocationManager().authorizationStatus)
+            case .photos: PermissionState(photosAddOnly: PHPhotoLibrary.authorizationStatus(for: .addOnly))
             }
         },
-        requestCamera: { await AVCaptureDevice.requestAccess(for: .video) }
+        requestCamera: { await AVCaptureDevice.requestAccess(for: .video) },
+        requestPhotosAddOnly: { PermissionState(photosAddOnly: await PHPhotoLibrary.requestAuthorization(for: .addOnly)) == .allowed }
     )
 }
 
@@ -97,6 +114,8 @@ struct PermissionIssue: Identifiable, Equatable {
         case (.camera, _): String(localized: "Camera access is off", bundle: .app)
         case (.location, .restricted): String(localized: "Location is restricted", bundle: .app)
         case (.location, _): String(localized: "Location access is off", bundle: .app)
+        case (.photos, .restricted): String(localized: "Saving photos is restricted", bundle: .app)
+        case (.photos, _): String(localized: "Saving photos is off", bundle: .app)
         }
     }
 
@@ -110,6 +129,10 @@ struct PermissionIssue: Identifiable, Equatable {
             String(localized: "Location is restricted on this iPhone, so Wingmark can't use it.", bundle: .app)
         case (.location, _):
             String(localized: "Allow Wingmark to use your location in Settings to see where you are on the map.", bundle: .app)
+        case (.photos, .restricted):
+            String(localized: "Saving to Photos is restricted on this iPhone, so Wingmark can't save this picture.", bundle: .app)
+        case (.photos, _):
+            String(localized: "Allow Wingmark to add photos in Settings to save this picture to your library.", bundle: .app)
         }
     }
 }
@@ -130,6 +153,25 @@ enum CameraAccess: Equatable {
             return .blocked(PermissionIssue(kind: .camera, state: .notAllowed))
         case .restricted:
             return .blocked(PermissionIssue(kind: .camera, state: .restricted))
+        }
+    }
+}
+
+/// Decides what happens when the person taps Save Photo. Only asks for add-only access, never to read the library.
+enum PhotoSaveAccess: Equatable {
+    case allowed
+    case blocked(PermissionIssue)
+
+    static func resolve(using client: PermissionClient = .live) async -> PhotoSaveAccess {
+        switch client.state(.photos) {
+        case .allowed:
+            return .allowed
+        case .notAsked:
+            return await client.requestPhotosAddOnly() ? .allowed : .blocked(PermissionIssue(kind: .photos, state: .notAllowed))
+        case .notAllowed:
+            return .blocked(PermissionIssue(kind: .photos, state: .notAllowed))
+        case .restricted:
+            return .blocked(PermissionIssue(kind: .photos, state: .restricted))
         }
     }
 }
