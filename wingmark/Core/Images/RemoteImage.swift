@@ -24,6 +24,15 @@ final class ImageLoader {
         memory.object(forKey: url as NSURL)
     }
 
+    /// The file as the server sent it, from the same cache the screen uses.
+    func data(for url: URL) async -> Data? {
+        guard let (data, response) = try? await session.data(from: url),
+              (response as? HTTPURLResponse)?.statusCode == 200,
+              UIImage(data: data) != nil
+        else { return nil }
+        return data
+    }
+
     func image(for url: URL) async -> UIImage? {
         if let cached = cachedImage(for: url) { return cached }
         guard let (data, response) = try? await session.data(from: url),

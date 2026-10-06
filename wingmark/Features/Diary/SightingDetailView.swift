@@ -9,6 +9,9 @@ struct SightingDetailView: View {
     @State private var confirmDelete = false
     @State private var errorMessage: String?
     @State private var isDeleting = false
+    @State private var isSavingPhoto = false
+    @State private var photoIssue: PermissionIssue?
+    @State private var saveOutcome: PhotoSaveOutcome?
 
     var body: some View {
         Group {
@@ -20,6 +23,14 @@ struct SightingDetailView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .task { await store.refresh(logId) }
+        .permissionAlert($photoIssue)
+        .alert(saveOutcome?.title ?? "", isPresented: Binding(get: { saveOutcome != nil }, set: { if !$0 { saveOutcome = nil } }),
+               presenting: saveOutcome) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { outcome in
+            Text(outcome.message)
+        }
+        .sensoryFeedback(.success, trigger: saveOutcome == .saved)
     }
 
     private func content(_ log: BirdLog) -> some View {
@@ -93,7 +104,25 @@ struct SightingDetailView: View {
             }
         }
         .toolbar {
-            Button("Edit") { path.append(.edit(log.id)) }
+            if log.photoUrl != nil {
+                ToolbarItem {
+                    Button("Save Photo", systemImage: "square.and.arrow.down") { savePhoto(log) }
+                        .disabled(isSavingPhoto)
+                }
+            }
+            ToolbarItem { Button("Edit") { path.append(.edit(log.id)) } }
+        }
+    }
+
+    private func savePhoto(_ log: BirdLog) {
+        isSavingPhoto = true
+        Task {
+            defer { isSavingPhoto = false }
+            switch await PhotoSaver().save(path: log.photoUrl) {
+            case .saved: saveOutcome = .saved
+            case .blocked(let issue): photoIssue = issue
+            case .failed: saveOutcome = .failed
+            }
         }
     }
 
@@ -108,6 +137,24 @@ struct SightingDetailView: View {
             } catch {
                 errorMessage = error.userMessage
             }
+        }
+    }
+}
+
+private enum PhotoSaveOutcome {
+    case saved, failed
+
+    var title: String {
+        switch self {
+        case .saved: String(localized: "Photo saved", bundle: .app)
+        case .failed: String(localized: "Couldn't save the photo", bundle: .app)
+        }
+    }
+
+    var message: String {
+        switch self {
+        case .saved: String(localized: "The photo is now in your Photos library.", bundle: .app)
+        case .failed: String(localized: "Check your connection and try again.", bundle: .app)
         }
     }
 }
