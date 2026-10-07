@@ -32,8 +32,8 @@
           ],
           "glass" : true,
           "hidden" : false,
-          "image-name" : "Adsız tasarım.png",
-          "name" : "Adsız tasarım",
+          "image-name" : "bird_default.png",
+          "name" : "bird_default",
           "opacity-specializations" : [
             {
               "appearance" : "dark",
@@ -66,8 +66,8 @@
     {
       "layers" : [
         {
-          "image-name" : "Adsız tasarım-2.png",
-          "name" : "Adsız tasarım-2",
+          "image-name" : "bird_dark_mode.png",
+          "name" : "bird_dark_mode",
           "position" : {
             "scale" : 1.5,
             "translation-in-points" : [
