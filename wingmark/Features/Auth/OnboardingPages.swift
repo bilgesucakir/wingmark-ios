@@ -36,7 +36,7 @@ struct OnboardingPageView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 24) {
                 Image(systemName: page.symbol)
                     .font(.system(size: 64))
                     .foregroundStyle(.tint)
@@ -58,31 +58,5 @@ struct OnboardingPageView: View {
         }
         .scrollBounceBehavior(.basedOnSize)
         .accessibilityElement(children: .combine)
-    }
-}
-
-/// The system page dots are white on white here, so these are drawn in the accent color. VoiceOver can adjust the page.
-struct PageDots: View {
-    let count: Int
-    @Binding var selection: Int
-
-    var body: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<count, id: \.self) { index in
-                Circle()
-                    .fill(index == selection ? AnyShapeStyle(.tint) : AnyShapeStyle(Color.secondary.opacity(0.35)))
-                    .frame(width: 8, height: 8)
-            }
-        }
-        .animation(.default, value: selection)
-        .accessibilityElement()
-        .accessibilityLabel(Text("Page \(selection + 1) of \(count)"))
-        .accessibilityAdjustableAction { direction in
-            switch direction {
-            case .increment: selection = min(selection + 1, count - 1)
-            case .decrement: selection = max(selection - 1, 0)
-            @unknown default: break
-            }
-        }
     }
 }

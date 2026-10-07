@@ -40,7 +40,7 @@ struct BadgesView: View {
     }
 
     private var summary: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("\(store.earnedCount) of \(store.badges.count) earned")
                 .font(.headline)
             ProgressView(value: Double(store.earnedCount), total: Double(max(store.badges.count, 1)))
@@ -112,7 +112,7 @@ private struct BadgeCard: View {
     let badge: BadgeProgress
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 12) {
             BadgeIcon(icon: badge.icon, tier: badge.tier, earned: badge.earned)
             Text(badge.name)
                 .font(.subheadline.weight(.semibold))
@@ -151,7 +151,7 @@ private struct BadgeDetailSheet: View {
     var body: some View {
         VStack(spacing: 16) {
             BadgeIcon(icon: badge.icon, tier: badge.tier, earned: badge.earned, size: 96)
-            VStack(spacing: 6) {
+            VStack(spacing: 8) {
                 Text(badge.name).font(.title2.bold())
                 Text(badge.tier.title)
                     .font(.subheadline.weight(.semibold))
@@ -172,13 +172,13 @@ private struct BadgeDetailSheet: View {
                     .foregroundStyle(.green)
                 }
             } else {
-                VStack(spacing: 6) {
+                VStack(spacing: 8) {
                     ProgressView(value: badge.fraction).tint(badge.tier.color)
                     Text("\(badge.progress) / \(badge.target)")
                         .font(.subheadline.monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 32)
             }
         }
         .padding(24)
@@ -199,7 +199,7 @@ struct BadgeCelebration: View {
             Color.black.opacity(0.45)
                 .ignoresSafeArea()
                 .onTapGesture(perform: onDismiss)
-            VStack(spacing: 18) {
+            VStack(spacing: 16) {
                 Text(badges.count == 1 ? "New badge!" : "New badges!")
                     .font(.title.bold())
                 HStack(spacing: 16) {
@@ -215,8 +215,8 @@ struct BadgeCelebration: View {
                     }
                 }
             }
-            .padding(.horizontal, 28)
-            .padding(.bottom, 28)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
             .padding(.top, 48)
             .background(.regularMaterial, in: .rect(cornerRadius: 28))
             .overlay(alignment: .topTrailing) {

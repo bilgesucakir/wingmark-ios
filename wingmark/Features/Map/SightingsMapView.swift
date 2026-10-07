@@ -128,7 +128,7 @@ struct SightingsMapView: View {
                 Label("Zoom in to see all sightings", systemImage: "plus.magnifyingglass")
                     .font(.footnote)
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 8)
                     .glassEffect()
             } else if let error = store.loadError {
                 Button {
@@ -137,7 +137,7 @@ struct SightingsMapView: View {
                     Label(error.userMessage, systemImage: "arrow.clockwise")
                         .font(.footnote)
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        .padding(.vertical, 8)
                 }
                 .buttonStyle(.plain)
                 .glassEffect()
@@ -357,7 +357,7 @@ private struct SightingSummarySheet: View {
             }
             Spacer(minLength: 0)
         }
-        .padding(20)
+        .padding(16)
         .frame(maxHeight: .infinity, alignment: .top)
     }
 }

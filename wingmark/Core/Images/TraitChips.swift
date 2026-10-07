@@ -18,7 +18,7 @@ struct TraitChips: View {
 
     var body: some View {
         if !labels.isEmpty {
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 ForEach(labels, id: \.self) { label in
                     Text(label)
                         .font(.caption.weight(.semibold))
@@ -37,7 +37,7 @@ extension View {
     func traitChips(lifeStage: LifeStage?, gender: Gender?, caption: String? = nil) -> some View {
         overlay(alignment: .bottomLeading) {
             TraitChips(lifeStage: lifeStage, gender: gender, caption: caption)
-                .padding(10)
+                .padding(8)
         }
     }
 }

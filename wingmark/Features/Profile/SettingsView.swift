@@ -65,7 +65,7 @@ struct SettingsView: View {
             } header: {
                 Text("Your Data")
             } footer: {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text("Get a copy of your profile, settings, sightings, badges and accepted terms as a JSON file.")
                     FieldError(message: exportError)
                 }
@@ -135,20 +135,20 @@ struct ChangePasswordView: View {
     var body: some View {
         Form {
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("Current Password", text: $current)
                         .textContentType(.password)
                     FieldError(message: currentError)
                 }
             }
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("New Password", text: $new)
                         .textContentType(.newPassword)
                     FieldError(message: newServerError ?? (showValidation
                         ? AuthValidation.passwordError(new, email: rules.email, username: rules.username) : nil))
                 }
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("Confirm New Password", text: $confirmation)
                         .textContentType(.newPassword)
                     FieldError(message: showValidation ? AuthValidation.confirmationError(new, confirmation) : nil)
@@ -220,7 +220,7 @@ struct DeleteAccountView: View {
                 Text("Deleting your account permanently removes your sightings, photos, badges and profile. This can't be undone.")
             }
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("Password", text: $password)
                         .textContentType(.password)
                     FieldError(message: passwordError)
