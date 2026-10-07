@@ -1972,16 +1972,6 @@
         }
       }
     },
-    "Page %lld of %lld" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sayfa %lld / %lld"
-          }
-        }
-      }
-    },
     "Password" : {
       "localizations" : {
         "en" : {

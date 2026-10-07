@@ -96,7 +96,7 @@ struct PasswordRequirements: View {
     /// Neutral dot until the person types; then a gray check once met, or a red cross until then. The mark, not just
     /// the color, carries the state, and VoiceOver says "Met" / "Not met". The red is darker in light mode for contrast.
     private func row(_ title: LocalizedStringKey, state: PasswordRuleState) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
             Image(systemName: symbol(for: state))
                 .font(.caption2.weight(.bold))
                 .frame(width: 14)

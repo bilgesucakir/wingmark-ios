@@ -49,7 +49,7 @@ struct SignUpView: View {
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     TextField("Username", text: $username)
                         .textContentType(.nickname)
                         .textInputAutocapitalization(.never)
@@ -59,7 +59,7 @@ struct SignUpView: View {
                         .onSubmit { focus = .email }
                     FieldError(message: error(for: "username", client: AuthValidation.usernameError(username)))
                 }
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     TextField("Email", text: $email)
                         .textContentType(.username)
                         .keyboardType(.emailAddress)
@@ -70,7 +70,7 @@ struct SignUpView: View {
                         .onSubmit { focus = .password }
                     FieldError(message: error(for: "email", client: AuthValidation.emailError(email)))
                 }
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("Password", text: $password)
                         .textContentType(.newPassword)
                         .focused($focus, equals: .password)

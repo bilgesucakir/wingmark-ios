@@ -50,8 +50,21 @@ struct WelcomeView: View {
     @State private var page = 0
     @State private var showsGuide = false
     @State private var showsTour = WelcomeTour().isFirstLaunch
+    @Environment(\.dynamicTypeSize) private var typeSize
 
+    /// At the accessibility text sizes the buttons alone fill the screen, so the page scrolls and the pages get a fixed height.
     var body: some View {
+        if typeSize.isAccessibilitySize {
+            ScrollView { content }
+                .scrollBounceBehavior(.basedOnSize)
+                .toolbar(.hidden, for: .navigationBar)
+        } else {
+            content
+                .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: 16) {
             if showsTour {
                 TabView(selection: $page) {
@@ -60,8 +73,10 @@ struct WelcomeView: View {
                         OnboardingPageView(page: item).tag(index + 1)
                     }
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                PageDots(count: OnboardingPage.allCases.count + 1, selection: $page)
+                .tabViewStyle(.page(indexDisplayMode: .always))
+                // The system dots are white, so the background keeps them visible on a light screen.
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .frame(height: typeSize.isAccessibilitySize ? 600 : nil)
             } else {
                 introPage
                 Button("Take a Tour") {
@@ -93,7 +108,6 @@ struct WelcomeView: View {
             LegalLinks()
         }
         .padding(24)
-        .toolbar(.hidden, for: .navigationBar)
         .onAppear { WelcomeTour().markSeen() }
         .sheet(isPresented: $showsGuide) {
             GuestGuideView()
@@ -102,21 +116,27 @@ struct WelcomeView: View {
     }
 
     private var introPage: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "bird.fill")
-                .font(.system(size: 64))
-                .foregroundStyle(.tint)
-                .accessibilityHidden(true)
-            Text("Wingmark")
-                .font(.largeTitle.bold())
-            Text("Log the birds you see, learn about their species and earn badges along the way.")
-                .font(.body)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+        ScrollView {
+            VStack(spacing: 12) {
+                Image("Logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 96)
+                    .accessibilityHidden(true)
+                Text("Wingmark")
+                    .font(.largeTitle.bold())
+                Text("Log the birds you see, learn about their species and earn badges along the way.")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 48)
+            .containerRelativeFrame(.vertical, alignment: .center)
         }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 48)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .scrollBounceBehavior(.basedOnSize)
     }
 
     @ViewBuilder

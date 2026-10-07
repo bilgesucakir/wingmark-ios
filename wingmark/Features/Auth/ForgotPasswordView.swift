@@ -18,7 +18,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         Form {
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     TextField("Email", text: $email)
                         .textContentType(.username)
                         .keyboardType(.emailAddress)
@@ -95,7 +95,7 @@ struct ResetPasswordView: View {
     var body: some View {
         Form {
             Section {
-                VStack(spacing: 6) {
+                VStack(spacing: 8) {
                     OneTimeCodeField(code: $code)
                         .focused($focus, equals: .code)
                     FieldError(message: codeError)
@@ -117,7 +117,7 @@ struct ResetPasswordView: View {
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("New Password", text: $password)
                         .textContentType(.newPassword)
                         .focused($focus, equals: .password)
@@ -126,7 +126,7 @@ struct ResetPasswordView: View {
                     FieldError(message: passwordServerError
                         ?? (showValidation ? AuthValidation.passwordError(password, email: email) : nil))
                 }
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     SecureField("Confirm New Password", text: $confirmation)
                         .textContentType(.newPassword)
                         .focused($focus, equals: .confirmation)
