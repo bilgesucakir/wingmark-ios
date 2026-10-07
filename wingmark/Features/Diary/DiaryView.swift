@@ -9,6 +9,8 @@ enum DiaryRoute: Hashable {
 
 struct DiaryView: View {
     @Environment(DiaryStore.self) private var store
+    @Environment(AuthSession.self) private var session
+    @Environment(AppRouter.self) private var router
     @State private var path: [DiaryRoute] = []
     @State private var pendingDelete: BirdLog?
     @State private var deleteError: String?
@@ -25,6 +27,7 @@ struct DiaryView: View {
                     }
                 }
                 .sightingDestinations(path: $path)
+                .onChange(of: router.pending, initial: true) { openPendingLink() }
                 .refreshable { await store.load() }
                 .task { if !store.hasLoaded { await store.load() } }
                 .alert(
@@ -45,6 +48,19 @@ struct DiaryView: View {
                     Text(deleteError ?? "")
                 }
         }
+    }
+
+    private func openPendingLink() {
+        guard session.pendingConsents.isEmpty, let link = router.pending else { return }
+        switch link {
+        case .logSighting:
+            if path.last != .add { path = [.add] }
+        case .sighting(let id):
+            path = [.detail(id)]
+        case .badges, .guide:
+            return
+        }
+        router.pending = nil
     }
 
     @ViewBuilder

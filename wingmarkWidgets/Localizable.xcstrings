@@ -1,0 +1,66 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Next Badge" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıradaki Rozet"
+          }
+        }
+      }
+    },
+    "The badge you are closest to earning." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kazanmaya en yakın olduğun rozet."
+          }
+        }
+      }
+    },
+    "Latest Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Gözlem"
+          }
+        }
+      }
+    },
+    "The last bird you logged." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eklediğin son kuş."
+          }
+        }
+      }
+    },
+    "Bird of the Day" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günün Kuşu"
+          }
+        }
+      }
+    },
+    "A different bird from the Guide every day." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her gün Rehber'den farklı bir kuş."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
