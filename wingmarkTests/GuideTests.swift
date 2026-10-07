@@ -89,3 +89,21 @@ struct GuideTests {
         #expect(SpeciesAPI.sounds(id: UUID()).requiresAuth == false)
     }
 }
+
+@MainActor
+struct SpeciesSearchTextTests {
+    private func search(for text: String) -> String? {
+        SpeciesAPI.list(search: text, page: 0, language: "tr").query.first { $0.name == "search" }?.value
+    }
+
+    @Test func sendsTurkishAndScientificNamesUnchanged() {
+        #expect(search(for: "serçe") == "serçe")
+        #expect(search(for: "SERCE") == "SERCE")
+        #expect(search(for: "Passer domesticus") == "Passer domesticus")
+    }
+
+    @Test func trimsSpacesAndSkipsAnEmptySearch() {
+        #expect(search(for: "  serçe  ") == "serçe")
+        #expect(search(for: "   ") == nil)
+    }
+}
