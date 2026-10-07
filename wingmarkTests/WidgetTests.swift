@@ -55,10 +55,13 @@ struct WidgetTests {
                 .replacingOccurrences(of: #""lifeStage":"ADULT""#, with: #""lifeStage":"BABY""#)
                 .replacingOccurrences(of: #""note":null"#, with: #""note":"  Near the pond.  ""#).utf8))
         let latest = try #require(WidgetSync.summary(logs: [known], badges: [], language: "en").latest)
-        #expect(latest.gender == "Female" && latest.lifeStage == "Juvenile" && latest.note == "Near the pond.")
-        #expect(latest.traits == "Female · Juvenile")
+        #expect(latest.gender == Gender.female.title && latest.lifeStage == LifeStage.baby.title)
+        #expect(latest.note == "Near the pond.")
+        #expect(latest.traits == "\(Gender.female.title) · \(LifeStage.baby.title)")
 
-        let unknown = try log(2, at: "2026-09-30T07:30:00Z")
+        let unknown = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(
+            DiaryFixtures.logJSON(id: "00000000-0000-0000-0000-000000000002", observedAt: "2026-09-30T07:30:00Z")
+                .replacingOccurrences(of: #""lifeStage":"ADULT""#, with: #""lifeStage":"UNKNOWN""#).utf8))
         let bare = try #require(WidgetSync.summary(logs: [unknown], badges: [], language: "en").latest)
         #expect(bare.gender == nil && bare.lifeStage == nil && bare.traits == nil)
     }
