@@ -3334,6 +3334,16 @@
           }
         }
       }
+    },
+    "Log a Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem Ekle"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB00000000000000000000B3 /* wingmarkWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AB00000000000000000000A0 /* wingmarkWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AB0000000000000000000030 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -14,11 +18,33 @@
 			remoteGlobalIDString = 2FEFD8883054C5CD00414042;
 			remoteInfo = wingmark;
 		};
+		AB00000000000000000000B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FEFD8813054C5CD00414042 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB00000000000000000000A3;
+			remoteInfo = wingmarkWidgets;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AB00000000000000000000B2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AB00000000000000000000B3 /* wingmarkWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2FEFD8893054C5CD00414042 /* wingmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wingmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0000000000000000000010 /* wingmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wingmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB00000000000000000000A0 /* wingmarkWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = wingmarkWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0000000000000000000040 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -31,6 +57,16 @@
 		AB0000000000000000000002 /* wingmarkTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = wingmarkTests;
+			sourceTree = "<group>";
+		};
+		AB00000000000000000000A1 /* wingmarkWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = wingmarkWidgets;
+			sourceTree = "<group>";
+		};
+		AB00000000000000000000A2 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -50,6 +86,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB00000000000000000000A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -58,6 +101,8 @@
 			children = (
 				AB0000000000000000000001 /* wingmark */,
 				AB0000000000000000000002 /* wingmarkTests */,
+				AB00000000000000000000A1 /* wingmarkWidgets */,
+				AB00000000000000000000A2 /* Shared */,
 				AB0000000000000000000041 /* Config */,
 				2FEFD88A3054C5CD00414042 /* Products */,
 			);
@@ -68,6 +113,7 @@
 			children = (
 				2FEFD8893054C5CD00414042 /* wingmark.app */,
 				AB0000000000000000000010 /* wingmarkTests.xctest */,
+				AB00000000000000000000A0 /* wingmarkWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,13 +136,16 @@
 				2FEFD8853054C5CD00414042 /* Sources */,
 				2FEFD8863054C5CD00414042 /* Frameworks */,
 				2FEFD8873054C5CD00414042 /* Resources */,
+				AB00000000000000000000B2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AB00000000000000000000B4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AB0000000000000000000001 /* wingmark */,
+				AB00000000000000000000A2 /* Shared */,
 			);
 			name = wingmark;
 			packageProductDependencies = (
@@ -128,6 +177,29 @@
 			productReference = AB0000000000000000000010 /* wingmarkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AB00000000000000000000A3 /* wingmarkWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB00000000000000000000A7 /* Build configuration list for PBXNativeTarget "wingmarkWidgets" */;
+			buildPhases = (
+				AB00000000000000000000A4 /* Sources */,
+				AB00000000000000000000A5 /* Frameworks */,
+				AB00000000000000000000A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AB00000000000000000000A1 /* wingmarkWidgets */,
+				AB00000000000000000000A2 /* Shared */,
+			);
+			name = wingmarkWidgets;
+			packageProductDependencies = (
+			);
+			productName = wingmarkWidgets;
+			productReference = AB00000000000000000000A0 /* wingmarkWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -140,6 +212,9 @@
 				TargetAttributes = {
 					2FEFD8883054C5CD00414042 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					AB00000000000000000000A3 = {
+						CreatedOnToolsVersion = 27.0;
 					};
 					AB0000000000000000000003 = {
 						CreatedOnToolsVersion = 27.0;
@@ -164,6 +239,7 @@
 			targets = (
 				2FEFD8883054C5CD00414042 /* wingmark */,
 				AB0000000000000000000003 /* wingmarkTests */,
+				AB00000000000000000000A3 /* wingmarkWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +253,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AB0000000000000000000022 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB00000000000000000000A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -200,6 +283,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB00000000000000000000A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -207,6 +297,11 @@
 			isa = PBXTargetDependency;
 			target = 2FEFD8883054C5CD00414042 /* wingmark */;
 			targetProxy = AB0000000000000000000030 /* PBXContainerItemProxy */;
+		};
+		AB00000000000000000000B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB00000000000000000000A3 /* wingmarkWidgets */;
+			targetProxy = AB00000000000000000000B1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -337,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/wingmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K67F35BN8Y;
@@ -381,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/wingmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K67F35BN8Y;
@@ -465,6 +562,66 @@
 			};
 			name = Release;
 		};
+		AB00000000000000000000A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/wingmarkWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K67F35BN8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Config/WidgetInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmark.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AB00000000000000000000A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/wingmarkWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K67F35BN8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Config/WidgetInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bilgesucakir.wingmark.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -491,6 +648,15 @@
 			buildConfigurations = (
 				AB0000000000000000000051 /* Debug */,
 				AB0000000000000000000052 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB00000000000000000000A7 /* Build configuration list for PBXNativeTarget "wingmarkWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB00000000000000000000A8 /* Debug */,
+				AB00000000000000000000A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
