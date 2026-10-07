@@ -4,6 +4,8 @@ struct GuideView: View {
     @Environment(AuthSession.self) private var session
     @State private var search: SpeciesSearch?
     @State private var path: [DiaryRoute] = []
+    /// Set when the Guide is shown before sign-in, in a sheet that needs a way out.
+    var onClose: (() -> Void)?
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -16,8 +18,32 @@ struct GuideView: View {
             }
             .navigationTitle("Guide")
             .sightingDestinations(path: $path)
+            .toolbar {
+                if let onClose {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close", role: .close, action: onClose)
+                    }
+                }
+            }
         }
         .onAppear { if search == nil { search = SpeciesSearch(client: session.client) } }
+    }
+}
+
+/// The Guide for someone who isn't signed in: species, photos and sounds are public. It has no diary of its own.
+struct GuestGuideView: View {
+    @Environment(AuthSession.self) private var session
+    @Environment(\.dismiss) private var dismiss
+    @State private var diary: DiaryStore?
+
+    var body: some View {
+        Group {
+            if let diary {
+                GuideView(onClose: { dismiss() })
+                    .environment(diary)
+            }
+        }
+        .onAppear { if diary == nil { diary = DiaryStore(session: session) } }
     }
 }
 

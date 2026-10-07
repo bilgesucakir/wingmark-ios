@@ -3324,6 +3324,16 @@
           }
         }
       }
+    },
+    "Browse the Guide" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rehbere Göz At"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
