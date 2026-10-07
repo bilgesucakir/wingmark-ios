@@ -19,6 +19,16 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         var name: String
         var observedAt: Date
         var hasPhoto: Bool
+        /// Shown as written in the app's language; left out when unknown.
+        var gender: String?
+        var lifeStage: String?
+        var note: String?
+
+        /// "Female · Juvenile", or nothing when neither is known.
+        var traits: String? {
+            let parts = [gender, lifeStage].compactMap { $0 }
+            return parts.isEmpty ? nil : parts.joined(separator: " · ")
+        }
     }
 
     var language: String

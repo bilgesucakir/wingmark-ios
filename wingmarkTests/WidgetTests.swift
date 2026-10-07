@@ -49,6 +49,29 @@ struct WidgetTests {
         #expect(!json.contains("latitude") && !json.contains("longitude") && !json.contains("location"))
     }
 
+    @Test func latestSightingCarriesGenderLifeStageAndNoteOnlyWhenKnown() throws {
+        let known = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(
+            DiaryFixtures.logJSON(id: "00000000-0000-0000-0000-000000000001", observedAt: "2026-09-29T07:30:00Z", gender: "FEMALE")
+                .replacingOccurrences(of: #""lifeStage":"ADULT""#, with: #""lifeStage":"BABY""#)
+                .replacingOccurrences(of: #""note":null"#, with: #""note":"  Near the pond.  ""#).utf8))
+        let latest = try #require(WidgetSync.summary(logs: [known], badges: [], language: "en").latest)
+        #expect(latest.gender == "Female" && latest.lifeStage == "Juvenile" && latest.note == "Near the pond.")
+        #expect(latest.traits == "Female · Juvenile")
+
+        let unknown = try log(2, at: "2026-09-30T07:30:00Z")
+        let bare = try #require(WidgetSync.summary(logs: [unknown], badges: [], language: "en").latest)
+        #expect(bare.gender == nil && bare.lifeStage == nil && bare.traits == nil)
+    }
+
+    @Test func aLongNoteIsCutAtAWordAndAnEmptyOneIsDropped() {
+        let long = String(repeating: "feathers ", count: 40)
+        let cut = WidgetSync.shortNote(long)
+        #expect(cut?.hasSuffix("…") == true && (cut?.count ?? 999) <= 141)
+        #expect(cut?.contains("feathers…") == true)
+        #expect(WidgetSync.shortNote("   \n ") == nil && WidgetSync.shortNote(nil) == nil)
+        #expect(WidgetSync.shortNote("Short") == "Short")
+    }
+
     @Test func updateWritesOnceAndReloadsOnlyWhenSomethingChanged() async throws {
         let store = makeStore()
         var reloads = 0
