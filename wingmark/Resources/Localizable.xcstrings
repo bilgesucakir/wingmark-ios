@@ -3314,6 +3314,16 @@
           }
         }
       }
+    },
+    "Take a Tour" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanıtımı Gör"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

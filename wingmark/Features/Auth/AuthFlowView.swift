@@ -33,21 +33,42 @@ struct AuthFlowView: View {
     }
 }
 
+/// The carousel is a pitch for new people, so it shows on the first launch on a device and not on later sign-ins.
+struct WelcomeTour {
+    static let seenKey = "hasSeenWelcomeTour"
+
+    var defaults: UserDefaults = .standard
+
+    var isFirstLaunch: Bool { !defaults.bool(forKey: Self.seenKey) }
+
+    func markSeen() { defaults.set(true, forKey: Self.seenKey) }
+}
+
 struct WelcomeView: View {
     @Environment(AuthSession.self) private var session
     @Binding var path: [AuthRoute]
     @State private var page = 0
+    @State private var showsTour = WelcomeTour().isFirstLaunch
 
     var body: some View {
         VStack(spacing: 16) {
-            TabView(selection: $page) {
-                introPage.tag(0)
-                ForEach(Array(OnboardingPage.allCases.enumerated()), id: \.element) { index, item in
-                    OnboardingPageView(page: item).tag(index + 1)
+            if showsTour {
+                TabView(selection: $page) {
+                    introPage.tag(0)
+                    ForEach(Array(OnboardingPage.allCases.enumerated()), id: \.element) { index, item in
+                        OnboardingPageView(page: item).tag(index + 1)
+                    }
                 }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                PageDots(count: OnboardingPage.allCases.count + 1, selection: $page)
+            } else {
+                introPage
+                Button("Take a Tour") {
+                    page = 0
+                    showsTour = true
+                }
+                .font(.footnote.weight(.semibold))
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            PageDots(count: OnboardingPage.allCases.count + 1, selection: $page)
 
             notice
             VStack(spacing: 12) {
@@ -70,6 +91,7 @@ struct WelcomeView: View {
         }
         .padding(24)
         .toolbar(.hidden, for: .navigationBar)
+        .onAppear { WelcomeTour().markSeen() }
     }
 
     private var introPage: some View {
