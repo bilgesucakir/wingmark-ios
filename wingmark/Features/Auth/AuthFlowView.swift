@@ -48,6 +48,7 @@ struct WelcomeView: View {
     @Environment(AuthSession.self) private var session
     @Binding var path: [AuthRoute]
     @State private var page = 0
+    @State private var showsGuide = false
     @State private var showsTour = WelcomeTour().isFirstLaunch
 
     var body: some View {
@@ -87,11 +88,17 @@ struct WelcomeView: View {
                 .buttonStyle(.bordered)
             }
             .controlSize(.large)
+            Button("Browse the Guide", systemImage: "book") { showsGuide = true }
+                .font(.footnote.weight(.semibold))
             LegalLinks()
         }
         .padding(24)
         .toolbar(.hidden, for: .navigationBar)
         .onAppear { WelcomeTour().markSeen() }
+        .sheet(isPresented: $showsGuide) {
+            GuestGuideView()
+                .opensLinksInApp()
+        }
     }
 
     private var introPage: some View {

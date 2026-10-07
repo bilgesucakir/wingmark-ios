@@ -59,7 +59,7 @@ struct SpeciesDetailView: View {
             }
 
             soundsSection
-            sightingsSection
+            if session.userId != nil { sightingsSection }
         }
         .navigationTitle(species.name)
         .navigationBarTitleDisplayMode(.inline)
