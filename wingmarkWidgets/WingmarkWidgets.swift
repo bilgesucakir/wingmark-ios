@@ -47,7 +47,8 @@ extension WidgetSummary {
         language: "en",
         nextBadge: .init(name: "Gathering Finder", icon: "trophy.fill", progress: 7, target: 10),
         allBadgesEarned: false,
-        latest: .init(id: UUID(), name: "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false)
+        latest: .init(id: UUID(), name: "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false,
+                      gender: "Female", lifeStage: "Adult", note: "Feeding under the bench near the pond.")
     )
 }
 
@@ -158,10 +159,19 @@ struct LatestSightingView: View {
                         .foregroundStyle(.secondary)
                     Text(latest.name)
                         .font(.headline)
-                        .lineLimit(2)
+                        .lineLimit(latest.note == nil ? 2 : 1)
+                    if let traits = latest.traits {
+                        Text(traits).font(.subheadline)
+                    }
                     Text(latest.observedAt, style: .relative)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+                    if let note = latest.note {
+                        Text(note)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                    }
                     Spacer(minLength: 0)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
