@@ -3324,6 +3324,16 @@
           }
         }
       }
+    },
+    "Search by common or scientific name" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ortak veya bilimsel adla ara"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

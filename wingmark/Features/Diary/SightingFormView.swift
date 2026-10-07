@@ -303,6 +303,7 @@ struct SpeciesPickerView: View {
 private struct SpeciesPickerList: View {
     @Bindable var search: SpeciesSearch
     let onSelect: (Species) -> Void
+    @FocusState private var searchFocused: Bool
 
     var body: some View {
         List {
@@ -333,7 +334,10 @@ private struct SpeciesPickerList: View {
                 ContentUnavailableView.search(text: search.query)
             }
         }
-        .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always))
+        .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: Text("Search by common or scientific name"))
+        .searchFocused($searchFocused)
+        .onAppear { searchFocused = true }
         .task { await search.loadIfNeeded() }
     }
 }
