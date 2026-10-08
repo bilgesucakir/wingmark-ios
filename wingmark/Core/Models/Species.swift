@@ -28,6 +28,8 @@ struct SpeciesImage: Codable, Sendable, Hashable, Identifiable {
     let lifeStage: String?
     let gender: String?
     let imageUrl: String
+    /// ~400 px version for lists; null for external photos.
+    var thumbnailUrl: String?
     let caption: String?
     /// Null for Wingmark's own uploads; set for openly licensed photos, which must show `attribution`.
     var licenseCode: String?

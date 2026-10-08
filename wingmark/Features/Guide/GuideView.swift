@@ -98,7 +98,7 @@ struct SpeciesRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            RemoteImage(path: species.images?.first?.imageUrl)
+            RemoteImage(path: species.images?.first.map { $0.thumbnailUrl ?? $0.imageUrl })
                 .frame(width: 56, height: 56)
                 .clipShape(.rect(cornerRadius: 10))
             VStack(alignment: .leading, spacing: 2) {
