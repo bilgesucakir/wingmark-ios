@@ -134,6 +134,7 @@ struct SightingFormView: View {
             }
             if !isPhotoEmpty {
                 Button("Remove Photo", systemImage: "trash", role: .destructive) { model.removePhoto() }
+                    .foregroundStyle(.red)
             }
         } header: {
             Text("Photo")
