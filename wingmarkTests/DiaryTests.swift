@@ -30,6 +30,19 @@ struct BirdLogCodingTests {
         #expect(log.displayName == "Kızılgerdan")
         #expect(log.speciesStatus == .confident)
         #expect(log.photoUrl == "/uploads/a.jpg")
+        #expect(log.photoThumbnailUrl == nil)
+    }
+
+    @Test func decodesThumbnailUrl() throws {
+        let json = DiaryFixtures.logJSON(id: "11111111-1111-1111-1111-111111111111", observedAt: "2026-09-29T07:30:00Z")
+            .replacingOccurrences(of: #""photoUrl":"/uploads/a.jpg""#, with: #""photoUrl":"/uploads/a.jpg","photoThumbnailUrl":"/uploads/a_thumb.jpg""#)
+        let log = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(json.utf8))
+        #expect(log.photoThumbnailUrl == "/uploads/a_thumb.jpg")
+    }
+
+    @Test func photoQuotaErrorHasOwnMessage() {
+        let error = APIError.server(status: 403, body: APIErrorBody(status: 403, code: .photoQuotaExceeded, message: nil, path: nil, validationErrors: nil))
+        #expect(error.userMessage == String(localized: "You have reached the photo limit. Delete some photos first.", bundle: .app))
     }
 
     @Test func unidentifiedLogHasFallbackName() throws {
@@ -170,7 +183,7 @@ struct DiaryStoreTests {
         let created = DiaryFixtures.logJSON(id: "22222222-2222-2222-2222-222222222222", observedAt: "2026-09-29T09:00:00Z")
         let (store, transport) = await makeStore { request in
             switch request.url?.path {
-            case "/api/uploads/photo": return .init(status: 201, body: #"{"url":"/uploads/new.jpg"}"#)
+            case "/api/uploads/photo": return .init(status: 201, body: #"{"url":"/uploads/new.jpg","thumbnailUrl":"/uploads/new_thumb.jpg"}"#)
             case "/api/bird-logs": return .init(status: 201, body: created)
             default: return .init(status: 200, body: Fixtures.userJSON)
             }

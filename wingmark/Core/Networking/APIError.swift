@@ -37,6 +37,7 @@ enum APIErrorCode: String, Decodable, Sendable {
     case passwordBreached = "PASSWORD_BREACHED"
     case rateLimited = "RATE_LIMITED"
     case requestTooLarge = "REQUEST_TOO_LARGE"
+    case photoQuotaExceeded = "PHOTO_QUOTA_EXCEEDED"
     case unknown
 
     nonisolated init(from decoder: any Decoder) throws {
@@ -135,6 +136,8 @@ enum APIError: Error, Sendable {
             String(localized: "That code is wrong or has expired.", bundle: .app)
         case .invalidFile, .unsupportedMediaType:
             String(localized: "Couldn't read that photo.", bundle: .app)
+        case .photoQuotaExceeded:
+            String(localized: "You have reached the photo limit. Delete some photos first.", bundle: .app)
         case .fileTooLarge:
             String(localized: "That photo is too large.", bundle: .app)
         case .invalidCredentials:
