@@ -133,6 +133,7 @@ struct ComplianceTests {
         let image = try JSONCoding.makeDecoder().decode(SpeciesImage.self, from: Data(json.utf8))
         #expect(image.licenseCode == "CC-BY")
         #expect(image.attribution == "(c) Jane Doe")
+        #expect(image.thumbnailUrl == nil)
 
         let ownUpload = #"{"id":"00000000-0000-0000-0000-000000000002","lifeStage":null,"gender":null,"imageUrl":"/uploads/x.jpg","caption":null}"#
         #expect(try JSONCoding.makeDecoder().decode(SpeciesImage.self, from: Data(ownUpload.utf8)).licenseCode == nil)

@@ -12,6 +12,7 @@ struct SightingDetailView: View {
     @State private var isSavingPhoto = false
     @State private var photoIssue: PermissionIssue?
     @State private var saveOutcome: PhotoSaveOutcome?
+    @State private var viewing: ViewerPhoto?
 
     var body: some View {
         Group {
@@ -24,6 +25,7 @@ struct SightingDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task { await store.refresh(logId) }
         .permissionAlert($photoIssue)
+        .fullScreenCover(item: $viewing) { PhotoViewer(photo: $0) }
         .alert(saveOutcome?.title ?? "", isPresented: Binding(get: { saveOutcome != nil }, set: { if !$0 { saveOutcome = nil } }),
                presenting: saveOutcome) { _ in
             Button("OK", role: .cancel) {}
@@ -40,7 +42,8 @@ struct SightingDetailView: View {
                     RemoteImage(path: log.photoUrl, contentMode: .fit)
                         .frame(maxWidth: .infinity)
                         .accessibilityLabel(Text("Photo of \(log.displayName)"))
-                        .accessibilityAddTraits(.isImage)
+                        .accessibilityAddTraits([.isImage, .isButton])
+                        .onTapGesture { if let photoUrl = log.photoUrl { viewing = ViewerPhoto(path: photoUrl) } }
                         .traitChips(lifeStage: log.lifeStage, gender: log.gender)
                         .listRowInsets(EdgeInsets())
                 }
