@@ -169,6 +169,7 @@ struct EditProfileView: View {
                     profilePicture = nil
                     newPhoto = nil
                 }
+                .foregroundStyle(.red)
             }
         }
     }
