@@ -152,8 +152,9 @@ private struct SpeciesImageCarousel: View {
     var body: some View {
         TabView(selection: $selection) {
             ForEach(images) { image in
-                RemoteImage(path: image.imageUrl)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                // The photo fills this fixed-size frame and is cropped to it, so the chips sit inside the visible corner.
+                Color.clear
+                    .overlay { RemoteImage(path: image.imageUrl) }
                     .clipped()
                     .traitChips(lifeStage: image.lifeStageValue, gender: image.genderValue, caption: image.caption)
                     .accessibilityElement(children: .combine)
@@ -229,16 +230,19 @@ private struct PhotoCredit: View {
     let image: SpeciesImage
 
     var body: some View {
-        if let license = image.licenseCode {
-            let credit = image.attribution.map { "\($0) · \(license)" } ?? license
+        if let credit = image.creditText {
             if let url = image.sourceUrl.flatMap(URL.init(string:)) {
                 Link(destination: url) {
                     Text("Photo: \(credit)")
                 }
-                .font(.footnote)
+                .font(.caption2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 Text("Photo: \(credit)")
-                    .font(.footnote)
+                    .font(.caption2)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
