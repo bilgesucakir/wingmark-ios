@@ -149,6 +149,8 @@ private struct SpeciesImageCarousel: View {
     let speciesName: String
     @Binding var selection: UUID?
 
+    @State private var viewing: ViewerPhoto?
+
     var body: some View {
         TabView(selection: $selection) {
             ForEach(images) { image in
@@ -159,12 +161,14 @@ private struct SpeciesImageCarousel: View {
                     .traitChips(lifeStage: image.lifeStageValue, gender: image.genderValue, caption: image.caption)
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel(Text("Photo of \(speciesName)"))
-                    .accessibilityAddTraits(.isImage)
+                    .accessibilityAddTraits([.isImage, .isButton])
+                    .onTapGesture { viewing = ViewerPhoto(path: image.imageUrl) }
                     .tag(Optional(image.id))
             }
         }
         .tabViewStyle(.page(indexDisplayMode: images.count > 1 ? .always : .never))
         .frame(height: 260)
+        .fullScreenCover(item: $viewing) { PhotoViewer(photo: $0) }
     }
 }
 
