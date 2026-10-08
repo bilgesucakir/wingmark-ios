@@ -7,6 +7,9 @@ struct SightingsMapView: View {
     @Environment(DiaryStore.self) private var diary
     @Environment(AuthSession.self) private var session
 
+    /// Keeps the locate button below the filter chips, which grow with the text size.
+    @ScaledMetric(relativeTo: .subheadline) private var chipsBand = 56
+
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
@@ -66,7 +69,7 @@ struct SightingsMapView: View {
                 .buttonBorderShape(.circle)
                 .accessibilityLabel(Text("Show My Location"))
                 .padding(.trailing, 16)
-                .padding(.top, 64)
+                .padding(.top, chipsBand + 14)
             }
             .permissionAlert($locationIssue)
             .overlay(alignment: .bottomTrailing) {

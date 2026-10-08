@@ -170,6 +170,8 @@ private struct RecordingRow: View {
     let recording: SpeciesRecording
     let player: RecordingPlayer
 
+    @Environment(\.dynamicTypeSize) private var typeSize
+
     private var isCurrent: Bool { player.currentId == recording.id }
 
     var body: some View {
@@ -199,7 +201,10 @@ private struct RecordingRow: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-                HStack(spacing: 8) {
+                let details = typeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4))
+                    : AnyLayout(HStackLayout(spacing: 8))
+                details {
                     if let quality = recording.quality {
                         Text("Quality \(quality)")
                     }
