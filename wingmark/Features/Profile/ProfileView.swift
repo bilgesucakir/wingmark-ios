@@ -6,6 +6,7 @@ struct ProfileView: View {
 
     @State private var allLogs: [BirdLog] = []
     @State private var showEditProfile = false
+    @State private var favoritePhotoPath: String?
     @SceneStorage("profile.settingsOpen") private var settingsOpen = false
 
     private var distinctSpecies: Int { Set(allLogs.compactMap(\.speciesId)).count }
@@ -27,7 +28,21 @@ struct ProfileView: View {
                     Section("Stats") {
                         LabeledContent("Sightings", value: allLogs.count, format: .number)
                         LabeledContent("Species Seen", value: distinctSpecies, format: .number)
-                        LabeledContent("Favorite Species", value: profile.favoriteSpeciesName.nonEmptyOrDash)
+                        if favoritePhotoPath == nil {
+                            LabeledContent("Favorite Species", value: profile.favoriteSpeciesName.nonEmptyOrDash)
+                        }
+                    }
+                    if let favoritePhotoPath {
+                        Section("Favorite Species") {
+                            RemoteImage(path: favoritePhotoPath)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 200)
+                                .clipped()
+                                .listRowInsets(EdgeInsets())
+                                .accessibilityHidden(true)
+                            Text(profile.favoriteSpeciesName.nonEmptyOrDash)
+                                .font(.headline)
+                        }
                     }
                 } else {
                     Section {
@@ -55,6 +70,7 @@ struct ProfileView: View {
             }
             .refreshable { await reload() }
             .task(id: diary.revision) { await loadStats() }
+            .task(id: session.profile?.favoriteSpeciesId) { await loadFavoritePhoto() }
             .task { if session.profile == nil { await session.refreshProfile() } }
         }
     }
@@ -85,6 +101,15 @@ struct ProfileView: View {
     private func reload() async {
         await session.refreshProfile()
         await loadStats()
+    }
+
+    private func loadFavoritePhoto() async {
+        guard let id = session.profile?.favoriteSpeciesId else {
+            favoritePhotoPath = nil
+            return
+        }
+        let species = try? await session.client.send(SpeciesAPI.species(id: id))
+        favoritePhotoPath = species?.images?.first?.imageUrl
     }
 
     private func loadStats() async {
