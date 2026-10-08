@@ -83,6 +83,7 @@ enum SpeciesAPI {
 enum UploadAPI {
     struct UploadResponse: Decodable, Sendable {
         let url: String
+        let thumbnailUrl: String?
     }
 
     static func photo(jpeg: Data) -> Endpoint<UploadResponse> {

@@ -52,6 +52,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
     var lifeStage: LifeStage
     var gender: Gender
     var photoUrl: String?
+    var photoThumbnailUrl: String?
     var note: String?
     var latitude: Double
     var longitude: Double
@@ -63,7 +64,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case id, userId, speciesId, speciesCommonName, speciesStatus, pet, customName, lifeStage, gender
-        case photoUrl, note, latitude, longitude, locationName, observedAt, createdAt
+        case photoUrl, photoThumbnailUrl, note, latitude, longitude, locationName, observedAt, createdAt
     }
 
     init(from decoder: any Decoder) throws {
@@ -78,6 +79,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
         lifeStage = (try? c.decodeIfPresent(LifeStage.self, forKey: .lifeStage)) ?? .unknown
         gender = (try? c.decodeIfPresent(Gender.self, forKey: .gender)) ?? .unknown
         photoUrl = try c.decodeIfPresent(String.self, forKey: .photoUrl)
+        photoThumbnailUrl = try c.decodeIfPresent(String.self, forKey: .photoThumbnailUrl)
         note = try c.decodeIfPresent(String.self, forKey: .note)
         let latitude = try c.decodeIfPresent(Double.self, forKey: .latitude)
         let longitude = try c.decodeIfPresent(Double.self, forKey: .longitude)
@@ -103,6 +105,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
         try c.encode(lifeStage, forKey: .lifeStage)
         try c.encode(gender, forKey: .gender)
         try c.encodeIfPresent(photoUrl, forKey: .photoUrl)
+        try c.encodeIfPresent(photoThumbnailUrl, forKey: .photoThumbnailUrl)
         try c.encodeIfPresent(note, forKey: .note)
         if hasLocation {
             try c.encode(latitude, forKey: .latitude)

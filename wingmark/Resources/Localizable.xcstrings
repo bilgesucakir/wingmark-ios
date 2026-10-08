@@ -2654,6 +2654,16 @@
         }
       }
     },
+    "You have reached the photo limit. Delete some photos first." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf sınırına ulaştın. Önce bazı fotoğrafları sil."
+          }
+        }
+      }
+    },
     "That photo is too large." : {
       "localizations" : {
         "tr" : {

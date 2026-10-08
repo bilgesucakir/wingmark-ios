@@ -189,7 +189,7 @@ struct SightingRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            RemoteImage(path: log.photoUrl)
+            RemoteImage(path: log.photoThumbnailUrl ?? log.photoUrl)
                 .frame(width: 56, height: 56)
                 .clipShape(.rect(cornerRadius: 10))
             VStack(alignment: .leading, spacing: 2) {

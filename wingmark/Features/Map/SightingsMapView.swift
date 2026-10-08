@@ -251,7 +251,7 @@ private struct SightingPin: View {
 
     var body: some View {
         let size: CGFloat = isSelected ? 54 : 40
-        RemoteImage(path: log.photoUrl)
+        RemoteImage(path: log.photoThumbnailUrl ?? log.photoUrl)
             .frame(width: size, height: size)
             .clipShape(.circle)
             .overlay { Circle().strokeBorder(.white, lineWidth: 2.5) }
@@ -326,7 +326,7 @@ private struct SightingSummarySheet: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
-            RemoteImage(path: log.photoUrl)
+            RemoteImage(path: log.photoThumbnailUrl ?? log.photoUrl)
                 .frame(width: 96, height: 96)
                 .clipShape(.rect(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 4) {
