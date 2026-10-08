@@ -153,8 +153,9 @@ private struct SpeciesImageCarousel: View {
         TabView(selection: $selection) {
             ForEach(images) { image in
                 RemoteImage(path: image.imageUrl)
-                    .traitChips(lifeStage: image.lifeStageValue, gender: image.genderValue, caption: image.caption)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .clipped()
+                    .traitChips(lifeStage: image.lifeStageValue, gender: image.genderValue, caption: image.caption)
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel(Text("Photo of \(speciesName)"))
                     .accessibilityAddTraits(.isImage)
