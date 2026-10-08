@@ -3,6 +3,7 @@ import SwiftUI
 struct CheckInboxView: View {
     @Environment(AuthSession.self) private var session
     let email: String
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = 56
 
     @State private var resendAvailableAt = Date.now.addingTimeInterval(30)
     @State private var isResending = false
@@ -13,7 +14,7 @@ struct CheckInboxView: View {
             VStack(spacing: 24) {
                 Spacer()
                 Image(systemName: "envelope.badge")
-                    .font(.system(size: 56))
+                    .font(.system(size: iconSize))
                     .foregroundStyle(.tint)
                     .accessibilityHidden(true)
                 VStack(spacing: 8) {

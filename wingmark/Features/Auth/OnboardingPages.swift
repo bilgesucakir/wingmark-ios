@@ -33,12 +33,13 @@ enum OnboardingPage: CaseIterable, Identifiable {
 
 struct OnboardingPageView: View {
     let page: OnboardingPage
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = 64
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
                 Image(systemName: page.symbol)
-                    .font(.system(size: 64))
+                    .font(.system(size: iconSize))
                     .foregroundStyle(.tint)
                     .accessibilityHidden(true)
                 Text(page.title)
