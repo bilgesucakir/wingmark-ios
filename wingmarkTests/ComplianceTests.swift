@@ -138,6 +138,20 @@ struct ComplianceTests {
         #expect(try JSONCoding.makeDecoder().decode(SpeciesImage.self, from: Data(ownUpload.utf8)).licenseCode == nil)
     }
 
+    @Test func photoCreditHidesFileNames() throws {
+        func credit(_ license: String?, _ attribution: String?) throws -> String? {
+            let json = #"{"id":"00000000-0000-0000-0000-000000000001","lifeStage":null,"gender":null,"imageUrl":"/a.jpg","caption":null,"licenseCode":\#(license.map { "\"\($0)\"" } ?? "null"),"attribution":\#(attribution.map { "\"\($0)\"" } ?? "null")}"#
+            return try JSONCoding.makeDecoder().decode(SpeciesImage.self, from: Data(json.utf8)).creditText?
+                .replacingOccurrences(of: "\u{00A0}", with: " ").replacingOccurrences(of: "\u{2011}", with: "-")
+        }
+        #expect(try credit("cc-by-sa-4.0", "EvaldoResende / Wikimedia Commons, CC BY-SA 4.0") == "EvaldoResende / Wikimedia Commons, CC BY-SA 4.0")
+        #expect(try credit("cc-by-2.0", "Forpus_coelestis_-Peru_-male-8.jpg: peterdehaas2317 / Wikimedia Commons, CC BY 2.0") == "peterdehaas2317 / Wikimedia Commons, CC BY 2.0")
+        #expect(try credit("cc-by-2.0", "Forpus_coelestis_male.jpg") == "CC BY 2.0")
+        #expect(try credit("cc-by-4.0", nil) == "CC BY 4.0")
+        #expect(try credit("CC-BY", "(c) Jane Doe") == "(c) Jane Doe · CC-BY")
+        #expect(try credit(nil, "Jane") == nil)
+    }
+
     @Test func consentErrorsGetAUserMessage() {
         for code in ["TERMS_NOT_ACCEPTED", "PRIVACY_NOT_ACCEPTED", "CONSENT_VERSION_MISMATCH"] {
             let body = try? JSONCoding.makeDecoder().decode(APIErrorBody.self, from: Data(#"{"code":"\#(code)"}"#.utf8))

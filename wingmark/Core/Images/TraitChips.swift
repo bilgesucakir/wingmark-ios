@@ -37,7 +37,7 @@ extension View {
     func traitChips(lifeStage: LifeStage?, gender: Gender?, caption: String? = nil) -> some View {
         overlay(alignment: .bottomLeading) {
             TraitChips(lifeStage: lifeStage, gender: gender, caption: caption)
-                .padding(8)
+                .padding(12)
         }
     }
 }

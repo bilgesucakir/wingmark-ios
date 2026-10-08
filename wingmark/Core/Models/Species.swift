@@ -35,6 +35,39 @@ struct SpeciesImage: Codable, Sendable, Hashable, Identifiable {
     var sourceUrl: String?
 }
 
+extension SpeciesImage {
+    /// One short line for the photo credit, or nil for Wingmark's own uploads.
+    /// Wikimedia attributions can start with the file name ("Bird_1.jpg: Jane Doe / ...") or be only a file name; neither is shown.
+    var creditText: String? {
+        guard let code = licenseCode else { return nil }
+        var author = attribution?.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let range = author?.range(of: #"^[^:/]*\.(jpe?g|png|gif|webp|tiff?|svg)\s*:\s*"#, options: [.regularExpression, .caseInsensitive]) {
+            author?.removeSubrange(range)
+        }
+        if let text = author, text.range(of: #"^\S+\.(jpe?g|png|gif|webp|tiff?|svg)$"#, options: [.regularExpression, .caseInsensitive]) != nil {
+            author = nil
+        }
+        let license = Self.displayLicense(code)
+        guard let author, !author.isEmpty else { return license }
+        let credit = author.localizedCaseInsensitiveContains(license) ? author : "\(author) · \(license)"
+        return Self.unbreakingLicense(in: credit)
+    }
+
+    /// Keeps "CC BY-SA 4.0" on one line instead of wrapping at the hyphen or the space.
+    private static func unbreakingLicense(in text: String) -> String {
+        guard let range = text.range(of: #"CC [A-Z]+(-[A-Z]+)* \d(\.\d)?"#, options: .regularExpression) else { return text }
+        let glued = text[range].replacingOccurrences(of: " ", with: "\u{00A0}").replacingOccurrences(of: "-", with: "\u{2011}")
+        return text.replacingCharacters(in: range, with: glued)
+    }
+
+    /// "cc-by-sa-4.0" becomes "CC BY-SA 4.0"; anything else is shown as given.
+    static func displayLicense(_ code: String) -> String {
+        let parts = code.split(separator: "-").map(String.init)
+        guard parts.count >= 3, parts[0].lowercased() == "cc", let version = parts.last, version.first?.isNumber == true else { return code }
+        return "CC " + parts.dropFirst().dropLast().joined(separator: "-").uppercased() + " " + version
+    }
+}
+
 struct Species: Codable, Sendable, Hashable, Identifiable {
     let id: UUID
     let commonName: LocalizedText
