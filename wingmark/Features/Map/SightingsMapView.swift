@@ -329,6 +329,7 @@ private struct SightingSummarySheet: View {
             RemoteImage(path: log.photoThumbnailUrl ?? log.photoUrl)
                 .frame(width: 96, height: 96)
                 .clipShape(.rect(cornerRadius: 12))
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 4) {
                 Text(log.displayName)
                     .font(.headline)

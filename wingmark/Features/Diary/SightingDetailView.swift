@@ -39,6 +39,8 @@ struct SightingDetailView: View {
                 Section {
                     RemoteImage(path: log.photoUrl, contentMode: .fit)
                         .frame(maxWidth: .infinity)
+                        .accessibilityLabel(Text("Photo of \(log.displayName)"))
+                        .accessibilityAddTraits(.isImage)
                         .traitChips(lifeStage: log.lifeStage, gender: log.gender)
                         .listRowInsets(EdgeInsets())
                 }
