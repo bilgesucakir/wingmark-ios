@@ -126,6 +126,19 @@ struct WidgetTests {
     }
 }
 
+struct RemoteURLTests {
+    @Test func keepsEncodedCharactersAndEncodesAccentedOnes() {
+        let url = RemoteURL.make("https://thumb.wikimedia.org/a/Tennōji_Park%2C_2015.jpg?utm_source=commons")
+        #expect(url?.absoluteString == "https://thumb.wikimedia.org/a/Tenn%C5%8Dji_Park%2C_2015.jpg?utm_source=commons")
+    }
+
+    @Test func resolvesBackendPaths() {
+        let base = URL(string: "https://example.com")!
+        #expect(RemoteURL.make("/uploads/a.jpg", relativeTo: base)?.absoluteString == "https://example.com/uploads/a.jpg")
+        #expect(RemoteURL.make("https://other.org/b.jpg", relativeTo: base)?.absoluteString == "https://other.org/b.jpg")
+    }
+}
+
 @MainActor
 struct BirdOfTheDayTests {
     private func page(_ items: [String], total: Int, number: Int = 0) -> Data {

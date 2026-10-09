@@ -118,7 +118,11 @@ struct BirdOfTheDayView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 170)
                 .clipShape(.rect(cornerRadius: 12))
-            Text(entry.text(.birdOfTheDay)).font(.caption).foregroundStyle(.secondary)
+            HStack {
+                Text(entry.text(.birdOfTheDay)).font(.caption).foregroundStyle(.secondary)
+                Spacer(minLength: 0)
+                WidgetLogo()
+            }
             Text(bird.name).font(.title3.bold()).lineLimit(1)
             if let scientific = bird.scientificName {
                 Text(scientific).font(.subheadline).italic().foregroundStyle(.secondary).lineLimit(1)
@@ -133,9 +137,10 @@ struct BirdOfTheDayView: View {
 
     private func medium(_ bird: BirdOfTheDay) -> some View {
         HStack(spacing: 12) {
-            photo
+            // Cropped to a fixed-width slot so the photo's own size can't push the text out of the widget.
+            Color.clear
                 .frame(width: 110)
-                .frame(maxHeight: .infinity)
+                .overlay { photo }
                 .clipShape(.rect(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 4) {
                 Text(entry.text(.birdOfTheDay)).font(.caption).foregroundStyle(.secondary)
@@ -151,6 +156,8 @@ struct BirdOfTheDayView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(alignment: .topTrailing) { WidgetLogo() }
     }
 
     private func lockScreen(_ bird: BirdOfTheDay) -> some View {
