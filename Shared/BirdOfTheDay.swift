@@ -2,6 +2,8 @@ import Foundation
 
 /// One Guide species picked for the day, with what a widget shows. All of it is public Guide data.
 nonisolated struct BirdOfTheDay: Codable, Equatable, Sendable {
+    /// Missing in birds saved by older builds; the widget then opens the Guide.
+    var id: UUID?
     var name: String
     var scientificName: String?
     var summary: String?
@@ -26,6 +28,7 @@ nonisolated enum BirdOfTheDayFetcher {
             let attribution: String?
         }
 
+        let id: UUID?
         let commonName: [String: String]?
         let scientificName: String?
         let description: [String: String]?
@@ -74,6 +77,6 @@ nonisolated enum BirdOfTheDayFetcher {
         }
         guard let name = pick(dto.commonName) ?? dto.scientificName else { return nil }
         let credit = image.licenseCode.map { license in image.attribution.map { "\($0) · \(license)" } ?? license }
-        return BirdOfTheDay(name: name, scientificName: dto.scientificName, summary: pick(dto.description), photoURL: photo, credit: credit)
+        return BirdOfTheDay(id: dto.id, name: name, scientificName: dto.scientificName, summary: pick(dto.description), photoURL: photo, credit: credit)
     }
 }

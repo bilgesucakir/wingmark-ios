@@ -2,6 +2,8 @@ import SwiftUI
 
 struct BadgesView: View {
     @Environment(BadgesStore.self) private var store
+    @Environment(AuthSession.self) private var session
+    @Environment(AppRouter.self) private var router
     @State private var selected: BadgeProgress?
 
     private let columns = [GridItem(.adaptive(minimum: 150), spacing: 12)]
@@ -32,10 +34,23 @@ struct BadgesView: View {
             .navigationTitle("Badges")
             .refreshable { await store.load() }
             .task { if !store.hasLoaded { await store.load() } }
+            .onChange(of: router.pending, initial: true) { openPendingBadge() }
+            .onChange(of: store.badges) { openPendingBadge() }
             .sheet(item: $selected) { badge in
                 BadgeDetailSheet(badge: badge)
                     .presentationDetents([.medium])
             }
+        }
+    }
+
+    /// Opens the badge a widget pointed at; if the list hasn't loaded yet, it waits for it.
+    private func openPendingBadge() {
+        guard session.pendingConsents.isEmpty, case .badge(let id)? = router.pending else { return }
+        if let badge = store.badges.first(where: { $0.id == id }) {
+            selected = badge
+            router.pending = nil
+        } else if store.hasLoaded, !store.isLoading {
+            router.pending = nil
         }
     }
 

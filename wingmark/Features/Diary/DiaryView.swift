@@ -57,7 +57,7 @@ struct DiaryView: View {
             if path.last != .add { path = [.add] }
         case .sighting(let id):
             path = [.detail(id)]
-        case .badges, .guide:
+        case .badges, .badge, .guide, .species:
             return
         }
         router.pending = nil
