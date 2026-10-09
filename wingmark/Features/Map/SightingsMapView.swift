@@ -6,6 +6,7 @@ struct SightingsMapView: View {
     @Environment(MapStore.self) private var store
     @Environment(DiaryStore.self) private var diary
     @Environment(AuthSession.self) private var session
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Keeps the locate button below the filter chips, which grow with the text size.
     @ScaledMetric(relativeTo: .subheadline) private var chipsBand = 56
@@ -155,7 +156,7 @@ struct SightingsMapView: View {
             defer { isLocating = false }
             do throws(LocationError) {
                 let location = try await LocationService.currentLocation()
-                withAnimation {
+                withAnimation(reduceMotion ? nil : .default) {
                     position = .region(MKCoordinateRegion(
                         center: location.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000
                     ))
@@ -185,12 +186,13 @@ struct SightingsMapView: View {
             longitudeDelta: max((maxLng - minLng) * 1.6, 0.003)
         )
         let center = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2, longitude: (minLng + maxLng) / 2)
-        withAnimation { position = .region(MKCoordinateRegion(center: center, span: span)) }
+        withAnimation(reduceMotion ? nil : .default) { position = .region(MKCoordinateRegion(center: center, span: span)) }
     }
 }
 
 private struct MapFilterChips: View {
     @Environment(MapStore.self) private var store
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     var body: some View {
         @Bindable var store = store
@@ -236,6 +238,9 @@ private struct MapFilterChips: View {
             content()
         } label: {
             HStack(spacing: 4) {
+                if isActive && differentiateWithoutColor {
+                    Image(systemName: "checkmark").font(.caption2.weight(.bold))
+                }
                 Text(title)
                 Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
             }
@@ -245,12 +250,14 @@ private struct MapFilterChips: View {
         }
         .foregroundStyle(isActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
         .glassEffect(.regular.interactive())
+        .accessibilityAddTraits(isActive ? .isSelected : [])
     }
 }
 
 private struct SightingPin: View {
     let log: BirdLog
     let isSelected: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         let size: CGFloat = isSelected ? 54 : 40
@@ -262,7 +269,7 @@ private struct SightingPin: View {
             .shadow(radius: 3, y: 1)
             .frame(minWidth: 44, minHeight: 44)
             .contentShape(.circle)
-            .animation(.snappy, value: isSelected)
+            .animation(reduceMotion ? nil : .snappy, value: isSelected)
             .accessibilityElement()
             .accessibilityLabel(Text("\(log.displayName), seen \(log.observedAt, format: .dateTime.day().month())"))
             .accessibilityAddTraits(.isButton)
