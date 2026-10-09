@@ -74,7 +74,7 @@ private extension Optional {
 
 extension BirdOfTheDay {
     static let sample = BirdOfTheDay(
-        name: "House Sparrow", scientificName: "Passer domesticus",
+        id: nil, name: "House Sparrow", scientificName: "Passer domesticus",
         summary: "A small, social bird found in towns and farmland across much of the world.",
         photoURL: nil, credit: nil
     )
@@ -84,7 +84,7 @@ struct BirdOfTheDayWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "BirdOfTheDay", provider: BirdProvider()) { entry in
             BirdOfTheDayView(entry: entry)
-                .widgetURL(AppLink.guide.url)
+                .widgetURL((entry.bird?.id.map { AppLink.species($0) } ?? .guide).url)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Bird of the Day")

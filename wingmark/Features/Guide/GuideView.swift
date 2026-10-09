@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GuideView: View {
     @Environment(AuthSession.self) private var session
+    @Environment(AppRouter.self) private var router
     @State private var search: SpeciesSearch?
     @State private var path: [DiaryRoute] = []
     /// Set when the Guide is shown before sign-in, in a sheet that needs a way out.
@@ -27,6 +28,18 @@ struct GuideView: View {
             }
         }
         .onAppear { if search == nil { search = SpeciesSearch(client: session.client) } }
+        .onChange(of: router.pending, initial: true) { openPendingSpecies() }
+    }
+
+    /// Opens the species a widget pointed at.
+    private func openPendingSpecies() {
+        guard session.pendingConsents.isEmpty, case .species(let id)? = router.pending else { return }
+        router.pending = nil
+        Task {
+            if let species = try? await session.client.send(SpeciesAPI.species(id: id)) {
+                path = [.species(species)]
+            }
+        }
     }
 }
 

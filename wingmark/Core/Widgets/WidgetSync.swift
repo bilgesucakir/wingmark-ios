@@ -8,7 +8,7 @@ enum WidgetSync {
         let latest = logs.max { $0.observedAt < $1.observedAt }
         return WidgetSummary(
             language: language,
-            nextBadge: next.map { .init(name: $0.name, icon: $0.icon, progress: $0.progress, target: $0.target) },
+            nextBadge: next.map { .init(id: $0.id, name: $0.name, icon: $0.icon, progress: $0.progress, target: $0.target) },
             allBadgesEarned: !badges.isEmpty && badges.allSatisfy(\.earned),
             latest: latest.map {
                 .init(

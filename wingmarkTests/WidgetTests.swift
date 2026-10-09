@@ -136,7 +136,7 @@ struct BirdOfTheDayTests {
         let image = photo
             ? #"[{"imageUrl":"/uploads/\#(name).jpg","licenseCode":\#(license.map { "\"\($0)\"" } ?? "null"),"attribution":\#(credit.map { "\"\($0)\"" } ?? "null")}]"#
             : "[]"
-        return #"{"commonName":{"en":"\#(name)","tr":"\#(name)-tr"},"scientificName":"Avis \#(name)","description":{"en":"About \#(name)"},"images":\#(image)}"#
+        return #"{"id":"11111111-1111-1111-1111-111111111111","commonName":{"en":"\#(name)","tr":"\#(name)-tr"},"scientificName":"Avis \#(name)","description":{"en":"About \#(name)"},"images":\#(image)}"#
     }
 
     @Test func theSameBirdAllDayAndADifferentOneAnotherDay() {
@@ -160,6 +160,7 @@ struct BirdOfTheDayTests {
         }
         #expect(bird?.name == "Target-tr")
         #expect(bird?.summary == "About Target")
+        #expect(bird?.id == UUID(uuidString: "11111111-1111-1111-1111-111111111111"))
         #expect(bird?.credit == "Ada · CC BY")
         #expect(bird?.photoURL?.absoluteString == "https://wingmark-backend.onrender.com/uploads/Target.jpg")
     }
@@ -187,7 +188,7 @@ struct BirdOfTheDayTests {
         let directory = FileManager.default.temporaryDirectory.appending(path: "bird-tests-\(UUID().uuidString)")
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let store = SharedStore(directory: directory)
-        let bird = BirdOfTheDay(name: "House Sparrow", scientificName: nil, summary: nil, photoURL: nil, credit: nil)
+        let bird = BirdOfTheDay(id: nil, name: "House Sparrow", scientificName: nil, summary: nil, photoURL: nil, credit: nil)
         store.writeBird(bird, photo: Data([1]))
         store.clear()
         #expect(store.readBird() == bird)

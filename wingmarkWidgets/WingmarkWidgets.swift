@@ -45,7 +45,7 @@ struct SummaryProvider: TimelineProvider {
 extension WidgetSummary {
     static let sample = WidgetSummary(
         language: "en",
-        nextBadge: .init(name: "Gathering Finder", icon: "trophy.fill", progress: 7, target: 10),
+        nextBadge: .init(id: nil, name: "Gathering Finder", icon: "trophy.fill", progress: 7, target: 10),
         allBadgesEarned: false,
         latest: .init(id: UUID(), name: "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false,
                       gender: "Female", lifeStage: "Adult", note: "Feeding under the bench near the pond.")
@@ -58,7 +58,7 @@ struct NextBadgeWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "NextBadge", provider: SummaryProvider()) { entry in
             NextBadgeView(entry: entry)
-                .widgetURL(AppLink.badges.url)
+                .widgetURL((entry.summary?.nextBadge?.id.map { AppLink.badge($0) } ?? .badges).url)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Next Badge")
@@ -149,9 +149,10 @@ struct LatestSightingView: View {
     var body: some View {
         if let latest = entry.summary?.latest {
             HStack(spacing: 12) {
-                photo
+                // The photo is cropped to a fixed-width slot; otherwise its natural size pushes the text out of the widget.
+                Color.clear
                     .frame(width: 96)
-                    .frame(maxHeight: .infinity)
+                    .overlay { photo }
                     .clipShape(.rect(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 4) {
                     Text(entry.text(.latestSighting))

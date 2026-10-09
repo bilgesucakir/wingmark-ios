@@ -4,6 +4,8 @@ import Foundation
 /// needs a token. It leaves out places and coordinates on purpose.
 nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
     struct Badge: Codable, Equatable, Sendable {
+        /// Missing in summaries saved by older builds; the widget then opens the badge list.
+        var id: UUID?
         var name: String
         var icon: String?
         var progress: Int

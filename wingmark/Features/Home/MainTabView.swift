@@ -78,6 +78,10 @@ struct MainTabView: View {
         case .guide:
             selectedTab = .guide
             router.pending = nil
+        case .badge:
+            selectedTab = .badges
+        case .species:
+            selectedTab = .guide
         case .logSighting, .sighting:
             selectedTab = .diary
         }

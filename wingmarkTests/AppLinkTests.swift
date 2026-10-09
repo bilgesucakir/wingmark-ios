@@ -8,7 +8,7 @@ struct AppLinkTests {
     private let id = UUID(uuidString: "3F2504E0-4F89-11D3-9A0C-0305E82C3301")!
 
     @Test func everyLinkSurvivesAURLRoundTrip() {
-        for link in [AppLink.logSighting, .badges, .guide, .sighting(id)] {
+        for link in [AppLink.logSighting, .badges, .badge(id), .guide, .species(id), .sighting(id)] {
             #expect(AppLink(url: link.url) == link)
         }
         #expect(AppLink.sighting(id).url.absoluteString == "wingmark://sighting/3f2504e0-4f89-11d3-9a0c-0305e82c3301")
