@@ -31,6 +31,8 @@ struct MainTabView: View {
             .environment(map)
             .environment(badges)
             .task { await badges.load() }
+            // The widgets are built from the diary, which otherwise loads only when the Diary tab is opened.
+            .task { if !diary.hasLoaded { await diary.load() } }
             .task { UserLocation.shared.start() }
             .onChange(of: diary.revision) { Task { await badges.load() } }
             .onChange(of: diary.logs, initial: true) { syncWidgets(diary: diary, badges: badges) }

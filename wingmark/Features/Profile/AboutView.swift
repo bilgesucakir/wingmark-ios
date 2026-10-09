@@ -64,8 +64,8 @@ struct AcknowledgementsView: View {
                 Text("Bird Sounds")
             }
             Section {
-                Text("Some species photos come from iNaturalist contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide.")
-                Link("inaturalist.org", destination: URL(string: "https://www.inaturalist.org")!)
+                Text("Some species photos come from Wikimedia Commons contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide.")
+                Link("commons.wikimedia.org", destination: URL(string: "https://commons.wikimedia.org")!)
             } header: {
                 Text("Species Photos")
             }

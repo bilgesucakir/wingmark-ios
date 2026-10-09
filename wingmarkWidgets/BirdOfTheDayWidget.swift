@@ -174,7 +174,7 @@ struct BirdOfTheDayView: View {
     @ViewBuilder
     private var photo: some View {
         if let image = entry.photo {
-            Image(uiImage: image).resizable().scaledToFill()
+            Image(uiImage: image).resizable().widgetAccentedRenderingMode(.accentedDesaturated).scaledToFill()
         } else {
             Rectangle().fill(.quaternary).overlay { Image(systemName: "bird").font(.title).foregroundStyle(.secondary) }
         }

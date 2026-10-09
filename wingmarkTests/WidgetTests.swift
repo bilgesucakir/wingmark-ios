@@ -57,13 +57,14 @@ struct WidgetTests {
         let latest = try #require(WidgetSync.summary(logs: [known], badges: [], language: "en").latest)
         #expect(latest.gender == Gender.female.title && latest.lifeStage == LifeStage.baby.title)
         #expect(latest.note == "Near the pond.")
-        #expect(latest.traits == "\(Gender.female.title) · \(LifeStage.baby.title)")
+        #expect(latest.traits(language: "en") == "\(Gender.female.title) · \(LifeStage.baby.title)")
+        #expect(latest.traits(language: "tr") == "Dişi · Yavru")
 
         let unknown = try JSONCoding.makeDecoder().decode(BirdLog.self, from: Data(
             DiaryFixtures.logJSON(id: "00000000-0000-0000-0000-000000000002", observedAt: "2026-09-30T07:30:00Z")
                 .replacingOccurrences(of: #""lifeStage":"ADULT""#, with: #""lifeStage":"UNKNOWN""#).utf8))
         let bare = try #require(WidgetSync.summary(logs: [unknown], badges: [], language: "en").latest)
-        #expect(bare.gender == nil && bare.lifeStage == nil && bare.traits == nil)
+        #expect(bare.gender == nil && bare.lifeStage == nil && bare.traits(language: "en") == nil)
     }
 
     @Test func aLongNoteIsCutAtAWordAndAnEmptyOneIsDropped() {
@@ -123,6 +124,48 @@ struct WidgetTests {
             #expect(WidgetText.string(key, language: "en") != WidgetText.string(key, language: "tr"))
         }
         #expect(WidgetText.string(.logIn, language: nil) == "Log in to Wingmark")
+    }
+}
+
+struct WidgetLanguageTests {
+    @Test func badgeNameFollowsTheAppLanguage() {
+        let badge = WidgetSummary.Badge(id: nil, name: "Gathering Finder", names: ["en": "Gathering Finder", "tr": "Buluşma Bulucu"], icon: nil, progress: 1, target: 2)
+        #expect(badge.displayName(language: "tr") == "Buluşma Bulucu")
+        #expect(badge.displayName(language: "en") == "Gathering Finder")
+        #expect(badge.displayName(language: "de") == "Gathering Finder")
+        #expect(WidgetSummary.Badge(id: nil, name: "Old", icon: nil, progress: 0, target: 1).displayName(language: "tr") == "Old")
+    }
+}
+
+struct ObservedTimeTests {
+    private var calendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        return calendar
+    }
+
+    private func date(_ day: Int, _ hour: Int, _ minute: Int, month: Int = 10, year: Int = 2026) -> Date {
+        calendar.date(from: DateComponents(year: year, month: month, day: day, hour: hour, minute: minute))!
+    }
+
+    @Test func showsTheActualTimeWithTodayAndYesterdayInTheAppLanguage() {
+        let now = date(9, 18, 0)
+        let today = WidgetText.observed(date(9, 14, 30), now: now, language: "tr", calendar: calendar)
+        #expect(today.contains("Bugün") && today.contains("14:30"))
+        let yesterday = WidgetText.observed(date(8, 23, 5), now: now, language: "tr", calendar: calendar)
+        #expect(yesterday.contains("Dün") && yesterday.contains("23:05"))
+        let english = WidgetText.observed(date(9, 14, 30), now: now, language: "en", calendar: calendar)
+        #expect(english.contains("Today") && english.contains("2:30"))
+        #expect(WidgetText.observed(date(8, 9, 5), now: now, language: "en", calendar: calendar).contains("Yesterday"))
+    }
+
+    @Test func olderSightingsShowTheDate() {
+        let now = date(9, 18, 0)
+        let older = WidgetText.observed(date(3, 14, 30), now: now, language: "tr", calendar: calendar)
+        #expect(older.contains("3") && older.contains("Eki") && older.contains("14:30"))
+        #expect(!older.contains("2026"))
+        let lastYear = WidgetText.observed(date(3, 14, 30, year: 2025), now: now, language: "en", calendar: calendar)
+        #expect(lastYear.contains("2025"))
     }
 }
 

@@ -7,12 +7,18 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         /// Missing in summaries saved by older builds; the widget then opens the badge list.
         var id: UUID?
         var name: String
+        /// Every language the catalog has, so the widget can follow the app's language without waiting for the app to rewrite this.
+        var names: [String: String]?
         var icon: String?
         var progress: Int
         var target: Int
 
         var fraction: Double {
             target > 0 ? min(Double(progress) / Double(target), 1) : 0
+        }
+
+        func displayName(language: String?) -> String {
+            language.flatMap { names?[$0] } ?? name
         }
     }
 
@@ -24,11 +30,17 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         /// Shown as written in the app's language; left out when unknown.
         var gender: String?
         var lifeStage: String?
+        /// The server's values ("FEMALE", "BABY"), so the widget can write them in the app's language itself.
+        var genderCode: String?
+        var lifeStageCode: String?
         var note: String?
 
         /// "Female · Juvenile", or nothing when neither is known.
-        var traits: String? {
-            let parts = [gender, lifeStage].compactMap { $0 }
+        func traits(language: String?) -> String? {
+            let parts = [
+                genderCode.flatMap { WidgetText.trait($0, language: language) } ?? (genderCode == nil ? gender : nil),
+                lifeStageCode.flatMap { WidgetText.trait($0, language: language) } ?? (lifeStageCode == nil ? lifeStage : nil),
+            ].compactMap { $0 }
             return parts.isEmpty ? nil : parts.joined(separator: " · ")
         }
     }
@@ -152,7 +164,39 @@ nonisolated enum WidgetText {
         }
     }
 
+    /// Gender and life stage as the app writes them; unknown values give nil.
+    static func trait(_ code: String, language: String?) -> String? {
+        let turkish = language == "tr"
+        switch code {
+        case "MALE": return turkish ? "Erkek" : "Male"
+        case "FEMALE": return turkish ? "Dişi" : "Female"
+        case "ADULT": return turkish ? "Yetişkin" : "Adult"
+        case "BABY": return turkish ? "Yavru" : "Juvenile"
+        default: return nil
+        }
+    }
+
     static func string(_ key: Key, language: String?) -> String {
         language == "tr" ? key.turkish : key.english
+    }
+
+    /// When the sighting happened, in the app's language: "Today 14:30", "Yesterday 14:30", or "5 Oct 14:30" for older ones.
+    /// A time never goes stale, unlike "2 hours ago", which a widget can't keep up to date.
+    static func observed(_ date: Date, now: Date, language: String?, calendar: Calendar = .current) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: language == "tr" ? "tr" : "en")
+        formatter.calendar = calendar
+        formatter.timeZone = calendar.timeZone
+        let recent = calendar.isDate(date, inSameDayAs: now)
+            || calendar.dateComponents([.day], from: calendar.startOfDay(for: date), to: calendar.startOfDay(for: now)).day == 1
+        if recent {
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            formatter.doesRelativeDateFormatting = true
+        } else {
+            let sameYear = calendar.isDate(date, equalTo: now, toGranularity: .year)
+            formatter.setLocalizedDateFormatFromTemplate(sameYear ? "MMMd jmm" : "yMMMd jmm")
+        }
+        return formatter.string(from: date)
     }
 }

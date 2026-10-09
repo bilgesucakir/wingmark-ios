@@ -125,6 +125,7 @@ struct BadgeIcon: View {
 
 private struct BadgeCard: View {
     let badge: BadgeProgress
+    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
         VStack(spacing: 12) {
@@ -153,6 +154,12 @@ private struct BadgeCard: View {
         .padding(12)
         .frame(maxWidth: .infinity)
         .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+        .overlay {
+            // The card fill is nearly the page color in light mode, so with Increase Contrast it needs an outline.
+            if contrast == .increased {
+                RoundedRectangle(cornerRadius: 16).strokeBorder(Color(.separator), lineWidth: 1.5)
+            }
+        }
         .accessibilityElement(children: .combine)
         .accessibilityValue(badge.earned
             ? Text("Earned")
