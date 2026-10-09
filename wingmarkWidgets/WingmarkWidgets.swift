@@ -29,8 +29,16 @@ struct SummaryEntry: TimelineEntry {
     let date: Date
     let summary: WidgetSummary?
     let photo: UIImage?
+    /// The app's current language. The saved summary can still be in the previous one for a moment after a switch.
+    var language: String?
 
-    var language: String? { summary?.language }
+    init(date: Date, summary: WidgetSummary?, photo: UIImage?, language: String? = SharedStore.live.readLanguage()) {
+        self.date = date
+        self.summary = summary
+        self.photo = photo
+        self.language = language ?? summary?.language
+    }
+
     func text(_ key: WidgetText.Key) -> String { WidgetText.string(key, language: language) }
 }
 
@@ -51,8 +59,9 @@ struct SummaryProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SummaryEntry>) -> Void) {
-        // The app asks for a reload whenever the diary or badges change; this is only a fallback.
-        completion(Timeline(entries: [entry()], policy: .after(.now.addingTimeInterval(6 * 3600))))
+        // The app asks for a reload whenever the diary or badges change; at midnight "Today" has to become "Yesterday".
+        let midnight = Calendar.current.startOfDay(for: .now).addingTimeInterval(24 * 3600 + 60)
+        completion(Timeline(entries: [entry()], policy: .after(midnight)))
     }
 }
 
@@ -94,7 +103,7 @@ struct NextBadgeView: View {
                     Text("\(badge.progress)")
                 }
                 .gaugeStyle(.accessoryCircularCapacity)
-                .accessibilityLabel(Text("\(badge.name), \(badge.progress) of \(badge.target)"))
+                .accessibilityLabel(Text("\(badge.displayName(language: entry.language)), \(badge.progress) of \(badge.target)"))
             } else {
                 VStack(spacing: 6) {
                     ZStack {
@@ -106,7 +115,7 @@ struct NextBadgeView: View {
                         BadgeSymbol(icon: badge.icon).font(.title2)
                     }
                     .frame(width: 64, height: 64)
-                    Text(badge.name)
+                    Text(badge.displayName(language: entry.language))
                         .font(.footnote.weight(.semibold))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
@@ -177,10 +186,10 @@ struct LatestSightingView: View {
                     Text(latest.name)
                         .font(.headline)
                         .lineLimit(latest.note == nil ? 2 : 1)
-                    if let traits = latest.traits {
+                    if let traits = latest.traits(language: entry.language) {
                         Text(traits).font(.subheadline)
                     }
-                    Text(latest.observedAt, style: .relative)
+                    Text(WidgetText.observed(latest.observedAt, now: entry.date, language: entry.language))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     if let note = latest.note {
@@ -204,7 +213,7 @@ struct LatestSightingView: View {
     @ViewBuilder
     private var photo: some View {
         if let image = entry.photo {
-            Image(uiImage: image).resizable().scaledToFill()
+            Image(uiImage: image).resizable().widgetAccentedRenderingMode(.accentedDesaturated).scaledToFill()
         } else {
             Rectangle().fill(.quaternary).overlay { Image(systemName: "bird").font(.title).foregroundStyle(.secondary) }
         }

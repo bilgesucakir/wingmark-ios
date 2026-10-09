@@ -1301,7 +1301,7 @@
         }
       }
     },
-    "inaturalist.org" : {
+    "commons.wikimedia.org" : {
       "shouldTranslate" : false
     },
     "Juvenile" : {
@@ -2478,12 +2478,12 @@
         }
       }
     },
-    "Some species photos come from iNaturalist contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide." : {
+    "Some species photos come from Wikimedia Commons contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bazı tür fotoğrafları, Creative Commons lisanslarıyla iNaturalist katılımcılarından gelir. Fotoğrafçı ve lisans, Rehber'de her fotoğrafın altında gösterilir."
+            "value" : "Bazı tür fotoğrafları, Creative Commons lisanslarıyla Wikimedia Commons katılımcılarından gelir. Fotoğrafçı ve lisans, Rehber'de her fotoğrafın altında gösterilir."
           }
         }
       }

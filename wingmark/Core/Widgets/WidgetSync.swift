@@ -8,13 +8,15 @@ enum WidgetSync {
         let latest = logs.max { $0.observedAt < $1.observedAt }
         return WidgetSummary(
             language: language,
-            nextBadge: next.map { .init(id: $0.id, name: $0.name, icon: $0.icon, progress: $0.progress, target: $0.target) },
+            nextBadge: next.map { .init(id: $0.id, name: $0.name, names: $0.names.isEmpty ? nil : $0.names, icon: $0.icon, progress: $0.progress, target: $0.target) },
             allBadgesEarned: !badges.isEmpty && badges.allSatisfy(\.earned),
             latest: latest.map {
                 .init(
                     id: $0.id, name: $0.displayName, observedAt: $0.observedAt, hasPhoto: $0.photoUrl != nil,
                     gender: $0.gender == .unknown ? nil : $0.gender.title,
                     lifeStage: $0.lifeStage == .unknown ? nil : $0.lifeStage.title,
+                    genderCode: $0.gender == .unknown ? nil : $0.gender.rawValue,
+                    lifeStageCode: $0.lifeStage == .unknown ? nil : $0.lifeStage.rawValue,
                     note: shortNote($0.note)
                 )
             }

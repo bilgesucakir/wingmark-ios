@@ -55,6 +55,7 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
     let earnedAt: Date?
     let progress: Int
     let target: Int
+    var names: [String: String] = [:]
 
     var fraction: Double {
         guard target > 0 else { return earned ? 1 : 0 }
@@ -79,7 +80,8 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
                 earned: mine.earned,
                 earnedAt: mine.earnedAt,
                 progress: mine.progress,
-                target: mine.targetValue
+                target: mine.targetValue,
+                names: badge?.name.values ?? [:]
             )
         }
         // A stable split: earned badges move up without being reordered among themselves or the rest.
