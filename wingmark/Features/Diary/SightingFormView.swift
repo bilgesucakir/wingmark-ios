@@ -457,7 +457,7 @@ struct LocationPickerView: View {
         defer { locating = false }
         do throws(LocationError) {
             let location = try await LocationService.currentLocation()
-            withAnimation {
+            withAnimation(UIAccessibility.isReduceMotionEnabled ? nil : .default) {
                 position = .region(MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 800, longitudinalMeters: 800))
             }
             center = location.coordinate
@@ -478,6 +478,7 @@ struct LocationPickerView: View {
 
 private struct CenterPin: View {
     let isLifted: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ZStack {
@@ -501,7 +502,7 @@ private struct CenterPin: View {
             }
             .offset(y: isLifted ? -38 : -29)
         }
-        .animation(.snappy(duration: 0.2), value: isLifted)
+        .animation(reduceMotion ? nil : .snappy(duration: 0.2), value: isLifted)
         .accessibilityHidden(true)
     }
 }

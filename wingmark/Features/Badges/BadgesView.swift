@@ -170,7 +170,7 @@ private struct BadgeDetailSheet: View {
                 Text(badge.name).font(.title2.bold())
                 Text(badge.tier.title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(badge.tier.color)
+                    .foregroundStyle(.secondary)
                 if let description = badge.description {
                     Text(description)
                         .multilineTextAlignment(.center)
