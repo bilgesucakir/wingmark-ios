@@ -11,6 +11,20 @@ struct WingmarkWidgets: WidgetBundle {
     }
 }
 
+/// The app's bird in one color, like the corner marks other apps put on their widgets.
+struct WidgetLogo: View {
+    var body: some View {
+        Image("WidgetLogo")
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 22)
+            .foregroundStyle(.tertiary)
+            .widgetAccentable()
+            .accessibilityHidden(true)
+    }
+}
+
 struct SummaryEntry: TimelineEntry {
     let date: Date
     let summary: WidgetSummary?
@@ -100,6 +114,8 @@ struct NextBadgeView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay(alignment: .topTrailing) { WidgetLogo() }
                 .accessibilityElement(children: .combine)
             }
         } else {
@@ -177,6 +193,8 @@ struct LatestSightingView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(alignment: .topTrailing) { WidgetLogo() }
             .accessibilityElement(children: .combine)
         } else {
             Placeholder(entry: entry, message: entry.summary == nil ? .logIn : .noSightings)

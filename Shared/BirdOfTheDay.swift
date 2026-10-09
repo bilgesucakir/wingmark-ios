@@ -69,7 +69,7 @@ nonisolated enum BirdOfTheDayFetcher {
 
     private static func bird(from dto: SpeciesDTO, language: String) -> BirdOfTheDay? {
         guard let image = dto.images?.first,
-              let photo = URL(string: image.imageUrl, relativeTo: URL(string: "https://wingmark-backend.onrender.com"))?.absoluteURL
+              let photo = RemoteURL.make(image.imageUrl, relativeTo: URL(string: "https://wingmark-backend.onrender.com"))
         else { return nil }
         func pick(_ values: [String: String]?) -> String? {
             let text = values?[language] ?? values?["en"] ?? values?.values.first
