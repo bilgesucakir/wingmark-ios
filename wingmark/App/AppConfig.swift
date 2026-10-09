@@ -20,7 +20,7 @@ enum AppConfig {
 
     // Business details shown in Settings → About. Placeholders until the real values are decided; never invent them.
     static let developerName = "Bilgesu Çakır"
-    static let supportEmail = "support.wingmark@gmail.com"
+    static let supportEmail = "support@wingmarkapp.com"
 
     /// Governs use of the app itself while Wingmark publishes no custom terms.
     static let appleStandardEULA = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
