@@ -7,6 +7,7 @@ struct MainTabView: View {
     @State private var map: MapStore?
     @State private var badges: BadgesStore?
     @SceneStorage("selectedTab") private var selectedTab = MainTab.map
+    @State private var showsWalkthrough = false
 
     var body: some View {
         if let diary, let map, let badges {
@@ -48,6 +49,14 @@ struct MainTabView: View {
                 }
             }
             .animation(.default, value: badges.newlyEarned.isEmpty)
+            .task(id: session.profile?.id) { checkWalkthrough() }
+            .onChange(of: session.pendingConsents) { checkWalkthrough() }
+            .background {
+                // Its own view, because one view can only present one cover.
+                Color.clear.fullScreenCover(isPresented: $showsWalkthrough) {
+                    WalkthroughView(name: session.profile?.displayName ?? "") { finishWalkthrough() }
+                }
+            }
             .fullScreenCover(isPresented: Binding(get: { !session.pendingConsents.isEmpty }, set: { _ in })) {
                 ConsentUpdateView()
             }
@@ -62,11 +71,23 @@ struct MainTabView: View {
         }
     }
 
+    private func checkWalkthrough() {
+        guard session.pendingConsents.isEmpty, let profile = session.profile else { return }
+        if AppWalkthrough().shouldShow(userId: profile.id, createdAt: profile.createdAt) { showsWalkthrough = true }
+    }
+
+    private func finishWalkthrough() {
+        if let id = session.profile?.id { AppWalkthrough().markSeen(userId: id) }
+        showsWalkthrough = false
+    }
+
     private func syncWidgets(diary: DiaryStore, badges: BadgesStore) {
         // A filtered diary only holds the matches, so the widgets would show the wrong latest sighting.
         guard !diary.filter.isActive, diary.hasLoaded else { return }
         Task {
-            await WidgetSync.update(logs: diary.logs, badges: badges.badges, language: AppLanguage.current.code)
+            await WidgetSync.update(logs: diary.logs, badges: badges.badges, language: AppLanguage.current.code) {
+                if case .signedIn = session.state { true } else { false }
+            }
         }
     }
 

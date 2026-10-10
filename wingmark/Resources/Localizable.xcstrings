@@ -3365,12 +3365,42 @@
         }
       }
     },
-    "Take a Tour" : {
+    "Welcome, %@" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tanıtımı Gör"
+            "value" : "Hoş geldin, %@"
+          }
+        }
+      }
+    },
+    "Here is a quick look around. You can close this at any time." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısa bir tur atalım. İstediğin zaman kapatabilirsin."
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başla"
+          }
+        }
+      }
+    },
+    "Next" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İleri"
           }
         }
       }

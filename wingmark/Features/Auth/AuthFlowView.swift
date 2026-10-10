@@ -33,7 +33,7 @@ struct AuthFlowView: View {
     }
 }
 
-/// The carousel is a pitch for new people, so it shows on the first launch on a device and not on later sign-ins.
+/// The carousel is a pitch for new people, so it shows only on the first launch after installing, never on later sign-ins.
 struct WelcomeTour {
     static let seenKey = "hasSeenWelcomeTour"
 
@@ -49,7 +49,8 @@ struct WelcomeView: View {
     @Binding var path: [AuthRoute]
     @State private var page = 0
     @State private var showsGuide = false
-    @State private var showsTour = WelcomeTour().isFirstLaunch
+    /// The pages only show when the app was just installed; after that the first page is all there is.
+    private let showsTour = WelcomeTour().isFirstLaunch
     @Environment(\.dynamicTypeSize) private var typeSize
 
     /// At the accessibility text sizes the buttons alone fill the screen, so the page scrolls and the pages get a fixed height.
@@ -79,11 +80,6 @@ struct WelcomeView: View {
                 .frame(height: typeSize.isAccessibilitySize ? 600 : nil)
             } else {
                 introPage
-                Button("Take a Tour") {
-                    page = 0
-                    showsTour = true
-                }
-                .font(.footnote.weight(.semibold))
             }
 
             notice

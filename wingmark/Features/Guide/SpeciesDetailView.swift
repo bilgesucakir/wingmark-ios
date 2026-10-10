@@ -167,7 +167,8 @@ private struct SpeciesImageCarousel: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: images.count > 1 ? .always : .never))
-        .frame(height: 260)
+        // A bit taller than 4:3, not square, so upright birds aren't cut off.
+        .aspectRatio(6.0 / 5.0, contentMode: .fit)
         .fullScreenCover(item: $viewing) { PhotoViewer(photo: $0) }
     }
 }

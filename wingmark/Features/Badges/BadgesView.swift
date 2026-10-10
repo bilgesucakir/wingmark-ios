@@ -329,6 +329,7 @@ struct BadgeCelebration: View {
                 .padding(8)
             }
             .padding(32)
+            if !reduceMotion { ConfettiView() }
         }
         .sensoryFeedback(.success, trigger: appeared)
         .onAppear {
