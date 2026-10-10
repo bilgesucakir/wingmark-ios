@@ -11,18 +11,23 @@ struct AppWalkthroughTests {
         AppWalkthrough(defaults: UserDefaults(suiteName: "AppWalkthroughTests-\(UUID().uuidString)")!)
     }
 
-    @Test func showsUntilTheServerOrThisDeviceHasSeenIt() {
+    @Test func theServerDecidesAndTheDeviceOnlyHoldsAnUnconfirmedClose() {
         let walkthrough = walkthrough()
         #expect(walkthrough.shouldShow(userId: user, seenOnServer: false))
         #expect(!walkthrough.shouldShow(userId: user, seenOnServer: true))
-        walkthrough.markSeen(userId: user)
+
+        walkthrough.markClosed(userId: user)
+        #expect(walkthrough.isSyncPending(userId: user))
         #expect(!walkthrough.shouldShow(userId: user, seenOnServer: false))
-        #expect(walkthrough.hasSeenLocally(userId: user))
+
+        // Once the server has it, clearing the server flag shows the walkthrough again.
+        walkthrough.markSynced(userId: user)
+        #expect(walkthrough.shouldShow(userId: user, seenOnServer: false))
     }
 
     @Test func eachAccountKeepsItsOwnFlag() {
         let walkthrough = walkthrough()
-        walkthrough.markSeen(userId: user)
+        walkthrough.markClosed(userId: user)
         #expect(walkthrough.shouldShow(userId: UUID(), seenOnServer: false))
     }
 

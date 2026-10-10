@@ -30,6 +30,23 @@ struct AuthSessionTests {
         #expect(session.profile?.username == "ada")
     }
 
+    @Test func markingTheWalkthroughSeenPostsOnceAndRecordsItOnTheProfile() async {
+        let (session, _, transport) = makeSession(tokens: Fixtures.tokens("a")) { request in
+            request.url?.path.hasSuffix("/walkthrough-seen") == true
+                ? .init(status: 204, body: "")
+                : .init(status: 200, body: Fixtures.userJSON)
+        }
+        await session.restore()
+        #expect(session.profile?.walkthroughSeenAt == nil)
+
+        await session.markWalkthroughSeen()
+        await session.markWalkthroughSeen()
+
+        #expect(session.profile?.walkthroughSeenAt != nil)
+        #expect(transport.requests.filter { $0.url?.path.hasSuffix("/walkthrough-seen") == true }.count == 2)
+        #expect(transport.requests.first { $0.url?.path.hasSuffix("/walkthrough-seen") == true }?.httpMethod == "POST")
+    }
+
     @Test func restoreOfflineStaysSignedIn() async {
         let (session, _, _) = makeSession(tokens: Fixtures.tokens("a")) { _ in
             throw URLError(.notConnectedToInternet)

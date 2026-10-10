@@ -75,19 +75,25 @@ struct MainTabView: View {
         guard session.pendingConsents.isEmpty, let profile = session.profile else { return }
         let walkthrough = AppWalkthrough()
         if profile.walkthroughSeenAt != nil {
-            walkthrough.markSeen(userId: profile.id)
-        } else if walkthrough.hasSeenLocally(userId: profile.id) {
+            walkthrough.markSynced(userId: profile.id)
+        } else if walkthrough.isSyncPending(userId: profile.id) {
             // Closed here while the server couldn't be reached; tell it now.
-            Task { await session.markWalkthroughSeen() }
+            Task { await syncWalkthroughClose(userId: profile.id) }
         } else {
             showsWalkthrough = true
         }
     }
 
     private func finishWalkthrough() {
-        if let id = session.profile?.id { AppWalkthrough().markSeen(userId: id) }
         showsWalkthrough = false
-        Task { await session.markWalkthroughSeen() }
+        guard let id = session.profile?.id else { return }
+        AppWalkthrough().markClosed(userId: id)
+        Task { await syncWalkthroughClose(userId: id) }
+    }
+
+    private func syncWalkthroughClose(userId: UUID) async {
+        await session.markWalkthroughSeen()
+        if session.profile?.walkthroughSeenAt != nil { AppWalkthrough().markSynced(userId: userId) }
     }
 
     private func syncWidgets(diary: DiaryStore, badges: BadgesStore) {
