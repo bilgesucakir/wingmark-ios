@@ -39,7 +39,8 @@ enum WidgetSync {
     static func update(
         logs: [BirdLog], badges: [BadgeProgress], language: String,
         store: SharedStore = .live, reload: () -> Void = { WidgetCenter.shared.reloadAllTimelines() },
-        loadImage: (URL) async -> UIImage? = { await ImageLoader.shared.image(for: $0) }
+        loadImage: (URL) async -> UIImage? = { await ImageLoader.shared.image(for: $0) },
+        canWrite: () -> Bool = { true }
     ) async {
         let summary = summary(logs: logs, badges: badges, language: language)
         let previous = store.read()
@@ -49,12 +50,14 @@ enum WidgetSync {
             if !photoIsCurrent {
                 let url = latest.photoUrl.flatMap { AppConfig.assetURL(for: $0) }
                 let image = await url.asyncFlatMap(loadImage)
+                // Signing out while the photo loads must not bring the old sighting back.
+                guard canWrite() else { return }
                 store.writePhoto(image?.downscaled(toMaxSide: 600).jpegData(compressionQuality: 0.8))
             }
         } else {
             store.writePhoto(nil)
         }
-        guard summary != previous else { return }
+        guard summary != previous, canWrite() else { return }
         store.write(summary)
         reload()
     }
