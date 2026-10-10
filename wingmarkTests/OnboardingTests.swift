@@ -14,7 +14,7 @@ struct OnboardingTests {
 
     @Test func pagesHaveDistinctSymbolsAndCopy() {
         let pages = OnboardingPage.allCases
-        #expect(pages.count == 3)
+        #expect(pages.count == 4)
         #expect(Set(pages.map(\.symbol)).count == pages.count)
         #expect(pages.allSatisfy { !$0.title.isEmpty && !$0.message.isEmpty })
     }

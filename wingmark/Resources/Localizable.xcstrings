@@ -353,16 +353,6 @@
         }
       }
     },
-    "Browse species in the Guide, listen to recordings, and earn badges as your diary grows." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rehber'de türlere göz at, kayıtları dinle ve günlüğün büyüdükçe rozetler kazan."
-          }
-        }
-      }
-    },
     "Camera" : {
       "localizations" : {
         "tr" : {
@@ -599,6 +589,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Henüz açılmış rozet yok"
+          }
+        }
+      }
+    },
+    "Learn about the species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türleri tanı"
+          }
+        }
+      }
+    },
+    "Earn badges" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozet kazan"
+          }
+        }
+      }
+    },
+    "Browse species in the Guide, read about them and listen to recordings." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rehber'de türlere göz at, onlar hakkında oku ve kayıtlarını dinle."
+          }
+        }
+      }
+    },
+    "Unlock badges as your diary grows. Some of them are secret." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günlüğün büyüdükçe rozetlerin kilidini aç. Bazıları gizli."
+          }
+        }
+      }
+    },
+    "First Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk Gözlem"
+          }
+        }
+      }
+    },
+    "Juvenile Seagull" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergen Martı"
+          }
+        }
+      }
+    },
+    "European Herring Gull" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuzey Gümüş Martısı"
+          }
+        }
+      }
+    },
+    "European Robin" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kızılgerdan"
+          }
+        }
+      }
+    },
+    "Small insectivorous bird best known for its bright orange-red breast and face." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parlak turuncu-kırmızı göğsü ve yüzüyle tanınan, böcekle beslenen küçük bir kuş."
+          }
+        }
+      }
+    },
+    "Photo: Alexis Lours / Wikimedia Commons, CC BY 4.0" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf: Alexis Lours / Wikimedia Commons, CC BY 4.0"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sayfa %1$lld / %2$lld"
           }
         }
       }
@@ -1432,16 +1532,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soyad"
-          }
-        }
-      }
-    },
-    "Learn and earn badges" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öğren ve rozet kazan"
           }
         }
       }

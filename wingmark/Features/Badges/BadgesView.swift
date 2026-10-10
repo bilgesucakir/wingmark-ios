@@ -191,8 +191,10 @@ private struct TierLabel: View {
     }
 }
 
-private struct BadgeCard: View {
+struct BadgeCard: View {
     let badge: BadgeProgress
+    /// The card color; the Badges tab sits on a grey page so white cards stand out, other pages are white.
+    var fill = Color(.secondarySystemGroupedBackground)
 
     var body: some View {
         if badge.isLockedSecret { secretCard } else { regularCard }
@@ -215,7 +217,7 @@ private struct BadgeCard: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+        .background(fill, in: .rect(cornerRadius: 16))
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Secret badge, not yet unlocked"))
     }
@@ -246,7 +248,7 @@ private struct BadgeCard: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+        .background(fill, in: .rect(cornerRadius: 16))
         .accessibilityElement(children: .combine)
         .accessibilityValue(badge.earned
             ? Text("Earned")

@@ -56,7 +56,11 @@ final class AuthSession {
     func markWalkthroughSeen() async {
         guard let userId else { return }
         if (try? await client.send(AuthAPI.walkthroughSeen(userId: userId))) != nil {
-            profile?.walkthroughSeenAt = profile?.walkthroughSeenAt ?? .now
+            // Read, change and assign in separate steps: one line doing both is an exclusive-access crash.
+            if var current = profile, current.walkthroughSeenAt == nil {
+                current.walkthroughSeenAt = .now
+                profile = current
+            }
         }
     }
 

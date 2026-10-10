@@ -8,9 +8,6 @@ struct SightingsMapView: View {
     @Environment(AuthSession.self) private var session
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    /// Keeps the locate button below the filter chips, which grow with the text size.
-    @ScaledMetric(relativeTo: .subheadline) private var chipsBand = 56
-
     /// MapKit paints a light placeholder before its tiles arrive, which flashes white in dark mode; this hides it.
     @State private var coversFirstFrame = true
     @State private var path: [DiaryRoute] = []
@@ -22,8 +19,6 @@ struct SightingsMapView: View {
         AddSightingTip()
         MapFiltersTip()
     }
-    @State private var isLocating = false
-    @State private var locationIssue: PermissionIssue?
 
     private var clusters: [MapCluster] {
         guard let region = store.region else { return [] }
@@ -50,6 +45,7 @@ struct SightingsMapView: View {
                 }
             }
             .mapControls {
+                MapUserLocationButton()
                 MapCompass()
                 MapScaleView()
             }
@@ -67,24 +63,6 @@ struct SightingsMapView: View {
                 store.regionDidChange(context.region)
             }
             .safeAreaInset(edge: .top) { overlayHeader }
-            .overlay(alignment: .topTrailing) {
-                Button(action: locate) {
-                    Group {
-                        if isLocating {
-                            ProgressView()
-                        } else {
-                            Image(systemName: "location.fill")
-                        }
-                    }
-                    .frame(width: 44, height: 44)
-                }
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .accessibilityLabel(Text("Show My Location"))
-                .padding(.trailing, 16)
-                .padding(.top, chipsBand + 14)
-            }
-            .permissionAlert($locationIssue)
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     AddSightingTip().invalidate(reason: .actionPerformed)
@@ -92,8 +70,8 @@ struct SightingsMapView: View {
                 } label: {
                     Label("Add Sighting", systemImage: "plus")
                         .labelStyle(.iconOnly)
-                        .font(.title2.weight(.semibold))
-                        .frame(width: 56, height: 56)
+                        .font(.title3.weight(.semibold))
+                        .frame(width: 48, height: 48)
                 }
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.circle)
@@ -162,23 +140,6 @@ struct SightingsMapView: View {
         .padding(.top, 4)
     }
 
-    private func locate() {
-        isLocating = true
-        Task {
-            defer { isLocating = false }
-            do throws(LocationError) {
-                let location = try await LocationService.currentLocation()
-                withAnimation(reduceMotion ? nil : .default) {
-                    position = .region(MKCoordinateRegion(
-                        center: location.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000
-                    ))
-                }
-            } catch {
-                if error == .denied { locationIssue = PermissionIssue(kind: .location, state: .notAllowed) }
-            }
-        }
-    }
-
     private func select(_ log: BirdLog) {
         listedCluster = nil
         selected = log
@@ -235,7 +196,7 @@ private struct MapFilterChips: View {
                     if store.filter.isActive {
                         Button("Clear", systemImage: "xmark") { store.filter = DiaryFilter() }
                             .labelStyle(.iconOnly)
-                            .padding(8)
+                            .frame(minWidth: 44, minHeight: 44)
                             .glassEffect(.regular.interactive())
                             .accessibilityLabel(Text("Clear Filters"))
                     }
@@ -258,7 +219,7 @@ private struct MapFilterChips: View {
             }
             .font(.subheadline.weight(isActive ? .semibold : .regular))
             .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .frame(minHeight: 44)
         }
         .foregroundStyle(isActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
         .glassEffect(.regular.interactive())
