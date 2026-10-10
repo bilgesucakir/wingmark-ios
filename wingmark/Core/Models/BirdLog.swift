@@ -59,12 +59,14 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
     var locationName: String?
     var observedAt: Date
     let createdAt: Date
+    /// Minutes east of UTC where the sighting was logged; older logs don't have it.
+    var utcOffsetMinutes: Int?
     /// Older records may lack coordinates; they stay in the diary but get no map pin.
     let hasLocation: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, userId, speciesId, speciesCommonName, speciesStatus, pet, customName, lifeStage, gender
-        case photoUrl, photoThumbnailUrl, note, latitude, longitude, locationName, observedAt, createdAt
+        case photoUrl, photoThumbnailUrl, note, latitude, longitude, locationName, observedAt, createdAt, utcOffsetMinutes
     }
 
     init(from decoder: any Decoder) throws {
@@ -87,6 +89,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
         self.latitude = latitude ?? 0
         self.longitude = longitude ?? 0
         locationName = try c.decodeIfPresent(String.self, forKey: .locationName)
+        utcOffsetMinutes = try c.decodeIfPresent(Int.self, forKey: .utcOffsetMinutes)
         let observed = try c.decodeIfPresent(Date.self, forKey: .observedAt)
         let created = try c.decodeIfPresent(Date.self, forKey: .createdAt)
         observedAt = observed ?? created ?? .distantPast
@@ -114,6 +117,7 @@ struct BirdLog: Codable, Sendable, Equatable, Identifiable, Hashable {
         try c.encodeIfPresent(locationName, forKey: .locationName)
         try c.encode(observedAt, forKey: .observedAt)
         try c.encode(createdAt, forKey: .createdAt)
+        try c.encodeIfPresent(utcOffsetMinutes, forKey: .utcOffsetMinutes)
     }
 
     var displayName: String {
@@ -136,10 +140,12 @@ struct BirdLogInput: Encodable, Sendable, Equatable {
     var longitude: Double
     var locationName: String?
     var observedAt: Date?
+    /// Minutes east of UTC at the sighting, so the server can tell the local time of day. Left out when nil.
+    var utcOffsetMinutes: Int?
 
     enum CodingKeys: String, CodingKey {
         case speciesId, speciesStatus, pet, customName, lifeStage, gender, photoUrl, note
-        case latitude, longitude, locationName, observedAt
+        case latitude, longitude, locationName, observedAt, utcOffsetMinutes
     }
 
     func encode(to encoder: any Encoder) throws {
@@ -156,6 +162,7 @@ struct BirdLogInput: Encodable, Sendable, Equatable {
         try container.encode(longitude, forKey: .longitude)
         try container.encode(locationName, forKey: .locationName)
         try container.encodeIfPresent(observedAt, forKey: .observedAt)
+        try container.encodeIfPresent(utcOffsetMinutes, forKey: .utcOffsetMinutes)
     }
 }
 

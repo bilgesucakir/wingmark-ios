@@ -4,12 +4,14 @@ import WidgetKit
 /// Keeps the widgets' summary in the shared folder in step with the diary and badges.
 enum WidgetSync {
     static func summary(logs: [BirdLog], badges: [BadgeProgress], language: String) -> WidgetSummary {
-        let next = badges.filter { !$0.earned && $0.target > 0 }.max { $0.fraction < $1.fraction }
+        // A locked secret never shows up in a widget, not even by name.
+        let visible = badges.filter { !$0.isLockedSecret }
+        let next = visible.filter { !$0.earned && $0.target > 0 }.max { $0.fraction < $1.fraction }
         let latest = logs.max { $0.observedAt < $1.observedAt }
         return WidgetSummary(
             language: language,
             nextBadge: next.map { .init(id: $0.id, name: $0.name, names: $0.names.isEmpty ? nil : $0.names, icon: $0.icon, progress: $0.progress, target: $0.target) },
-            allBadgesEarned: !badges.isEmpty && badges.allSatisfy(\.earned),
+            allBadgesEarned: !visible.isEmpty && visible.allSatisfy(\.earned),
             latest: latest.map {
                 .init(
                     id: $0.id, name: $0.displayName, observedAt: $0.observedAt, hasPhoto: $0.photoUrl != nil,

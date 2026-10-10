@@ -187,12 +187,19 @@ nonisolated enum WidgetText {
         formatter.locale = Locale(identifier: language == "tr" ? "tr" : "en")
         formatter.calendar = calendar
         formatter.timeZone = calendar.timeZone
-        let recent = calendar.isDate(date, inSameDayAs: now)
-            || calendar.dateComponents([.day], from: calendar.startOfDay(for: date), to: calendar.startOfDay(for: now)).day == 1
-        if recent {
-            formatter.dateStyle = .medium
+        let turkish = language == "tr"
+        // The words are written here rather than by `doesRelativeDateFormatting`, which judges "today" by the real clock.
+        let dayWord: String? = if calendar.isDate(date, inSameDayAs: now) {
+            turkish ? "Bugün" : "Today"
+        } else if calendar.dateComponents([.day], from: calendar.startOfDay(for: date), to: calendar.startOfDay(for: now)).day == 1 {
+            turkish ? "Dün" : "Yesterday"
+        } else {
+            nil
+        }
+        if let dayWord {
+            formatter.dateStyle = .none
             formatter.timeStyle = .short
-            formatter.doesRelativeDateFormatting = true
+            return "\(dayWord) \(formatter.string(from: date))"
         } else {
             let sameYear = calendar.isDate(date, equalTo: now, toGranularity: .year)
             formatter.setLocalizedDateFormatFromTemplate(sameYear ? "MMMd jmm" : "yMMMd jmm")

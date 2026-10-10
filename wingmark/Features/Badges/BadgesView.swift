@@ -56,9 +56,9 @@ struct BadgesView: View {
 
     private var summary: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("\(store.earnedCount) of \(store.badges.count) earned")
+            Text("\(store.earnedCount) of \(store.totalCount) earned")
                 .font(.headline)
-            ProgressView(value: Double(store.earnedCount), total: Double(max(store.badges.count, 1)))
+            ProgressView(value: Double(store.earnedCount), total: Double(max(store.totalCount, 1)))
         }
     }
 
@@ -85,17 +85,25 @@ struct BadgeIcon: View {
     let tier: BadgeTier
     let earned: Bool
     var size: CGFloat = 64
+    /// A locked secret badge: a question mark in a grey circle, ringed in its tier color as the only hint.
+    var isMystery = false
 
     var body: some View {
         ZStack {
             Circle()
                 .fill(earned ? AnyShapeStyle(tier.color.gradient) : AnyShapeStyle(Color(.systemGray5)))
             Circle()
-                .strokeBorder(earned ? tier.color : Color(.systemGray3), lineWidth: 3)
-            symbol
-                .font(.system(size: size * 0.45))
-                .grayscale(earned ? 0 : 1)
-                .opacity(earned ? 1 : 0.45)
+                .strokeBorder(earned || isMystery ? tier.color : Color(.systemGray3), lineWidth: 3)
+            if isMystery {
+                Image(systemName: "questionmark")
+                    .font(.system(size: size * 0.4, weight: .bold))
+                    .foregroundStyle(.secondary)
+            } else {
+                symbol
+                    .font(.system(size: size * 0.45))
+                    .grayscale(earned ? 0 : 1)
+                    .opacity(earned ? 1 : 0.45)
+            }
             if !earned {
                 Image(systemName: "lock.fill")
                     .font(.system(size: size * 0.2, weight: .bold))
@@ -123,18 +131,62 @@ struct BadgeIcon: View {
     }
 }
 
+/// The tier name, with its own symbol for the top tier so it doesn't depend on color alone.
+private struct TierLabel: View {
+    let tier: BadgeTier
+
+    var body: some View {
+        if let symbol = tier.symbol {
+            Label(tier.title, systemImage: symbol)
+        } else {
+            Text(tier.title)
+        }
+    }
+}
+
 private struct BadgeCard: View {
     let badge: BadgeProgress
     @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
+        if badge.isLockedSecret { secretCard } else { regularCard }
+    }
+
+    private var secretCard: some View {
+        VStack(spacing: 12) {
+            BadgeIcon(icon: nil, tier: badge.tier, earned: false, isMystery: true)
+            Text("Secret badge")
+                .font(.subheadline.weight(.semibold))
+                .multilineTextAlignment(.center)
+                .lineLimit(2, reservesSpace: true)
+            TierLabel(tier: badge.tier)
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(.secondary)
+            Text("Keep birding to unlock")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity)
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+        .overlay {
+            if contrast == .increased {
+                RoundedRectangle(cornerRadius: 16).strokeBorder(Color(.separator), lineWidth: 1.5)
+            }
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Secret badge, not yet unlocked"))
+    }
+
+    private var regularCard: some View {
         VStack(spacing: 12) {
             BadgeIcon(icon: badge.icon, tier: badge.tier, earned: badge.earned)
             Text(badge.name)
                 .font(.subheadline.weight(.semibold))
                 .multilineTextAlignment(.center)
                 .lineLimit(2, reservesSpace: true)
-            Text(badge.tier.title)
+            TierLabel(tier: badge.tier)
                 .font(.caption2.weight(.medium))
                 .foregroundStyle(.secondary)
             if badge.earned, let earnedAt = badge.earnedAt {
@@ -171,11 +223,34 @@ private struct BadgeDetailSheet: View {
     let badge: BadgeProgress
 
     var body: some View {
+        if badge.isLockedSecret { secretSheet } else { regularSheet }
+    }
+
+    private var secretSheet: some View {
+        VStack(spacing: 16) {
+            BadgeIcon(icon: nil, tier: badge.tier, earned: false, size: 96, isMystery: true)
+            VStack(spacing: 8) {
+                Text("Secret badge").font(.title2.bold())
+                TierLabel(tier: badge.tier)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                Text("Keep birding to find out how to unlock this badge.")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text("Secret badge, not yet unlocked"))
+    }
+
+    private var regularSheet: some View {
         VStack(spacing: 16) {
             BadgeIcon(icon: badge.icon, tier: badge.tier, earned: badge.earned, size: 96)
             VStack(spacing: 8) {
                 Text(badge.name).font(.title2.bold())
-                Text(badge.tier.title)
+                TierLabel(tier: badge.tier)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                 if let description = badge.description {

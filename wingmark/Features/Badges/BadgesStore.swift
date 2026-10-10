@@ -3,7 +3,7 @@ import Observation
 import SwiftUI
 
 enum BadgeTier: String, Codable, Sendable, CaseIterable {
-    case bronze = "BRONZE", silver = "SILVER", gold = "GOLD"
+    case bronze = "BRONZE", silver = "SILVER", gold = "GOLD", diamond = "DIAMOND"
 
     init(from decoder: any Decoder) throws {
         self = BadgeTier(rawValue: try decoder.singleValueContainer().decode(String.self)) ?? .bronze
@@ -14,14 +14,19 @@ enum BadgeTier: String, Codable, Sendable, CaseIterable {
         case .bronze: String(localized: "Bronze", bundle: .app)
         case .silver: String(localized: "Silver", bundle: .app)
         case .gold: String(localized: "Gold", bundle: .app)
+        case .diamond: String(localized: "Diamond", bundle: .app)
         }
     }
+
+    /// Only the top tier has a symbol of its own, so it doesn't rely on its color to stand out from gold.
+    var symbol: String? { self == .diamond ? "diamond.fill" : nil }
 
     var color: Color {
         switch self {
         case .bronze: Color(red: 0.80, green: 0.50, blue: 0.20)
         case .silver: Color(red: 0.62, green: 0.65, blue: 0.70)
         case .gold: Color(red: 0.95, green: 0.72, blue: 0.10)
+        case .diamond: Color(red: 0.30, green: 0.78, blue: 0.96)
         }
     }
 }
@@ -35,14 +40,27 @@ struct CatalogBadge: Decodable, Sendable, Identifiable {
     let tier: BadgeTier?
 }
 
+/// An entry of `GET /badges/user/{id}`. A locked secret badge has only `badgeId`, `secret`, `earned` and `tier`; everything
+/// else is null, so every other field is optional.
 struct UserBadge: Decodable, Sendable {
     let badgeId: UUID
+    var secret: Bool?
     let badgeName: String?
     let badgeIcon: String?
+    var badgeDescription: String?
+    var tier: BadgeTier?
     let earned: Bool
     let earnedAt: Date?
-    let progress: Int
-    let targetValue: Int
+    let progress: Int?
+    let targetValue: Int?
+}
+
+/// How secret badges are treated, in one place so the defaults are easy to change.
+enum BadgePolicy {
+    /// "3 of 22 earned" counts locked secrets in the total.
+    static let hiddenSecretsCountInTotal = true
+    /// Locked secrets sit after the regular badges; once earned they move up with the earned ones.
+    static let lockedSecretsLast = true
 }
 
 struct BadgeProgress: Identifiable, Equatable, Sendable {
@@ -56,15 +74,21 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
     let progress: Int
     let target: Int
     var names: [String: String] = [:]
+    var isSecret = false
+
+    /// A secret badge that hasn't been earned: it has no name, description, icon or progress to show.
+    var isLockedSecret: Bool { isSecret && !earned }
 
     var fraction: Double {
         guard target > 0 else { return earned ? 1 : 0 }
         return min(Double(progress) / Double(target), 1)
     }
 
-    /// The user's badges, earned ones first, each group in the order the server sent them (its `displayOrder`), with
-    /// text and tier from the catalog. A catalog badge missing from the user's list isn't shown: the server leaves out
-    /// badges that don't apply to this user, such as the favorite-species badges for someone with no favorite species.
+    /// The user's badges, earned ones first, each group in the order the server sent them (its `displayOrder`). Text, icon
+    /// and tier come from the user's list (already in the app's language); the catalog fills in anything missing and gives
+    /// the names in every language for the widget. Secret badges aren't in the catalog. A catalog badge missing from the
+    /// user's list isn't shown: the server leaves out badges that don't apply to this user, such as the favorite-species
+    /// badges for someone with no favorite species.
     static func merge(catalog: [CatalogBadge], user: [UserBadge]) -> [BadgeProgress] {
         let catalogById = Dictionary(catalog.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         var seen = Set<UUID>()
@@ -73,19 +97,23 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
             let badge = catalogById[mine.badgeId]
             return BadgeProgress(
                 id: mine.badgeId,
-                name: badge?.name.resolved() ?? mine.badgeName ?? "",
-                description: badge?.description?.resolved(),
-                icon: badge?.icon ?? mine.badgeIcon,
-                tier: badge?.tier ?? .bronze,
+                name: mine.badgeName ?? badge?.name.resolved() ?? "",
+                description: mine.badgeDescription ?? badge?.description?.resolved(),
+                icon: mine.badgeIcon ?? badge?.icon,
+                tier: mine.tier ?? badge?.tier ?? .bronze,
                 earned: mine.earned,
                 earnedAt: mine.earnedAt,
-                progress: mine.progress,
-                target: mine.targetValue,
-                names: badge?.name.values ?? [:]
+                progress: mine.progress ?? 0,
+                target: mine.targetValue ?? 0,
+                names: badge?.name.values ?? [:],
+                isSecret: mine.secret ?? false
             )
         }
         // A stable split: earned badges move up without being reordered among themselves or the rest.
-        return inServerOrder.filter(\.earned) + inServerOrder.filter { !$0.earned }
+        let earned = inServerOrder.filter(\.earned)
+        let locked = inServerOrder.filter { !$0.earned }
+        guard BadgePolicy.lockedSecretsLast else { return earned + locked }
+        return earned + locked.filter { !$0.isLockedSecret } + locked.filter(\.isLockedSecret)
     }
 }
 
@@ -115,6 +143,9 @@ final class BadgesStore {
     }
 
     var earnedCount: Int { badges.filter(\.earned).count }
+
+    /// The "y" in "x of y earned".
+    var totalCount: Int { BadgePolicy.hiddenSecretsCountInTotal ? badges.count : badges.filter { !$0.isLockedSecret }.count }
 
     func load() async {
         guard let userId = session.userId else { return }
