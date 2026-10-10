@@ -59,6 +59,7 @@ final class SightingFormModel {
     var note: String
 
     private let originalObservedAt: Date?
+    private let originalUtcOffsetMinutes: Int?
     private var suggestedPlaceName: String?
 
     init(editing log: BirdLog?) {
@@ -67,6 +68,7 @@ final class SightingFormModel {
         observedAt = log?.observedAt ?? .now
         seenNow = log == nil
         originalObservedAt = log?.observedAt
+        originalUtcOffsetMinutes = log?.utcOffsetMinutes
         coordinate = log.flatMap { $0.hasLocation ? CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) : nil }
         locationSource = log?.hasLocation == true ? .manual : .none
         locationName = log?.locationName ?? ""
@@ -106,8 +108,17 @@ final class SightingFormModel {
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
             locationName: Self.nonEmpty(locationName),
-            observedAt: observedAtToSend
+            observedAt: observedAtToSend,
+            utcOffsetMinutes: utcOffsetToSend
         )
+    }
+
+    /// The offset at the time of the sighting, sent on create and on edit. When an edit leaves the time alone and the log
+    /// already has one, that one stays, so changing time zones never rewrites where the bird was seen.
+    private var utcOffsetToSend: Int {
+        if observedAtToSend == nil, !seenNow, let originalUtcOffsetMinutes { return originalUtcOffsetMinutes }
+        let moment = observedAtToSend ?? originalObservedAt ?? min(observedAt, .now)
+        return TimeZone.current.secondsFromGMT(for: moment) / 60
     }
 
     /// On edit, omitting `observedAt` keeps the stored value.

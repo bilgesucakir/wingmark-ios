@@ -513,6 +513,56 @@
         }
       }
     },
+    "Secret badge" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli rozet"
+          }
+        }
+      }
+    },
+    "Secret badge, not yet unlocked" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli rozet, henüz açılmadı"
+          }
+        }
+      }
+    },
+    "Keep birding to unlock" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açmak için kuş gözlemeye devam et"
+          }
+        }
+      }
+    },
+    "Keep birding to find out how to unlock this badge." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu rozetin nasıl açılacağını öğrenmek için kuş gözlemeye devam et."
+          }
+        }
+      }
+    },
+    "Diamond" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elmas"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "tr" : {
