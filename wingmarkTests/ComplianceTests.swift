@@ -216,9 +216,9 @@ struct ReinstallTests {
 @MainActor
 struct InAppBrowserTests {
     @Test func onlyWebLinksOpenInTheApp() throws {
-        #expect(try #require(URL(string: "https://bilgesucakir.github.io/wingmark/privacy.html")).opensInApp)
+        #expect(try #require(URL(string: "https://wingmarkapp.com/privacy")).opensInApp)
         #expect(try #require(URL(string: "HTTP://example.com")).opensInApp)
-        #expect(try !#require(URL(string: "mailto:support.wingmark@gmail.com")).opensInApp)
+        #expect(try !#require(URL(string: "mailto:support@wingmarkapp.com")).opensInApp)
         #expect(try !#require(URL(string: "app-settings:")).opensInApp)
     }
 }
