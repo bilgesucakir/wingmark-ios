@@ -18,9 +18,6 @@ enum BadgeTier: String, Codable, Sendable, CaseIterable {
         }
     }
 
-    /// Only the top tier has a symbol of its own, so it doesn't rely on its color to stand out from gold.
-    var symbol: String? { self == .diamond ? "diamond.fill" : nil }
-
     var color: Color {
         switch self {
         case .bronze: Color(red: 205 / 255, green: 127 / 255, blue: 50 / 255)   // #CD7F32
