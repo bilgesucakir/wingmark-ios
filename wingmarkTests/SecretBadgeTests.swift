@@ -68,10 +68,9 @@ struct SecretBadgeTests {
         #expect(BadgePolicy.hiddenSecretsCountInTotal && BadgePolicy.lockedSecretsLast)
     }
 
-    @Test func diamondIsAHigherTierWithItsOwnSymbolAndUnknownTiersStayBronze() throws {
+    @Test func diamondIsAHigherTierAndUnknownTiersStayBronze() throws {
         let tiers = try JSONDecoder().decode([BadgeTier].self, from: Data(#"["DIAMOND","PLATINUM","GOLD"]"#.utf8))
         #expect(tiers == [.diamond, .bronze, .gold])
-        #expect(BadgeTier.diamond.symbol != nil && BadgeTier.gold.symbol == nil)
         #expect(!BadgeTier.diamond.title.isEmpty && BadgeTier.diamond.title != BadgeTier.gold.title)
     }
 

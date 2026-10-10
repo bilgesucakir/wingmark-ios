@@ -133,7 +133,7 @@ struct BadgeIcon: View {
     let tier: BadgeTier
     let earned: Bool
     var size: CGFloat = 64
-    /// A locked secret badge: a question mark in a grey circle, ringed in its tier color as the only hint.
+    /// A locked secret badge: a question mark in a grey circle, grey ring like any locked badge.
     var isMystery = false
 
     var body: some View {
@@ -141,7 +141,7 @@ struct BadgeIcon: View {
             Circle()
                 .fill(earned ? AnyShapeStyle(tier.color.gradient) : AnyShapeStyle(Color(.systemGray5)))
             Circle()
-                .strokeBorder(earned || isMystery ? tier.edgeColor : Color(.systemGray3), lineWidth: 3)
+                .strokeBorder(earned ? tier.edgeColor : Color(.systemGray3), lineWidth: 3)
             if isMystery {
                 Image(systemName: "questionmark")
                     .font(.system(size: size * 0.4, weight: .bold))
@@ -182,16 +182,12 @@ struct BadgeIcon: View {
     }
 }
 
-/// The tier name, with its own symbol for the top tier so it doesn't depend on color alone.
+/// The tier name. Every card shows it as text, so the tier never depends on color alone.
 private struct TierLabel: View {
     let tier: BadgeTier
 
     var body: some View {
-        if let symbol = tier.symbol {
-            Label(tier.title, systemImage: symbol)
-        } else {
-            Text(tier.title)
-        }
+        Text(tier.title)
     }
 }
 
