@@ -252,7 +252,9 @@ private struct PhotoCredit: View {
             .lineLimit(2)
             .truncationMode(.tail)
             .multilineTextAlignment(.leading)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            // The text is small on purpose, so the area to tap is padded to the 44 pt minimum.
+            .frame(maxWidth: .infinity, minHeight: 44, alignment: .topLeading)
+            .contentShape(.rect)
     }
 }
 
