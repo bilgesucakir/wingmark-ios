@@ -23,9 +23,9 @@ enum BadgeTier: String, Codable, Sendable, CaseIterable {
 
     var color: Color {
         switch self {
-        case .bronze: Color(red: 0.80, green: 0.50, blue: 0.20)
-        case .silver: Color(red: 0.62, green: 0.65, blue: 0.70)
-        case .gold: Color(red: 0.95, green: 0.72, blue: 0.10)
+        case .bronze: Color(red: 0.60, green: 0.36, blue: 0.17)
+        case .silver: Color(red: 0.66, green: 0.69, blue: 0.74)
+        case .gold: Color(red: 0.98, green: 0.78, blue: 0.12)
         case .diamond: Color(red: 0.30, green: 0.78, blue: 0.96)
         }
     }
