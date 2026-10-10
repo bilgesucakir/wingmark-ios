@@ -28,6 +28,8 @@ struct UserProfile: Codable, Sendable, Equatable, Identifiable {
     let emailVerified: Bool
     /// Accounts created before the backend's auditing fix have no creation date.
     let createdAt: Date?
+    /// When the in-app walkthrough was closed on any device; nil until then.
+    var walkthroughSeenAt: Date?
 
     var displayName: String {
         let full = [firstName, lastName].compactMap { $0?.trimmingCharacters(in: .whitespaces) }

@@ -73,12 +73,21 @@ struct MainTabView: View {
 
     private func checkWalkthrough() {
         guard session.pendingConsents.isEmpty, let profile = session.profile else { return }
-        if AppWalkthrough().shouldShow(userId: profile.id, createdAt: profile.createdAt) { showsWalkthrough = true }
+        let walkthrough = AppWalkthrough()
+        if profile.walkthroughSeenAt != nil {
+            walkthrough.markSeen(userId: profile.id)
+        } else if walkthrough.hasSeenLocally(userId: profile.id) {
+            // Closed here while the server couldn't be reached; tell it now.
+            Task { await session.markWalkthroughSeen() }
+        } else {
+            showsWalkthrough = true
+        }
     }
 
     private func finishWalkthrough() {
         if let id = session.profile?.id { AppWalkthrough().markSeen(userId: id) }
         showsWalkthrough = false
+        Task { await session.markWalkthroughSeen() }
     }
 
     private func syncWidgets(diary: DiaryStore, badges: BadgesStore) {

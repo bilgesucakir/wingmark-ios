@@ -1,17 +1,17 @@
 import SwiftUI
 
-/// The tour inside the app, for an account that was just created. It is remembered per account on this device, and it
-/// only applies to recent accounts so that someone who reinstalls an old account isn't walked through it again.
+/// The tour inside the app, for an account that hasn't seen it yet. The server remembers it per account
+/// (`walkthroughSeenAt`), so no other device shows it again; this device also remembers it, so it stays hidden while the
+/// server can't be reached.
 struct AppWalkthrough {
-    static let newAccountDays = 7
-
     var defaults: UserDefaults = .standard
 
     private func key(_ userId: UUID) -> String { "hasSeenAppWalkthrough.\(userId.uuidString.lowercased())" }
 
-    func shouldShow(userId: UUID, createdAt: Date?, now: Date = .now) -> Bool {
-        guard let createdAt, now.timeIntervalSince(createdAt) < Double(Self.newAccountDays) * 86_400 else { return false }
-        return !defaults.bool(forKey: key(userId))
+    func hasSeenLocally(userId: UUID) -> Bool { defaults.bool(forKey: key(userId)) }
+
+    func shouldShow(userId: UUID, seenOnServer: Bool) -> Bool {
+        !seenOnServer && !hasSeenLocally(userId: userId)
     }
 
     func markSeen(userId: UUID) { defaults.set(true, forKey: key(userId)) }
