@@ -52,6 +52,14 @@ final class AuthSession {
         }
     }
 
+    /// Tells the server the walkthrough was closed, so no other device shows it again. Safe to repeat.
+    func markWalkthroughSeen() async {
+        guard let userId else { return }
+        if (try? await client.send(AuthAPI.walkthroughSeen(userId: userId))) != nil {
+            profile?.walkthroughSeenAt = profile?.walkthroughSeenAt ?? .now
+        }
+    }
+
     func loadSettings() async {
         guard let userId else { return }
         if let settings = try? await client.send(AuthAPI.settings(userId: userId)) {

@@ -23,12 +23,15 @@ enum BadgeTier: String, Codable, Sendable, CaseIterable {
 
     var color: Color {
         switch self {
-        case .bronze: Color(red: 0.60, green: 0.36, blue: 0.17)
-        case .silver: Color(red: 0.66, green: 0.69, blue: 0.74)
-        case .gold: Color(red: 0.98, green: 0.78, blue: 0.12)
-        case .diamond: Color(red: 0.30, green: 0.78, blue: 0.96)
+        case .bronze: Color(red: 205 / 255, green: 127 / 255, blue: 50 / 255)   // #CD7F32
+        case .silver: Color(red: 192 / 255, green: 192 / 255, blue: 192 / 255)  // #C0C0C0
+        case .gold: Color(red: 1, green: 215 / 255, blue: 0)                    // #FFD700
+        case .diamond: Color(red: 185 / 255, green: 242 / 255, blue: 1)         // #B9F2FF, frosted blue
         }
     }
+
+    /// The tier color darkened, for rings and progress bars, which would otherwise vanish on a light background.
+    var edgeColor: Color { color.mix(with: .black, by: 0.3) }
 }
 
 struct CatalogBadge: Decodable, Sendable, Identifiable {

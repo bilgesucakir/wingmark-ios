@@ -233,23 +233,26 @@ private struct RecordingRow: View {
 /// Creative Commons licenses require crediting the photographer, so licensed photos always show this line.
 private struct PhotoCredit: View {
     let image: SpeciesImage
+    /// Smaller than the system's smallest text style, but it still grows with the Larger Text setting.
+    @ScaledMetric(relativeTo: .caption2) private var textSize = 9.5
 
     var body: some View {
         if let credit = image.creditText {
             if let url = image.sourceUrl.flatMap(URL.init(string:)) {
-                Link(destination: url) {
-                    Text("Photo: \(credit)")
-                }
-                .font(.caption2)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Link(destination: url) { label(credit) }
             } else {
-                Text("Photo: \(credit)")
-                    .font(.caption2)
-                    .multilineTextAlignment(.leading)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                label(credit)
             }
         }
+    }
+
+    private func label(_ credit: String) -> some View {
+        Text("Photo: \(credit)")
+            .font(.system(size: textSize))
+            .lineLimit(2)
+            .truncationMode(.tail)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

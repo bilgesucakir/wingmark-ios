@@ -59,6 +59,10 @@ enum AuthAPI {
         )
     }
 
+    static func walkthroughSeen(userId: UUID) -> Endpoint<EmptyResponse> {
+        Endpoint(.post, "users/\(userId.uuidString.lowercased())/walkthrough-seen")
+    }
+
     static func deleteAccount(userId: UUID, password: String) -> Endpoint<EmptyResponse> {
         Endpoint(.delete, "users/\(userId.uuidString.lowercased())", json: ["password": password])
     }
