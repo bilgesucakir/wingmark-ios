@@ -11,6 +11,8 @@ struct SightingsMapView: View {
     /// Keeps the locate button below the filter chips, which grow with the text size.
     @ScaledMetric(relativeTo: .subheadline) private var chipsBand = 56
 
+    /// MapKit paints a light placeholder before its tiles arrive, which flashes white in dark mode; this hides it.
+    @State private var coversFirstFrame = true
     @State private var path: [DiaryRoute] = []
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
@@ -50,6 +52,16 @@ struct SightingsMapView: View {
             .mapControls {
                 MapCompass()
                 MapScaleView()
+            }
+            .overlay {
+                Color(.systemBackground)
+                    .opacity(coversFirstFrame ? 1 : 0)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+            }
+            .task {
+                try? await Task.sleep(for: .milliseconds(450))
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) { coversFirstFrame = false }
             }
             .onMapCameraChange(frequency: .onEnd) { context in
                 store.regionDidChange(context.region)

@@ -1,10 +1,33 @@
 import SwiftUI
 
+enum BadgeFilter: String, CaseIterable, Identifiable {
+    case all, earned, notEarned
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .all: String(localized: "All", bundle: .app)
+        case .earned: String(localized: "Unlocked", bundle: .app)
+        case .notEarned: String(localized: "Locked", bundle: .app)
+        }
+    }
+
+    func matches(_ badge: BadgeProgress) -> Bool {
+        switch self {
+        case .all: true
+        case .earned: badge.earned
+        case .notEarned: !badge.earned
+        }
+    }
+}
+
 struct BadgesView: View {
     @Environment(BadgesStore.self) private var store
     @Environment(AuthSession.self) private var session
     @Environment(AppRouter.self) private var router
     @State private var selected: BadgeProgress?
+    @State private var filter = BadgeFilter.all
 
     private let columns = [GridItem(.adaptive(minimum: 150), spacing: 12)]
 
@@ -17,8 +40,15 @@ struct BadgesView: View {
                 } else {
                     VStack(alignment: .leading, spacing: 16) {
                         summary
+                        if shownBadges.isEmpty {
+                            ContentUnavailableView(
+                                filter == .earned ? "No unlocked badges yet" : "No badges to show",
+                                systemImage: "trophy"
+                            )
+                            .padding(.top, 32)
+                        }
                         LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(store.badges) { badge in
+                            ForEach(shownBadges) { badge in
                                 Button {
                                     selected = badge
                                 } label: {
@@ -31,7 +61,23 @@ struct BadgesView: View {
                     .padding(16)
                 }
             }
+            // Same page and card colors as the species detail list: white cards on a light grey page, dark grey on black.
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Badges")
+            .toolbar {
+                if !store.badges.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("Filter", selection: $filter) {
+                                ForEach(BadgeFilter.allCases) { Text($0.title).tag($0) }
+                            }
+                        } label: {
+                            Label("Filter", systemImage: filter == .all
+                                  ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+                        }
+                    }
+                }
+            }
             .refreshable { await store.load() }
             .task { if !store.hasLoaded { await store.load() } }
             .onChange(of: router.pending, initial: true) { openPendingBadge() }
@@ -42,6 +88,8 @@ struct BadgesView: View {
             }
         }
     }
+
+    private var shownBadges: [BadgeProgress] { store.badges.filter(filter.matches) }
 
     /// Opens the badge a widget pointed at; if the list hasn't loaded yet, it waits for it.
     private func openPendingBadge() {
@@ -93,7 +141,7 @@ struct BadgeIcon: View {
             Circle()
                 .fill(earned ? AnyShapeStyle(tier.color.gradient) : AnyShapeStyle(Color(.systemGray5)))
             Circle()
-                .strokeBorder(earned || isMystery ? tier.color : Color(.systemGray3), lineWidth: 3)
+                .strokeBorder(earned || isMystery ? tier.edgeColor : Color(.systemGray3), lineWidth: 3)
             if isMystery {
                 Image(systemName: "questionmark")
                     .font(.system(size: size * 0.4, weight: .bold))
@@ -117,14 +165,17 @@ struct BadgeIcon: View {
         .accessibilityHidden(true)
     }
 
+    /// The tier colors are light, so an earned badge's symbol is dark; a locked one stays pale on its grey circle.
+    private var symbolColor: Color { earned ? Color.black.opacity(0.75) : .white }
+
     /// The backend sends emoji; SF Symbol names (e.g. `trophy.fill`) are supported too.
     @ViewBuilder
     private var symbol: some View {
         let value = icon?.trimmingCharacters(in: .whitespaces) ?? ""
         if value.isEmpty {
-            Image(systemName: "trophy.fill").foregroundStyle(.white)
+            Image(systemName: "trophy.fill").foregroundStyle(symbolColor)
         } else if value.allSatisfy({ $0.isASCII }), UIImage(systemName: value) != nil {
-            Image(systemName: value).foregroundStyle(.white)
+            Image(systemName: value).foregroundStyle(symbolColor)
         } else {
             Text(value)
         }
@@ -146,7 +197,6 @@ private struct TierLabel: View {
 
 private struct BadgeCard: View {
     let badge: BadgeProgress
-    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
         if badge.isLockedSecret { secretCard } else { regularCard }
@@ -170,11 +220,6 @@ private struct BadgeCard: View {
         .padding(12)
         .frame(maxWidth: .infinity)
         .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
-        .overlay {
-            if contrast == .increased {
-                RoundedRectangle(cornerRadius: 16).strokeBorder(Color(.separator), lineWidth: 1.5)
-            }
-        }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Secret badge, not yet unlocked"))
     }
@@ -196,7 +241,7 @@ private struct BadgeCard: View {
             } else {
                 VStack(spacing: 4) {
                     ProgressView(value: badge.fraction)
-                        .tint(badge.tier.color)
+                        .tint(badge.tier.edgeColor)
                     Text("\(badge.progress) / \(badge.target)")
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(.secondary)
@@ -206,12 +251,6 @@ private struct BadgeCard: View {
         .padding(12)
         .frame(maxWidth: .infinity)
         .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
-        .overlay {
-            // The card fill is nearly the page color in light mode, so with Increase Contrast it needs an outline.
-            if contrast == .increased {
-                RoundedRectangle(cornerRadius: 16).strokeBorder(Color(.separator), lineWidth: 1.5)
-            }
-        }
         .accessibilityElement(children: .combine)
         .accessibilityValue(badge.earned
             ? Text("Earned")
@@ -270,7 +309,7 @@ private struct BadgeDetailSheet: View {
                 }
             } else {
                 VStack(spacing: 8) {
-                    ProgressView(value: badge.fraction).tint(badge.tier.color)
+                    ProgressView(value: badge.fraction).tint(badge.tier.edgeColor)
                     Text("\(badge.progress) / \(badge.target)")
                         .font(.subheadline.monospacedDigit())
                         .foregroundStyle(.secondary)
