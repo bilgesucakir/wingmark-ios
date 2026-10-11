@@ -13,14 +13,29 @@ struct GuideTests {
         #"{"content":[\#(indices.map(speciesJSON).joined(separator: ","))],"page":{"size":30,"number":\#(number),"totalElements":45,"totalPages":\#(totalPages)}}"#
     }
 
+    static let facetsJSON = #"{"orders":[{"value":"Passeriformes","name":"Ötücü Kuşlar","count":228},{"value":"Anseriformes","name":"Ördekler","count":40}],"families":[{"value":"Muscicapidae","order":"Passeriformes","name":"Sinekkapanlar","count":33}]}"#
+
     private func makeSearch(
         pause: Pause = .immediate,
+        tokens: TokenPair? = nil,
         handler: @escaping (URLRequest) async throws -> MockTransport.Reply
     ) -> (SpeciesSearch, MockTransport) {
-        let transport = MockTransport(handler: handler)
-        let client = APIClient(baseURL: URL(string: "https://api.test")!, tokenStore: InMemoryTokenStore(),
+        let transport = MockTransport { request in
+            // The filter menus' own request has its own answer; the tests below are about the list.
+            request.url?.path == "/api/species/facets" ? .init(status: 200, body: Self.facetsJSON) : try await handler(request)
+        }
+        let client = APIClient(baseURL: URL(string: "https://api.test")!, tokenStore: InMemoryTokenStore(tokens),
                                transport: transport, languageCode: { "tr" })
-        return (SpeciesSearch(client: client, pause: pause), transport)
+        return (SpeciesSearch(client: client, pause: pause, canFilterBySeen: tokens != nil), transport)
+    }
+
+    /// Only the list requests, leaving out the facets ones.
+    private func lists(_ transport: MockTransport) -> [URLRequest] {
+        transport.requests.filter { $0.url?.path == "/api/species" }
+    }
+
+    private func facetRequests(_ transport: MockTransport) -> [URLRequest] {
+        transport.requests.filter { $0.url?.path == "/api/species/facets" }
     }
 
     private func query(_ request: URLRequest?) -> [String: String] {
@@ -40,13 +55,13 @@ struct GuideTests {
         #expect(search.hasMore)
 
         await search.loadMoreIfNeeded(after: search.results[5])
-        #expect(transport.requests.count == 1)
+        #expect(lists(transport).count == 1)
 
         await search.loadMoreIfNeeded(after: search.results[29])
         #expect(search.results.count == 45)
         #expect(!search.hasMore)
-        #expect(query(transport.requests.first)["sort"] == "commonName.tr,asc")
-        #expect(transport.requests.first?.value(forHTTPHeaderField: "Authorization") == nil)
+        #expect(query(lists(transport).first)["sort"] == "commonName.tr,asc")
+        #expect(lists(transport).first?.value(forHTTPHeaderField: "Authorization") == nil)
     }
 
     @Test func sortChangeReloadsWithNewParameterWithoutWaiting() async throws {
@@ -57,7 +72,7 @@ struct GuideTests {
         await search.reload()
         search.sort = .scientificDescending
         await search.settled()
-        #expect(query(transport.requests.last)["sort"] == "scientificName,desc")
+        #expect(query(lists(transport).last)["sort"] == "scientificName,desc")
         #expect(search.results.count == 3)
         #expect(gate.requested.isEmpty, "a sort change must not be debounced")
     }
@@ -74,12 +89,79 @@ struct GuideTests {
 
         // Every keystroke is waiting out the 300 ms pause; nothing has been sent yet.
         #expect(gate.requested == Array(repeating: .milliseconds(300), count: 3))
-        #expect(transport.requests.isEmpty)
+        #expect(lists(transport).isEmpty)
 
         gate.release()
         await search.settled()
-        #expect(transport.requests.count == 1)
-        #expect(query(transport.requests.first)["search"] == "rob")
+        #expect(lists(transport).count == 1)
+        #expect(query(lists(transport).first)["search"] == "rob")
+    }
+
+    @Test func filterReloadsFromTheFirstPageWithItsParametersAndWithoutWaiting() async throws {
+        let gate = GatedPause()
+        let (search, transport) = makeSearch(pause: gate.pause) { _ in
+            .init(status: 200, body: self.pageJSON(0..<3, number: 0, totalPages: 1))
+        }
+        await search.reload()
+        search.filter = SpeciesFilter(order: "Passeriformes", family: "Muscicapidae")
+        await search.settled()
+
+        let request = lists(transport).last
+        #expect(query(request)["order"] == "Passeriformes")
+        #expect(query(request)["family"] == "Muscicapidae")
+        #expect(query(request)["page"] == "0")
+        #expect(query(request)["seen"] == nil)
+        #expect(request?.value(forHTTPHeaderField: "Authorization") == nil, "order and family are public")
+        #expect(gate.requested.isEmpty, "a filter change must not be debounced")
+    }
+
+    @Test func seenFilterSendsTheTokenAndNothingElseDoes() async {
+        let (search, transport) = makeSearch(tokens: Fixtures.tokens("a")) { _ in
+            .init(status: 200, body: self.pageJSON(0..<2, number: 0, totalPages: 1))
+        }
+        await search.reload()
+        #expect(lists(transport).last?.value(forHTTPHeaderField: "Authorization") == nil)
+
+        search.filter.seen = .unseen
+        await search.settled()
+        #expect(query(lists(transport).last)["seen"] == "unseen")
+        #expect(lists(transport).last?.value(forHTTPHeaderField: "Authorization") != nil)
+        #expect(facetRequests(transport).last?.value(forHTTPHeaderField: "Authorization") != nil)
+        #expect(search.canFilterBySeen)
+    }
+
+    @Test func facetsFollowTheSearchAndFilterAndAreNotRefetchedForASortChange() async throws {
+        let (search, transport) = makeSearch { _ in
+            .init(status: 200, body: self.pageJSON(0..<2, number: 0, totalPages: 1))
+        }
+        await search.reload()
+        #expect(search.facets.orders.map(\.value) == ["Passeriformes", "Anseriformes"])
+        #expect(search.facets.orders.first?.name == "Ötücü Kuşlar" && search.facets.orders.first?.count == 228)
+        #expect(search.facets.families.first?.order == "Passeriformes")
+        #expect(facetRequests(transport).count == 1)
+
+        search.sort = .scientificAscending
+        await search.settled()
+        #expect(facetRequests(transport).count == 1, "sorting does not change the menus")
+
+        search.filter.order = "Passeriformes"
+        await search.settled()
+        #expect(facetRequests(transport).count == 2)
+        #expect(query(facetRequests(transport).last)["order"] == "Passeriformes")
+        #expect(!search.canFilterBySeen)
+    }
+
+    @Test func clearingTheFilterBringsBackTheFullList() async {
+        let (search, transport) = makeSearch { _ in
+            .init(status: 200, body: self.pageJSON(0..<2, number: 0, totalPages: 1))
+        }
+        search.filter = SpeciesFilter(order: "Anseriformes", family: nil, seen: .all)
+        await search.settled()
+        #expect(search.filter.isActive)
+        search.clearFilter()
+        await search.settled()
+        #expect(!search.filter.isActive)
+        #expect(query(lists(transport).last)["order"] == nil)
     }
 
     @Test func decodesRecordings() throws {

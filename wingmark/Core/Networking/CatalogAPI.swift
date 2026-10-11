@@ -57,9 +57,65 @@ struct SpeciesRecording: Decodable, Sendable, Identifiable, Hashable {
     let licenseUrl: String?
 }
 
+enum SeenFilter: String, CaseIterable, Identifiable, Sendable {
+    case all, seen, unseen
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .all: String(localized: "All", bundle: .app)
+        case .seen: String(localized: "Seen", bundle: .app)
+        case .unseen: String(localized: "Not seen yet", bundle: .app)
+        }
+    }
+}
+
+/// What the Guide list is narrowed to. `order` and `family` are the Latin names the server sends in its facets.
+struct SpeciesFilter: Equatable, Sendable {
+    var order: String?
+    var family: String?
+    var seen = SeenFilter.all
+
+    var isActive: Bool { order != nil || family != nil || seen != .all }
+
+    var queryItems: [URLQueryItem] {
+        var items: [URLQueryItem] = []
+        if let order { items.append(URLQueryItem(name: "order", value: order)) }
+        if let family { items.append(URLQueryItem(name: "family", value: family)) }
+        if seen != .all { items.append(URLQueryItem(name: "seen", value: seen.rawValue)) }
+        return items
+    }
+}
+
+/// The orders and families the filter menus offer, with names in the app's language and how many species each has.
+struct SpeciesFacets: Decodable, Sendable, Equatable {
+    struct Order: Decodable, Sendable, Equatable, Identifiable {
+        let value: String
+        let name: String
+        let count: Int
+        var id: String { value }
+    }
+
+    struct Family: Decodable, Sendable, Equatable, Identifiable {
+        let value: String
+        let order: String?
+        let name: String
+        let count: Int
+        var id: String { value }
+    }
+
+    var orders: [Order]
+    var families: [Family]
+
+    static let empty = SpeciesFacets(orders: [], families: [])
+}
+
 enum SpeciesAPI {
+    /// The seen filter is about the signed-in user, so only a request that uses it carries the token.
     static func list(
-        search: String, page: Int, size: Int = 30, sort: SpeciesSort = .commonAscending, language: String
+        search: String, page: Int, size: Int = 30, sort: SpeciesSort = .commonAscending, language: String,
+        filter: SpeciesFilter = SpeciesFilter()
     ) -> Endpoint<Page<Species>> {
         var query = [
             URLQueryItem(name: "page", value: String(page)),
@@ -68,7 +124,16 @@ enum SpeciesAPI {
         ]
         let search = search.trimmingCharacters(in: .whitespaces)
         if !search.isEmpty { query.append(URLQueryItem(name: "search", value: search)) }
-        return Endpoint(.get, "species", query: query, requiresAuth: false)
+        query.append(contentsOf: filter.queryItems)
+        return Endpoint(.get, "species", query: query, requiresAuth: filter.seen != .all)
+    }
+
+    static func facets(search: String, filter: SpeciesFilter) -> Endpoint<SpeciesFacets> {
+        var query: [URLQueryItem] = []
+        let search = search.trimmingCharacters(in: .whitespaces)
+        if !search.isEmpty { query.append(URLQueryItem(name: "search", value: search)) }
+        query.append(contentsOf: filter.queryItems)
+        return Endpoint(.get, "species/facets", query: query, requiresAuth: filter.seen != .all)
     }
 
     static func species(id: UUID) -> Endpoint<Species> {
