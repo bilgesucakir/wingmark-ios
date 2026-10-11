@@ -17,15 +17,27 @@ final class SpeciesSearch {
         didSet { if sort != oldValue { scheduleReload(debounce: false) } }
     }
 
+    var filter = SpeciesFilter() {
+        didSet { if filter != oldValue { scheduleReload(debounce: false) } }
+    }
+
+    /// Orders and families for the filter menus; they follow the search and the filter, so open choices show their counts.
+    private(set) var facets = SpeciesFacets.empty
+
+    /// The seen filter only means something for a signed-in user.
+    let canFilterBySeen: Bool
+
     private let client: APIClient
     private let pause: Pause
+    private var facetsKey: String?
     private var page = 0
     private var generation = 0
     private var reloadTask: Task<Void, Never>?
 
-    init(client: APIClient, pause: Pause = .live) {
+    init(client: APIClient, pause: Pause = .live, canFilterBySeen: Bool = false) {
         self.client = client
         self.pause = pause
+        self.canFilterBySeen = canFilterBySeen
     }
 
     func loadIfNeeded() async {
@@ -39,8 +51,23 @@ final class SpeciesSearch {
         results = []
         error = nil
         isLoading = false
+        async let facetsLoaded: Void = loadFacets()
         await loadMore()
+        await facetsLoaded
     }
+
+    /// Fetches the filter menus again only when the search or the filter changed since the last time.
+    private func loadFacets() async {
+        let key = "\(query)|\(filter.order ?? "")|\(filter.family ?? "")|\(filter.seen.rawValue)"
+        guard key != facetsKey else { return }
+        let generation = generation
+        guard let result = try? await client.send(SpeciesAPI.facets(search: query, filter: filter)),
+              generation == self.generation else { return }
+        facets = result
+        facetsKey = key
+    }
+
+    func clearFilter() { filter = SpeciesFilter() }
 
     func loadMoreIfNeeded(after species: Species) async {
         guard species.id == results.last?.id else { return }
@@ -68,7 +95,7 @@ final class SpeciesSearch {
         defer { if generation == self.generation { isLoading = false } }
         do throws(APIError) {
             let result = try await client.send(SpeciesAPI.list(
-                search: query, page: page, sort: sort, language: client.language
+                search: query, page: page, sort: sort, language: client.language, filter: filter
             ))
             guard generation == self.generation else { return }
             let known = Set(results.map(\.id))

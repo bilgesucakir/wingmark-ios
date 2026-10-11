@@ -703,6 +703,76 @@
         }
       }
     },
+    "Not seen yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz görülmedi"
+          }
+        }
+      }
+    },
+    "All Orders" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm takımlar"
+          }
+        }
+      }
+    },
+    "All Families" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm familyalar"
+          }
+        }
+      }
+    },
+    "Clear All" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü Temizle"
+          }
+        }
+      }
+    },
+    "No species match these filters" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu filtrelere uyan tür yok"
+          }
+        }
+      }
+    },
+    "Try removing a filter." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir filtreyi kaldırmayı dene."
+          }
+        }
+      }
+    },
+    "Remove filter %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtreyi kaldır: %@"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "tr" : {
