@@ -65,12 +65,10 @@ private struct GuideList: View {
 
     var body: some View {
         List {
-            if search.filter.isActive {
-                ActiveFilterChips(search: search)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            }
+            GuideFilterChips(search: search)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             ForEach(search.results) { species in
                 NavigationLink(value: DiaryRoute.species(species)) {
                     SpeciesRow(species: species)
@@ -97,9 +95,7 @@ private struct GuideList: View {
                         ContentUnavailableView {
                             Label("No species match these filters", systemImage: "line.3.horizontal.decrease.circle")
                         } description: {
-                            Text("Try removing a filter.")
-                        } actions: {
-                            Button("Clear All") { search.clearFilter() }
+                            Text("Try choosing All in one of the filters.")
                         }
                     } else {
                         ContentUnavailableView.search(text: search.query)
@@ -110,7 +106,6 @@ private struct GuideList: View {
 
         .searchable(text: $search.query, prompt: Text("Search species"))
         .toolbar {
-            GuideFilterMenu(search: search)
             Menu {
                 Picker("Sort", selection: $search.sort) {
                     ForEach(SpeciesSort.allCases) { Text($0.title).tag($0) }
@@ -124,9 +119,11 @@ private struct GuideList: View {
     }
 }
 
-/// Seen, Order and Family. Picking an order narrows the families, because the server answers with the families of that order.
-private struct GuideFilterMenu: View {
+/// Seen, Order and Family as chips at the top, like the map's filters. Each chip is a menu; choosing All in it removes
+/// that filter. Picking an order narrows the families, because the server answers with the families of that order.
+private struct GuideFilterChips: View {
     @Bindable var search: SpeciesSearch
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     private var orderSelection: Binding<String?> {
         Binding(get: { search.filter.order }, set: { newValue in
@@ -140,87 +137,68 @@ private struct GuideFilterMenu: View {
         Binding(get: { search.filter.family }, set: { search.filter.family = $0 })
     }
 
-    var body: some View {
-        Menu {
-            if search.canFilterBySeen {
-                Picker("Seen", selection: $search.filter.seen) {
-                    ForEach(SeenFilter.allCases) { Text($0.title).tag($0) }
-                }
-            }
-            Menu("Order") {
-                Picker("Order", selection: orderSelection) {
-                    Text("All Orders").tag(String?.none)
-                    ForEach(search.facets.orders.filter { $0.count > 0 || $0.value == search.filter.order }) { order in
-                        Text("\(order.name) (\(order.count))").tag(Optional(order.value))
-                    }
-                }
-            }
-            Menu("Family") {
-                Picker("Family", selection: familySelection) {
-                    Text("All Families").tag(String?.none)
-                    ForEach(search.facets.families.filter { $0.count > 0 || $0.value == search.filter.family }) { family in
-                        Text("\(family.name) (\(family.count))").tag(Optional(family.value))
-                    }
-                }
-            }
-            if search.filter.isActive {
-                Button("Clear All", role: .destructive) { search.clearFilter() }
-            }
-        } label: {
-            Label("Filter", systemImage: search.filter.isActive
-                  ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
-        }
-    }
-}
-
-/// The filters that are on, each removable with one tap, and one button to remove them all.
-private struct ActiveFilterChips: View {
-    @Bindable var search: SpeciesSearch
-
-    private var orderName: String? {
-        search.filter.order.map { value in search.facets.orders.first { $0.value == value }?.name ?? value }
+    private func name(of order: String?) -> String? {
+        order.map { value in search.facets.orders.first { $0.value == value }?.name ?? value }
     }
 
-    private var familyName: String? {
-        search.filter.family.map { value in search.facets.families.first { $0.value == value }?.name ?? value }
+    private func name(ofFamily family: String?) -> String? {
+        family.map { value in search.facets.families.first { $0.value == value }?.name ?? value }
     }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                Button("Clear All") { search.clearFilter() }
-                    .font(.subheadline.weight(.semibold))
-                    .frame(minHeight: 44)
-                if search.filter.seen != .all {
-                    chip(search.filter.seen.title) { search.filter.seen = .all }
-                }
-                if let orderName {
-                    chip(orderName) {
-                        search.filter.order = nil
-                        search.filter.family = nil
+            GlassEffectContainer {
+                HStack(spacing: 8) {
+                    if search.canFilterBySeen {
+                        chip(title: search.filter.seen == .all ? String(localized: "Seen", bundle: .app) : search.filter.seen.title,
+                             isActive: search.filter.seen != .all) {
+                            Picker("Seen", selection: $search.filter.seen) {
+                                ForEach(SeenFilter.allCases) { Text($0.title).tag($0) }
+                            }
+                        }
+                    }
+                    chip(title: name(of: search.filter.order) ?? String(localized: "Order", bundle: .app),
+                         isActive: search.filter.order != nil) {
+                        Picker("Order", selection: orderSelection) {
+                            Text("All Orders").tag(String?.none)
+                            ForEach(search.facets.orders.filter { $0.count > 0 || $0.value == search.filter.order }) { order in
+                                Text("\(order.name) (\(order.count))").tag(Optional(order.value))
+                            }
+                        }
+                    }
+                    chip(title: name(ofFamily: search.filter.family) ?? String(localized: "Family", bundle: .app),
+                         isActive: search.filter.family != nil) {
+                        Picker("Family", selection: familySelection) {
+                            Text("All Families").tag(String?.none)
+                            ForEach(search.facets.families.filter { $0.count > 0 || $0.value == search.filter.family }) { family in
+                                Text("\(family.name) (\(family.count))").tag(Optional(family.value))
+                            }
+                        }
                     }
                 }
-                if let familyName {
-                    chip(familyName) { search.filter.family = nil }
-                }
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
         }
     }
 
-    private func chip(_ title: String, remove: @escaping () -> Void) -> some View {
-        Button(action: remove) {
-            HStack(spacing: 6) {
+    private func chip(title: String, isActive: Bool, @ViewBuilder content: () -> some View) -> some View {
+        Menu {
+            content()
+        } label: {
+            HStack(spacing: 4) {
+                if isActive && differentiateWithoutColor {
+                    Image(systemName: "checkmark").font(.caption2.weight(.bold))
+                }
                 Text(title)
-                Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
             }
-            .font(.subheadline)
+            .font(.subheadline.weight(isActive ? .semibold : .regular))
             .padding(.horizontal, 12)
             .frame(minHeight: 44)
         }
-        .buttonStyle(.plain)
-        .glassEffect(.regular.interactive(), in: .capsule)
-        .accessibilityLabel(Text("Remove filter \(title)"))
+        .foregroundStyle(isActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
+        .glassEffect(.regular.interactive())
+        .accessibilityAddTraits(isActive ? .isSelected : [])
     }
 }
 

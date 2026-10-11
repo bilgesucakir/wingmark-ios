@@ -733,16 +733,6 @@
         }
       }
     },
-    "Clear All" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tümünü Temizle"
-          }
-        }
-      }
-    },
     "No species match these filters" : {
       "localizations" : {
         "tr" : {
@@ -753,22 +743,12 @@
         }
       }
     },
-    "Try removing a filter." : {
+    "Try choosing All in one of the filters." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir filtreyi kaldırmayı dene."
-          }
-        }
-      }
-    },
-    "Remove filter %@" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filtreyi kaldır: %@"
+            "value" : "Filtrelerden birinde Tümü'nü seçmeyi dene."
           }
         }
       }
