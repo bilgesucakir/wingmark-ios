@@ -116,21 +116,23 @@ private struct GuideList: View {
     }
 }
 
-/// One filter button, like on the Badges page: its icon is filled while a filter is on. Seen, Order and Family each have
-/// an All choice to remove that filter. Picking an order narrows the families, because the server answers with the families of that order.
+/// One filter button, like on the Badges page: its icon is filled while a filter is on. Order and Family allow several
+/// choices (check marks); Seen is one choice. Picking orders narrows the families to those orders, because the server
+/// answers with the families of the chosen orders.
 private struct GuideFilterMenu: View {
     @Bindable var search: SpeciesSearch
 
-    private var orderSelection: Binding<String?> {
-        Binding(get: { search.filter.order }, set: { newValue in
-            guard newValue != search.filter.order else { return }
-            search.filter.order = newValue
-            search.filter.family = nil
-        })
+    /// The menu entries, plus any chosen value the server no longer lists (its count is 0), so a chosen one never disappears.
+    private func orderChoices() -> [(value: String, name: String, count: Int)] {
+        var items = search.facets.orders.filter { $0.count > 0 || search.filter.orders.contains($0.value) }.map { ($0.value, $0.name, $0.count) }
+        for value in search.filter.orders where !items.contains(where: { $0.0 == value }) { items.append((value, value, 0)) }
+        return items
     }
 
-    private var familySelection: Binding<String?> {
-        Binding(get: { search.filter.family }, set: { search.filter.family = $0 })
+    private func familyChoices() -> [(value: String, name: String, count: Int)] {
+        var items = search.facets.families.filter { $0.count > 0 || search.filter.families.contains($0.value) }.map { ($0.value, $0.name, $0.count) }
+        for value in search.filter.families where !items.contains(where: { $0.0 == value }) { items.append((value, value, 0)) }
+        return items
     }
 
     var body: some View {
@@ -141,19 +143,21 @@ private struct GuideFilterMenu: View {
                 }
             }
             Menu("Order") {
-                Picker("Order", selection: orderSelection) {
-                    Text("All Orders").tag(String?.none)
-                    ForEach(search.facets.orders.filter { $0.count > 0 || $0.value == search.filter.order }) { order in
-                        Text("\(order.name) (\(order.count))").tag(Optional(order.value))
-                    }
+                Toggle("All Orders", isOn: Binding(get: { search.filter.orders.isEmpty }, set: { _ in search.filter.orders = [] }))
+                ForEach(orderChoices(), id: \.value) { choice in
+                    Toggle("\(choice.name) (\(choice.count))", isOn: Binding(
+                        get: { search.filter.orders.contains(choice.value) },
+                        set: { _ in search.toggleOrder(choice.value) }
+                    ))
                 }
             }
             Menu("Family") {
-                Picker("Family", selection: familySelection) {
-                    Text("All Families").tag(String?.none)
-                    ForEach(search.facets.families.filter { $0.count > 0 || $0.value == search.filter.family }) { family in
-                        Text("\(family.name) (\(family.count))").tag(Optional(family.value))
-                    }
+                Toggle("All Families", isOn: Binding(get: { search.filter.families.isEmpty }, set: { _ in search.filter.families = [] }))
+                ForEach(familyChoices(), id: \.value) { choice in
+                    Toggle("\(choice.name) (\(choice.count))", isOn: Binding(
+                        get: { search.filter.families.contains(choice.value) },
+                        set: { _ in search.filter.toggleFamily(choice.value) }
+                    ))
                 }
             }
         } label: {

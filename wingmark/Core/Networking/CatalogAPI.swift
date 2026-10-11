@@ -73,18 +73,25 @@ enum SeenFilter: String, CaseIterable, Identifiable, Sendable {
 
 /// What the Guide list is narrowed to. `order` and `family` are the Latin names the server sends in its facets.
 struct SpeciesFilter: Equatable, Sendable {
-    var order: String?
-    var family: String?
+    /// Several values of one kind mean "any of them". Kept sorted, so the same choice always gives the same request.
+    var orders: [String] = []
+    var families: [String] = []
     var seen = SeenFilter.all
 
-    var isActive: Bool { order != nil || family != nil || seen != .all }
+    var isActive: Bool { !orders.isEmpty || !families.isEmpty || seen != .all }
 
     var queryItems: [URLQueryItem] {
-        var items: [URLQueryItem] = []
-        if let order { items.append(URLQueryItem(name: "order", value: order)) }
-        if let family { items.append(URLQueryItem(name: "family", value: family)) }
+        var items = orders.map { URLQueryItem(name: "order", value: $0) }
+        items += families.map { URLQueryItem(name: "family", value: $0) }
         if seen != .all { items.append(URLQueryItem(name: "seen", value: seen.rawValue)) }
         return items
+    }
+
+    mutating func toggleOrder(_ value: String) { Self.toggle(value, in: &orders) }
+    mutating func toggleFamily(_ value: String) { Self.toggle(value, in: &families) }
+
+    private static func toggle(_ value: String, in values: inout [String]) {
+        if let index = values.firstIndex(of: value) { values.remove(at: index) } else { values = (values + [value]).sorted() }
     }
 }
 
