@@ -100,9 +100,10 @@ struct MainTabView: View {
         // A filtered diary only holds the matches, so the widgets would show the wrong latest sighting.
         guard !diary.filter.isActive, diary.hasLoaded else { return }
         Task {
-            await WidgetSync.update(logs: diary.logs, badges: badges.badges, language: AppLanguage.current.code) {
-                if case .signedIn = session.state { true } else { false }
-            }
+            await WidgetSync.updateWhileSignedIn(
+                isSignedIn: { if case .signedIn = session.state { true } else { false } },
+                logs: diary.logs, badges: badges.badges, language: AppLanguage.current.code
+            )
         }
     }
 

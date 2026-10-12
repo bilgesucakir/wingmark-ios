@@ -4,6 +4,19 @@
     "" : {
       "shouldTranslate" : false
     },
+    "@%@" : {
+      "shouldTranslate" : false
+    },
+    "%@ (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$lld)"
+          }
+        }
+      }
+    },
     "%@ away" : {
       "localizations" : {
         "tr" : {
@@ -60,16 +73,6 @@
     "000000" : {
       "shouldTranslate" : false
     },
-    "10–72 characters" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "10–72 karakter"
-          }
-        }
-      }
-    },
     "6-digit code" : {
       "localizations" : {
         "tr" : {
@@ -80,8 +83,15 @@
         }
       }
     },
-    "@%@" : {
-      "shouldTranslate" : false
+    "10–72 characters" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10–72 karakter"
+          }
+        }
+      }
     },
     "A location is required." : {
       "localizations" : {
@@ -181,6 +191,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tümü"
+          }
+        }
+      }
+    },
+    "All Families" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm familyalar"
+          }
+        }
+      }
+    },
+    "All Orders" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm takımlar"
+          }
+        }
+      }
+    },
+    "Allow Wingmark to add photos in Settings to save this picture to your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu fotoğrafı kitaplığına kaydetmek için Ayarlar'da Wingmark'ın fotoğraf eklemesine izin ver."
           }
         }
       }
@@ -353,6 +393,26 @@
         }
       }
     },
+    "Browse species in the Guide, read about them and listen to recordings." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rehber'de türlere göz at, onlar hakkında oku ve kayıtlarını dinle."
+          }
+        }
+      }
+    },
+    "Browse the Guide" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rehbere Göz At"
+          }
+        }
+      }
+    },
     "Camera" : {
       "localizations" : {
         "tr" : {
@@ -409,6 +469,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu alanı kontrol et."
+          }
+        }
+      }
+    },
+    "Check your connection and try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantını kontrol edip tekrar dene."
           }
         }
       }
@@ -503,276 +573,6 @@
         }
       }
     },
-    "Secret badge" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizli rozet"
-          }
-        }
-      }
-    },
-    "Secret badge, not yet unlocked" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizli rozet, henüz açılmadı"
-          }
-        }
-      }
-    },
-    "Keep birding to unlock" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Açmak için kuş gözlemeye devam et"
-          }
-        }
-      }
-    },
-    "Keep birding to find out how to unlock this badge." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu rozetin nasıl açılacağını öğrenmek için kuş gözlemeye devam et."
-          }
-        }
-      }
-    },
-    "Diamond" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elmas"
-          }
-        }
-      }
-    },
-    "No badges to show" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gösterilecek rozet yok"
-          }
-        }
-      }
-    },
-    "Unlocked" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Açık"
-          }
-        }
-      }
-    },
-    "Locked" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kilitli"
-          }
-        }
-      }
-    },
-    "No unlocked badges yet" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Henüz açılmış rozet yok"
-          }
-        }
-      }
-    },
-    "Learn about the species" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Türleri tanı"
-          }
-        }
-      }
-    },
-    "Earn badges" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozet kazan"
-          }
-        }
-      }
-    },
-    "Browse species in the Guide, read about them and listen to recordings." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rehber'de türlere göz at, onlar hakkında oku ve kayıtlarını dinle."
-          }
-        }
-      }
-    },
-    "Unlock badges as your diary grows. Some of them are secret." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Günlüğün büyüdükçe rozetlerin kilidini aç. Bazıları gizli."
-          }
-        }
-      }
-    },
-    "First Sighting" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İlk Gözlem"
-          }
-        }
-      }
-    },
-    "Juvenile Seagull" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ergen Martı"
-          }
-        }
-      }
-    },
-    "European Herring Gull" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kuzey Gümüş Martısı"
-          }
-        }
-      }
-    },
-    "European Robin" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kızılgerdan"
-          }
-        }
-      }
-    },
-    "Small insectivorous bird best known for its bright orange-red breast and face." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parlak turuncu-kırmızı göğsü ve yüzüyle tanınan, böcekle beslenen küçük bir kuş."
-          }
-        }
-      }
-    },
-    "Photo: Alexis Lours / Wikimedia Commons, CC BY 4.0" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf: Alexis Lours / Wikimedia Commons, CC BY 4.0"
-          }
-        }
-      }
-    },
-    "Page %lld of %lld" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sayfa %1$lld / %2$lld"
-          }
-        }
-      }
-    },
-    "All Orders" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tüm takımlar"
-          }
-        }
-      }
-    },
-    "All Families" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tüm familyalar"
-          }
-        }
-      }
-    },
-    "No species match these filters" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu filtrelere uyan tür yok"
-          }
-        }
-      }
-    },
-    "Try choosing All in one of the filters." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filtrelerden birinde Tümü'nü seçmeyi dene."
-          }
-        }
-      }
-    },
-    "Logged" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlemlendi"
-          }
-        }
-      }
-    },
-    "Not logged" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlemlenmedi"
-          }
-        }
-      }
-    },
-    "Remove filter %@" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filtreyi kaldır: %@"
-          }
-        }
-      }
-    },
     "Close" : {
       "localizations" : {
         "tr" : {
@@ -782,6 +582,9 @@
           }
         }
       }
+    },
+    "commons.wikimedia.org" : {
+      "shouldTranslate" : false
     },
     "Confidence" : {
       "localizations" : {
@@ -959,6 +762,16 @@
         }
       }
     },
+    "Couldn't save the photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydedilemedi"
+          }
+        }
+      }
+    },
     "Create Account" : {
       "localizations" : {
         "tr" : {
@@ -1099,6 +912,16 @@
         }
       }
     },
+    "Diamond" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elmas"
+          }
+        }
+      }
+    },
     "Diary" : {
       "localizations" : {
         "en" : {
@@ -1126,6 +949,7 @@
       }
     },
     "Distance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1167,6 +991,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verilerimi İndir"
+          }
+        }
+      }
+    },
+    "Earn badges" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozet kazan"
           }
         }
       }
@@ -1297,6 +1131,26 @@
         }
       }
     },
+    "European Herring Gull" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuzey Gümüş Martısı"
+          }
+        }
+      }
+    },
+    "European Robin" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kızılgerdan"
+          }
+        }
+      }
+    },
     "Every bird you log becomes a pin. Filter the map by identification, gender or life stage." : {
       "localizations" : {
         "tr" : {
@@ -1389,6 +1243,16 @@
         }
       }
     },
+    "First Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk Gözlem"
+          }
+        }
+      }
+    },
     "Forgot Password?" : {
       "localizations" : {
         "tr" : {
@@ -1415,6 +1279,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profilinin, ayarlarının, gözlemlerinin, rozetlerinin ve kabul ettiğin koşulların bir kopyasını JSON dosyası olarak al."
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başla"
           }
         }
       }
@@ -1477,6 +1351,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yaşam Alanı"
+          }
+        }
+      }
+    },
+    "Here is a quick look around. You can close this at any time." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısa bir tur atalım. İstediğin zaman kapatabilirsin."
           }
         }
       }
@@ -1561,15 +1445,42 @@
         }
       }
     },
-    "commons.wikimedia.org" : {
-      "shouldTranslate" : false
-    },
     "Juvenile" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yavru"
+          }
+        }
+      }
+    },
+    "Juvenile Seagull" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergen Martı"
+          }
+        }
+      }
+    },
+    "Keep birding to find out how to unlock this badge." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu rozetin nasıl açılacağını öğrenmek için kuş gözlemeye devam et."
+          }
+        }
+      }
+    },
+    "Keep birding to unlock" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açmak için kuş gözlemeye devam et"
           }
         }
       }
@@ -1602,6 +1513,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soyad"
+          }
+        }
+      }
+    },
+    "Learn about the species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türleri tanı"
           }
         }
       }
@@ -1746,12 +1667,32 @@
         }
       }
     },
+    "Locked" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilitli"
+          }
+        }
+      }
+    },
     "Log a sighting" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gözlem kaydet"
+          }
+        }
+      }
+    },
+    "Log a Sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem Ekle"
           }
         }
       }
@@ -1844,6 +1785,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Günlüğüne başlamak için ilk kuşunu kaydet."
+          }
+        }
+      }
+    },
+    "Logged" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlendi"
           }
         }
       }
@@ -2062,6 +2013,27 @@
         }
       }
     },
+    "Next" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İleri"
+          }
+        }
+      }
+    },
+    "No badges to show" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gösterilecek rozet yok"
+          }
+        }
+      }
+    },
     "No badges yet" : {
       "localizations" : {
         "tr" : {
@@ -2102,6 +2074,26 @@
         }
       }
     },
+    "No species match these filters" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu filtrelere uyan tür yok"
+          }
+        }
+      }
+    },
+    "No unlocked badges yet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz açılmış rozet yok"
+          }
+        }
+      }
+    },
     "None" : {
       "localizations" : {
         "tr" : {
@@ -2138,6 +2130,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Henüz yayımlanmadı"
+          }
+        }
+      }
+    },
+    "Not logged" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlenmedi"
           }
         }
       }
@@ -2218,6 +2220,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Koşullarımız az önce güncellendi. Lütfen gözden geçirip yeniden kabul et."
+          }
+        }
+      }
+    },
+    "Page %lld of %lld" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sayfa %1$lld / %2$lld"
           }
         }
       }
@@ -2308,12 +2320,42 @@
         }
       }
     },
+    "Photo saved" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydedildi"
+          }
+        }
+      }
+    },
     "Photo: %@" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotoğraf: %@"
+          }
+        }
+      }
+    },
+    "Photo: Alexis Lours / Wikimedia Commons, CC BY 4.0" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf: Alexis Lours / Wikimedia Commons, CC BY 4.0"
+          }
+        }
+      }
+    },
+    "Photos" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraflar"
           }
         }
       }
@@ -2389,6 +2431,7 @@
       }
     },
     "Private" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2466,6 +2509,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kayıt"
+          }
+        }
+      }
+    },
+    "Remove filter %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtreyi kaldır: %@"
           }
         }
       }
@@ -2550,6 +2603,46 @@
         }
       }
     },
+    "Save Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kaydet"
+          }
+        }
+      }
+    },
+    "Saving photos is off" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydetme kapalı"
+          }
+        }
+      }
+    },
+    "Saving photos is restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kaydetme kısıtlı"
+          }
+        }
+      }
+    },
+    "Saving to Photos is restricted on this iPhone, so Wingmark can't save this picture." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraflara kaydetme bu iPhone'da kısıtlı, bu yüzden Wingmark bu fotoğrafı kaydedemiyor."
+          }
+        }
+      }
+    },
     "Scientific Name (A–Z)" : {
       "localizations" : {
         "tr" : {
@@ -2570,12 +2663,42 @@
         }
       }
     },
+    "Search by common or scientific name" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ortak veya bilimsel adla ara"
+          }
+        }
+      }
+    },
     "Search species" : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tür ara"
+          }
+        }
+      }
+    },
+    "Secret badge" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli rozet"
+          }
+        }
+      }
+    },
+    "Secret badge, not yet unlocked" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli rozet, henüz açılmadı"
           }
         }
       }
@@ -2647,6 +2770,7 @@
       }
     },
     "Show My Location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "tr" : {
           "stringUnit" : {
@@ -2677,6 +2801,7 @@
       }
     },
     "sightings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2728,6 +2853,16 @@
         }
       }
     },
+    "Small insectivorous bird best known for its bright orange-red breast and face." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parlak turuncu-kırmızı göğsü ve yüzüyle tanınan, böcekle beslenen küçük bir kuş."
+          }
+        }
+      }
+    },
     "Some species photos come from Wikimedia Commons contributors under Creative Commons licenses. The photographer and license appear under each photo in the Guide." : {
       "localizations" : {
         "tr" : {
@@ -2769,6 +2904,7 @@
       }
     },
     "species" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2904,16 +3040,6 @@
         }
       }
     },
-    "You have reached the photo limit. Delete some photos first." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf sınırına ulaştın. Önce bazı fotoğrafları sil."
-          }
-        }
-      }
-    },
     "That photo is too large." : {
       "localizations" : {
         "tr" : {
@@ -2970,6 +3096,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifre yanlış."
+          }
+        }
+      }
+    },
+    "The photo is now in your Photos library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf artık Fotoğraflar kitaplığında."
           }
         }
       }
@@ -3124,6 +3260,16 @@
         }
       }
     },
+    "Try choosing All in one of the filters." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrelerden birinde Tümü'nü seçmeyi dene."
+          }
+        }
+      }
+    },
     "Unidentified" : {
       "localizations" : {
         "tr" : {
@@ -3160,12 +3306,22 @@
         }
       }
     },
-    "Use 10–72 characters with at least one letter and one number." : {
+    "Unlock badges as your diary grows. Some of them are secret." : {
       "localizations" : {
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En az bir harf ve bir rakam içeren 10–72 karakter kullan."
+            "value" : "Günlüğün büyüdükçe rozetlerin kilidini aç. Bazıları gizli."
+          }
+        }
+      }
+    },
+    "Unlocked" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açık"
           }
         }
       }
@@ -3176,6 +3332,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "3–30 karakter kullan."
+          }
+        }
+      }
+    },
+    "Use 10–72 characters with at least one letter and one number." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En az bir harf ve bir rakam içeren 10–72 karakter kullan."
           }
         }
       }
@@ -3206,6 +3372,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu Konumu Kullan"
+          }
+        }
+      }
+    },
+    "Used to save a sighting's photo to your library." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir gözlemin fotoğrafını kitaplığına kaydetmek için kullanılır."
           }
         }
       }
@@ -3296,6 +3472,16 @@
         }
       }
     },
+    "Welcome, %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoş geldin, %@"
+          }
+        }
+      }
+    },
     "Wingmark" : {
       "shouldTranslate" : false
     },
@@ -3331,6 +3517,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Evet"
+          }
+        }
+      }
+    },
+    "You have reached the photo limit. Delete some photos first." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf sınırına ulaştın. Önce bazı fotoğrafları sil."
           }
         }
       }
@@ -3451,186 +3647,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm gözlemleri görmek için yakınlaştır"
-          }
-        }
-      }
-    },
-    "Photos" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraflar"
-          }
-        }
-      }
-    },
-    "Used to save a sighting's photo to your library." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir gözlemin fotoğrafını kitaplığına kaydetmek için kullanılır."
-          }
-        }
-      }
-    },
-    "Saving photos is restricted" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf kaydetme kısıtlı"
-          }
-        }
-      }
-    },
-    "Saving photos is off" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf kaydetme kapalı"
-          }
-        }
-      }
-    },
-    "Saving to Photos is restricted on this iPhone, so Wingmark can't save this picture." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraflara kaydetme bu iPhone'da kısıtlı, bu yüzden Wingmark bu fotoğrafı kaydedemiyor."
-          }
-        }
-      }
-    },
-    "Allow Wingmark to add photos in Settings to save this picture to your library." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu fotoğrafı kitaplığına kaydetmek için Ayarlar'da Wingmark'ın fotoğraf eklemesine izin ver."
-          }
-        }
-      }
-    },
-    "Save Photo" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğrafı Kaydet"
-          }
-        }
-      }
-    },
-    "Photo saved" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf kaydedildi"
-          }
-        }
-      }
-    },
-    "Couldn't save the photo" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf kaydedilemedi"
-          }
-        }
-      }
-    },
-    "The photo is now in your Photos library." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğraf artık Fotoğraflar kitaplığında."
-          }
-        }
-      }
-    },
-    "Check your connection and try again." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bağlantını kontrol edip tekrar dene."
-          }
-        }
-      }
-    },
-    "Welcome, %@" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoş geldin, %@"
-          }
-        }
-      }
-    },
-    "Here is a quick look around. You can close this at any time." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kısa bir tur atalım. İstediğin zaman kapatabilirsin."
-          }
-        }
-      }
-    },
-    "Get Started" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Başla"
-          }
-        }
-      }
-    },
-    "Next" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İleri"
-          }
-        }
-      }
-    },
-    "Browse the Guide" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rehbere Göz At"
-          }
-        }
-      }
-    },
-    "Search by common or scientific name" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ortak veya bilimsel adla ara"
-          }
-        }
-      }
-    },
-    "Log a Sighting" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlem Ekle"
           }
         }
       }

@@ -112,6 +112,23 @@ struct WidgetTests {
         #expect(WidgetText.tier("PLATINUM", language: "en") == "Bronze" && WidgetText.tier(nil, language: "tr") == "Bronz")
     }
 
+    @Test func theAppsUpdateReloadsTheWidgetsAndWritesOnlyWhileSignedIn() async throws {
+        let logs = [try log(1, at: "2026-09-29T07:30:00Z")]
+        let signedIn = makeStore()
+        var reloads = 0
+        await WidgetSync.updateWhileSignedIn(isSignedIn: { true }, logs: logs, badges: [badge(1, progress: 1, target: 5)],
+                                             language: "en", store: signedIn, reload: { reloads += 1 }, loadImage: { _ in nil })
+        #expect(reloads == 1, "the widgets are redrawn after a real update")
+        #expect(signedIn.read()?.latest?.id == logs[0].id)
+
+        let signedOut = makeStore()
+        var reloadsAfterSignOut = 0
+        await WidgetSync.updateWhileSignedIn(isSignedIn: { false }, logs: logs, badges: [badge(1, progress: 1, target: 5)],
+                                             language: "en", store: signedOut, reload: { reloadsAfterSignOut += 1 }, loadImage: { _ in nil })
+        #expect(signedOut.read() == nil, "nothing is written once signed out")
+        #expect(reloadsAfterSignOut == 0)
+    }
+
     @Test func aSlowOlderUpdateCannotOverwriteANewerOne() async throws {
         let store = makeStore()
         let gate = Gate()
