@@ -9,6 +9,11 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         var name: String
         /// Every language the catalog has, so the widget can follow the app's language without waiting for the app to rewrite this.
         var names: [String: String]?
+        /// "BRONZE", "SILVER", "GOLD" or "DIAMOND", so the widget can color the progress ring like the badge.
+        var tier: String?
+        /// What the badge asks for, in the app's language and in every language the catalog has, for the larger widget.
+        var description: String?
+        var descriptions: [String: String]?
         var icon: String?
         var progress: Int
         var target: Int
@@ -19,6 +24,10 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
 
         func displayName(language: String?) -> String {
             language.flatMap { names?[$0] } ?? name
+        }
+
+        func displayDescription(language: String?) -> String? {
+            language.flatMap { descriptions?[$0] } ?? description
         }
     }
 
@@ -176,6 +185,17 @@ nonisolated enum WidgetText {
         }
     }
 
+    /// The tier's name in the app's language ("Gold" / "Altın"); an unknown tier reads as bronze, as in the app.
+    static func tier(_ code: String?, language: String?) -> String {
+        let turkish = language == "tr"
+        switch code {
+        case "SILVER": return turkish ? "Gümüş" : "Silver"
+        case "GOLD": return turkish ? "Altın" : "Gold"
+        case "DIAMOND": return turkish ? "Elmas" : "Diamond"
+        default: return turkish ? "Bronz" : "Bronze"
+        }
+    }
+
     static func string(_ key: Key, language: String?) -> String {
         language == "tr" ? key.turkish : key.english
     }
@@ -205,5 +225,17 @@ nonisolated enum WidgetText {
             formatter.setLocalizedDateFormatFromTemplate(sameYear ? "MMMd jmm" : "yMMMd jmm")
         }
         return formatter.string(from: date)
+    }
+}
+
+/// The tier colors the app and its widgets share, as red, green and blue from 0 to 1.
+nonisolated enum TierPalette {
+    static func rgb(_ tier: String?) -> (red: Double, green: Double, blue: Double) {
+        switch tier {
+        case "SILVER": (192 / 255, 192 / 255, 192 / 255)   // #C0C0C0
+        case "GOLD": (1, 215 / 255, 0)                     // #FFD700
+        case "DIAMOND": (185 / 255, 242 / 255, 1)          // #B9F2FF
+        default: (205 / 255, 127 / 255, 50 / 255)          // #CD7F32, bronze and anything unknown
+        }
     }
 }

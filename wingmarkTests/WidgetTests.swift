@@ -88,6 +88,47 @@ struct WidgetTests {
         #expect(store.read()?.latest?.id == logs[0].id)
     }
 
+    @Test func theLargerWidgetGetsTheClosestBadgeWithItsDetailsAndNeverALockedSecret() {
+        let secret = BadgeProgress(id: UUID(), name: "", description: nil, icon: nil, tier: .gold, earned: false, earnedAt: nil,
+                                   progress: 0, target: 0, isSecret: true)
+        var closest = badge(1, progress: 9, target: 10)
+        closest.descriptions = ["en": "Spot 10 species.", "tr": "10 tür gözlemle."]
+        let summary = WidgetSync.summary(
+            logs: [],
+            badges: [closest, badge(2, progress: 5, target: 10), badge(3, progress: 10, target: 10, earned: true), secret],
+            language: "en"
+        )
+        #expect(summary.nextBadge?.name == "Badge 1")
+        #expect(summary.nextBadge?.tier == "BRONZE")
+        #expect(summary.nextBadge?.displayDescription(language: "tr") == "10 tür gözlemle.")
+        #expect(summary.nextBadge?.displayDescription(language: "en") == "Spot 10 species.")
+        #expect(WidgetSync.summary(logs: [], badges: [secret], language: "en").nextBadge == nil)
+        #expect(TierPalette.rgb("GOLD").green == 215 / 255 && TierPalette.rgb(nil).red == 205 / 255)
+    }
+
+    @Test func theWidgetNamesTheTierInTheAppLanguage() {
+        #expect(WidgetText.tier("GOLD", language: "en") == "Gold" && WidgetText.tier("GOLD", language: "tr") == "Altın")
+        #expect(WidgetText.tier("SILVER", language: "tr") == "Gümüş" && WidgetText.tier("DIAMOND", language: "tr") == "Elmas")
+        #expect(WidgetText.tier("PLATINUM", language: "en") == "Bronze" && WidgetText.tier(nil, language: "tr") == "Bronz")
+    }
+
+    @Test func aSlowOlderUpdateCannotOverwriteANewerOne() async throws {
+        let store = makeStore()
+        let gate = Gate()
+        let logs = [try log(1, at: "2026-09-29T07:30:00Z", photo: true)]
+        // The first update starts before the badges have loaded and is slow because of the photo.
+        let first = Task {
+            await WidgetSync.update(logs: logs, badges: [], language: "en", store: store, reload: {},
+                                    loadImage: { _ in await gate.wait(); return nil })
+        }
+        while !gate.isWaiting { await Task.yield() }
+        await WidgetSync.update(logs: logs, badges: [badge(1, progress: 3, target: 5)], language: "en",
+                                store: store, reload: {}, loadImage: { _ in nil })
+        gate.open()
+        await first.value
+        #expect(store.read()?.nextBadge?.name == "Badge 1", "the older update must not bring back 'no badge'")
+    }
+
     @Test func updateSavesADownscaledPhotoOfTheLatestSighting() async throws {
         let store = makeStore()
         let big = UIGraphicsImageRenderer(size: CGSize(width: 2000, height: 1000)).image { context in
@@ -248,5 +289,27 @@ struct BirdOfTheDayTests {
         store.writeBird(bird, photo: Data([1]))
         store.clear()
         #expect(store.readBird() == bird)
+    }
+}
+
+/// Holds a test's slow step until the test lets it go.
+@MainActor
+final class Gate {
+    private var continuation: CheckedContinuation<Void, Never>?
+    private(set) var isWaiting = false
+    private var isOpen = false
+
+    func wait() async {
+        if isOpen { return }
+        await withCheckedContinuation { continuation in
+            self.continuation = continuation
+            isWaiting = true
+        }
+    }
+
+    func open() {
+        isOpen = true
+        continuation?.resume()
+        continuation = nil
     }
 }

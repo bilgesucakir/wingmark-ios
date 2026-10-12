@@ -3,14 +3,22 @@ import WidgetKit
 
 /// Keeps the widgets' summary in the shared folder in step with the diary and badges.
 enum WidgetSync {
+    /// Counts the updates, so a slow older one can tell that a newer one has started.
+    private static var latestUpdate = 0
+
     static func summary(logs: [BirdLog], badges: [BadgeProgress], language: String) -> WidgetSummary {
         // A locked secret never shows up in a widget, not even by name.
         let visible = badges.filter { !$0.isLockedSecret }
         let next = visible.filter { !$0.earned && $0.target > 0 }.max { $0.fraction < $1.fraction }
+        func entry(_ badge: BadgeProgress) -> WidgetSummary.Badge {
+            .init(id: badge.id, name: badge.name, names: badge.names.isEmpty ? nil : badge.names, tier: badge.tier.rawValue,
+                  description: badge.description, descriptions: badge.descriptions.isEmpty ? nil : badge.descriptions,
+                  icon: badge.icon, progress: badge.progress, target: badge.target)
+        }
         let latest = logs.max { $0.observedAt < $1.observedAt }
         return WidgetSummary(
             language: language,
-            nextBadge: next.map { .init(id: $0.id, name: $0.name, names: $0.names.isEmpty ? nil : $0.names, icon: $0.icon, progress: $0.progress, target: $0.target) },
+            nextBadge: next.map(entry),
             allBadgesEarned: !visible.isEmpty && visible.allSatisfy(\.earned),
             latest: latest.map {
                 .init(
@@ -42,6 +50,10 @@ enum WidgetSync {
         loadImage: (URL) async -> UIImage? = { await ImageLoader.shared.image(for: $0) },
         canWrite: () -> Bool = { true }
     ) async {
+        // A photo download can take a while. If a newer update started in the meantime, this older one must not
+        // write afterwards, or its older badges and sightings would replace the newer ones.
+        latestUpdate += 1
+        let ticket = latestUpdate
         let summary = summary(logs: logs, badges: badges, language: language)
         let previous = store.read()
         if let latest = logs.max(by: { $0.observedAt < $1.observedAt }) {
@@ -51,13 +63,13 @@ enum WidgetSync {
                 let url = latest.photoUrl.flatMap { AppConfig.assetURL(for: $0) }
                 let image = await url.asyncFlatMap(loadImage)
                 // Signing out while the photo loads must not bring the old sighting back.
-                guard canWrite() else { return }
+                guard canWrite(), ticket == latestUpdate else { return }
                 store.writePhoto(image?.downscaled(toMaxSide: 600).jpegData(compressionQuality: 0.8))
             }
         } else {
             store.writePhoto(nil)
         }
-        guard summary != previous, canWrite() else { return }
+        guard summary != previous, canWrite(), ticket == latestUpdate else { return }
         store.write(summary)
         reload()
     }

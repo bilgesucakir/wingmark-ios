@@ -17,8 +17,10 @@ struct BirdProvider: TimelineProvider {
         SharedStore.live.readLanguage() ?? (Locale.current.language.languageCode?.identifier == "tr" ? "tr" : "en")
     }
 
+    /// The widget gallery shows an example in the phone's language; the app's language isn't chosen there yet.
     func placeholder(in context: Context) -> BirdEntry {
-        BirdEntry(date: .now, bird: .sample, photo: nil, language: Self.language)
+        let language = Locale.current.language.languageCode?.identifier == "tr" ? "tr" : "en"
+        return BirdEntry(date: .now, bird: .sample(language: language), photo: nil, language: language)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (BirdEntry) -> Void) {
@@ -73,11 +75,13 @@ private extension Optional {
 }
 
 extension BirdOfTheDay {
-    static let sample = BirdOfTheDay(
-        id: nil, name: "House Sparrow", scientificName: "Passer domesticus",
-        summary: "A small, social bird found in towns and farmland across much of the world.",
-        photoURL: nil, credit: nil
-    )
+    static func sample(language: String) -> BirdOfTheDay {
+        language == "tr"
+            ? BirdOfTheDay(id: nil, name: "Serçe", scientificName: "Passer domesticus",
+                           summary: "Kentlerde ve tarım arazilerinde yaşayan, sosyal küçük bir kuş.", photoURL: nil, credit: nil)
+            : BirdOfTheDay(id: nil, name: "House Sparrow", scientificName: "Passer domesticus",
+                           summary: "A small, social bird found in towns and farmland across much of the world.", photoURL: nil, credit: nil)
+    }
 }
 
 struct BirdOfTheDayWidget: Widget {
