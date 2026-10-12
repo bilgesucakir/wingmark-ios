@@ -55,6 +55,38 @@ struct SpeciesRecording: Decodable, Sendable, Identifiable, Hashable {
     let quality: String?
     let recordist: String?
     let licenseUrl: String?
+
+    /// xeno-canto's own words for the kind of sound ("call", "flight call, song"), in the app's language. Only the common
+    /// words are translated; anything else is shown as it came.
+    func displayType(language: String = AppLanguage.current.code) -> String? {
+        guard let type = type?.trimmingCharacters(in: .whitespacesAndNewlines), !type.isEmpty else { return nil }
+        guard language == "tr" else { return type.capitalized }
+        let parts = type.split(separator: ",").map { part -> String in
+            let word = part.trimmingCharacters(in: CharacterSet.whitespaces.union(CharacterSet(charactersIn: "\"“”."))).lowercased()
+            return Self.turkishTypes[word] ?? word
+        }
+        let text = parts.joined(separator: ", ")
+        let locale = Locale(identifier: "tr")
+        return text.prefix(1).uppercased(with: locale) + text.dropFirst()
+    }
+
+    /// The words recordists use most (from about a thousand recordings). Some are misspelled on xeno-canto ("agressive").
+    private static let turkishTypes: [String: String] = [
+        "call": "çağrı", "calls": "çağrılar", "song": "şarkı", "flight call": "uçuş çağrısı",
+        "nocturnal flight call": "gece uçuş çağrısı", "alarm call": "alarm çağrısı", "begging call": "yem isteme çağrısı",
+        "contact call": "iletişim çağrısı", "dawn song": "şafak şarkısı", "subsong": "kısık şarkı", "low song": "alçak şarkı",
+        "short song": "kısa şarkı", "duet": "düet", "uncertain": "belirsiz", "social calls": "sosyal çağrılar",
+        "interaction calls": "etkileşim çağrıları", "nasal call": "genizsi çağrı", "distress call": "sıkıntı çağrısı",
+        "juvenile call": "yavru çağrısı", "territorial call": "bölge çağrısı", "aggressive call": "saldırgan çağrı",
+        "agressive call": "saldırgan çağrı", "aggressive calls": "saldırgan çağrılar", "agressive calls": "saldırgan çağrılar",
+        "excitement call": "heyecan çağrısı", "copulation call": "çiftleşme çağrısı", "display call": "gösteri çağrısı",
+        "displaying": "gösteri", "display flight": "gösteri uçuşu", "song in flight": "uçuşta şarkı",
+        "wing beats": "kanat çırpışı", "wingbeats": "kanat çırpışı", "wing beat": "kanat çırpışı",
+        "wing flapping": "kanat çırpma", "wing whirr": "kanat vızıltısı", "wing buzz": "kanat vızıltısı",
+        "wing noise": "kanat sesi", "drumming": "davullama", "imitation": "taklit", "bill clapping": "gaga çatırdatma",
+        "bill snapping": "gaga çıtırdatma", "purring": "mırıltı", "hissing": "tıslama", "rattle": "tıkırtı",
+        "chatter": "gevezelik", "takeoff": "havalanma", "taking off": "havalanma", "aberrant": "alışılmadık",
+    ]
 }
 
 enum SeenFilter: String, CaseIterable, Identifiable, Sendable {
