@@ -201,7 +201,7 @@ private struct RecordingRow: View {
             .accessibilityLabel(Text(isCurrent && player.isPlaying ? "Pause" : "Play"))
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(recording.type?.capitalized ?? String(localized: "Recording", bundle: .app))
+                Text(recording.displayType() ?? String(localized: "Recording", bundle: .app))
                     .font(.headline)
                 if let recordist = recording.recordist {
                     Text("Recorded by \(recordist)")

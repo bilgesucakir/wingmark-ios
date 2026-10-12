@@ -55,6 +55,26 @@ struct SpeciesRecording: Decodable, Sendable, Identifiable, Hashable {
     let quality: String?
     let recordist: String?
     let licenseUrl: String?
+
+    /// xeno-canto's own words for the kind of sound ("call", "flight call, song"), in the app's language. Only the common
+    /// words are translated; anything else is shown as it came.
+    func displayType(language: String = AppLanguage.current.code) -> String? {
+        guard let type = type?.trimmingCharacters(in: .whitespacesAndNewlines), !type.isEmpty else { return nil }
+        guard language == "tr" else { return type.capitalized }
+        let parts = type.split(separator: ",").map { part -> String in
+            let word = part.trimmingCharacters(in: .whitespaces).lowercased()
+            return Self.turkishTypes[word] ?? word
+        }
+        let text = parts.joined(separator: ", ")
+        let locale = Locale(identifier: "tr")
+        return text.prefix(1).uppercased(with: locale) + text.dropFirst()
+    }
+
+    private static let turkishTypes: [String: String] = [
+        "call": "çağrı", "calls": "çağrılar", "song": "şarkı", "flight call": "uçuş çağrısı",
+        "alarm call": "alarm çağrısı", "begging call": "yem isteme çağrısı", "dawn song": "şafak şarkısı",
+        "contact call": "iletişim çağrısı",
+    ]
 }
 
 enum SeenFilter: String, CaseIterable, Identifiable, Sendable {
