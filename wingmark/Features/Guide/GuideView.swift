@@ -65,6 +65,12 @@ private struct GuideList: View {
 
     var body: some View {
         List {
+            if search.filter.isActive {
+                ActiveFilterChips(search: search)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
             ForEach(search.results) { species in
                 NavigationLink(value: DiaryRoute.species(species)) {
                     SpeciesRow(species: species)
@@ -122,6 +128,20 @@ private struct GuideList: View {
 private struct GuideFilterMenu: View {
     @Bindable var search: SpeciesSearch
 
+    var body: some View {
+        Menu {
+            GuideFilterContent(search: search)
+        } label: {
+            Label("Filter", systemImage: search.filter.isActive
+                  ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+        }
+    }
+}
+
+/// The choices of the filter menu, shared by the toolbar button and the chips under the title.
+private struct GuideFilterContent: View {
+    @Bindable var search: SpeciesSearch
+
     /// The menu entries, plus any chosen value the server no longer lists (its count is 0), so a chosen one never disappears.
     private func orderChoices() -> [(value: String, name: String, count: Int)] {
         var items = search.facets.orders.filter { $0.count > 0 || search.filter.orders.contains($0.value) }.map { ($0.value, $0.name, $0.count) }
@@ -136,7 +156,7 @@ private struct GuideFilterMenu: View {
     }
 
     var body: some View {
-        Menu {
+        Group {
             if search.canFilterBySeen {
                 Picker("Logged", selection: $search.filter.seen) {
                     ForEach(SeenFilter.allCases) { Text($0.title).tag($0) }
@@ -160,9 +180,65 @@ private struct GuideFilterMenu: View {
                     ))
                 }
             }
-        } label: {
-            Label("Filter", systemImage: search.filter.isActive
-                  ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+        }
+    }
+}
+
+/// The filters that are on, one chip each, under the title, only while at least one is on. The X removes just that
+/// value; tapping the rest of a chip opens the filter menu. Liquid Glass like the other floating controls.
+private struct ActiveFilterChips: View {
+    @Bindable var search: SpeciesSearch
+
+    private struct Chip: Identifiable {
+        let id: String
+        let title: String
+        let remove: () -> Void
+    }
+
+    private var chips: [Chip] {
+        var items: [Chip] = []
+        if search.filter.seen != .all {
+            items.append(Chip(id: "seen", title: search.filter.seen.title) { search.filter.seen = .all })
+        }
+        for value in search.filter.orders {
+            let name = search.facets.orders.first { $0.value == value }?.name ?? value
+            items.append(Chip(id: "order-\(value)", title: name) { search.toggleOrder(value) })
+        }
+        for value in search.filter.families {
+            let name = search.facets.families.first { $0.value == value }?.name ?? value
+            items.append(Chip(id: "family-\(value)", title: name) { search.filter.toggleFamily(value) })
+        }
+        return items
+    }
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            GlassEffectContainer {
+              HStack(spacing: 8) {
+                ForEach(chips) { chip in
+                    HStack(spacing: 0) {
+                        Menu {
+                            GuideFilterContent(search: search)
+                        } label: {
+                            Text(chip.title)
+                                .font(.subheadline.weight(.semibold))
+                                .padding(.leading, 14)
+                                .padding(.trailing, 4)
+                                .frame(minHeight: 44)
+                        }
+                        Button(action: chip.remove) {
+                            Image(systemName: "xmark")
+                                .font(.caption.weight(.bold))
+                                .frame(width: 36, height: 44)
+                        }
+                        .accessibilityLabel(Text("Remove filter \(chip.title)"))
+                    }
+                    .foregroundStyle(.primary)
+                    .glassEffect(.regular.interactive(), in: .capsule)
+                }
+              }
+            }
+            .padding(.horizontal, 16)
         }
     }
 }

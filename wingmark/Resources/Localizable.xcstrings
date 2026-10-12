@@ -763,6 +763,16 @@
         }
       }
     },
+    "Remove filter %@" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtreyi kaldır: %@"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "tr" : {

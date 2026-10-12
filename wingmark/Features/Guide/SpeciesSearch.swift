@@ -8,6 +8,8 @@ final class SpeciesSearch {
     private(set) var hasMore = true
     private(set) var error: APIError?
     private(set) var hasLoaded = false
+    /// How many species match the search and the filter, from the server.
+    private(set) var totalCount: Int?
 
     var query = "" {
         didSet { if query != oldValue { scheduleReload(debounce: true) } }
@@ -113,6 +115,7 @@ final class SpeciesSearch {
             let known = Set(results.map(\.id))
             results.append(contentsOf: result.content.filter { !known.contains($0.id) })
             hasMore = result.hasMore
+            totalCount = result.page.totalElements
             page += 1
             error = nil
             hasLoaded = true
