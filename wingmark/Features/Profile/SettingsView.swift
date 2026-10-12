@@ -240,7 +240,9 @@ struct DeleteAccountView: View {
                     }
                 }
                 .disabled(password.isEmpty || isDeleting)
-                .confirmationDialog("Delete your account?", isPresented: $confirm, titleVisibility: .visible) {
+                // An alert in the middle of the screen, not a menu hanging off the button.
+                .alert("Delete your account?", isPresented: $confirm) {
+                    Button("Cancel", role: .cancel) {}
                     Button("Delete Account", role: .destructive, action: delete)
                 } message: {
                     Text("This can't be undone.")
