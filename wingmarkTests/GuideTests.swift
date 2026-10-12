@@ -198,6 +198,27 @@ struct GuideTests {
         #expect(query(lists(transport).last)["order"] == nil)
     }
 
+    @Test func recordingTypesAreTranslatedToTurkishAndUnknownWordsStayAsTheyCame() {
+        func recording(_ type: String?) -> SpeciesRecording {
+            let value = type.map { #""\#($0)""# } ?? "null"
+            let json = #"{"id":"1","recordingUrl":"https://x.test/1","type":\#(value),"quality":null,"recordist":null,"licenseUrl":null}"#
+            return try! JSONCoding.makeDecoder().decode(SpeciesRecording.self, from: Data(json.utf8))
+        }
+        #expect(recording("call").displayType(language: "tr") == "Çağrı")
+        #expect(recording("song").displayType(language: "tr") == "Şarkı")
+        #expect(recording("call, flight call").displayType(language: "tr") == "Çağrı, uçuş çağrısı")
+        #expect(recording("Alarm call, call").displayType(language: "tr") == "Alarm çağrısı, çağrı")
+        #expect(recording("dawn song, chant d'automne").displayType(language: "tr") == "Şafak şarkısı, chant d'automne")
+        #expect(recording("emus").displayType(language: "tr") == "Emus")
+        #expect(recording("nocturnal flight call").displayType(language: "tr") == "Gece uçuş çağrısı")
+        #expect(recording("uncertain").displayType(language: "tr") == "Belirsiz")
+        #expect(recording("duet, agressive call").displayType(language: "tr") == "Düet, saldırgan çağrı")
+        #expect(recording("\\\"rattle\\\"").displayType(language: "tr") == "Tıkırtı")
+        #expect(recording("flight call").displayType(language: "en") == "Flight Call")
+        #expect(recording(nil).displayType(language: "tr") == nil)
+        #expect(recording("  ").displayType(language: "en") == nil)
+    }
+
     @Test func decodesRecordings() throws {
         let json = #"[{"id":"1182218","recordingUrl":"https://xeno-canto.org/1182218/download","type":"call","quality":"A","recordist":"David Darrell-Lambert","licenseUrl":"https://creativecommons.org/licenses/by-nc-sa/4.0/"}]"#
         let recordings = try JSONCoding.makeDecoder().decode([SpeciesRecording].self, from: Data(json.utf8))
