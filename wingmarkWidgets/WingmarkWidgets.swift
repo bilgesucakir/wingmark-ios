@@ -73,14 +73,13 @@ extension WidgetSummary {
     static func sample(language: String) -> WidgetSummary {
         let tr = language == "tr"
         let badges: [Badge] = [
-            .init(id: nil, name: tr ? "Buluşma Bulucu" : "Gathering Finder", tier: "GOLD", icon: "trophy.fill", progress: 7, target: 10),
+            .init(id: nil, name: tr ? "Buluşma Bulucu" : "Gathering Finder", tier: "GOLD", description: tr ? "Birbirine 1 km mesafede 2 farklı tür bul." : "Find 2 different species within 1km of each other.", icon: "trophy.fill", progress: 7, target: 10),
             .init(id: nil, name: tr ? "Tür Kaşifi" : "Species Explorer", tier: "SILVER", icon: "magnifyingglass", progress: 4, target: 10),
             .init(id: nil, name: tr ? "Yuva Gözlemcisi" : "Nest Watcher", tier: "BRONZE", icon: "leaf.fill", progress: 1, target: 5),
         ]
         return WidgetSummary(
             language: language,
             nextBadge: badges[0],
-            nextBadges: badges,
             allBadgesEarned: false,
             latest: .init(id: UUID(), name: tr ? "Serçe" : "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false,
                           gender: tr ? "Dişi" : "Female", lifeStage: tr ? "Yetişkin" : "Adult",
@@ -121,7 +120,7 @@ struct NextBadgeView: View {
             } else if family == .systemMedium {
                 medium(first: badge)
             } else {
-                featured(badge, size: 64)
+                featured(badge, size: 58)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(alignment: .topTrailing) { WidgetLogo() }
                     .accessibilityElement(children: .combine)
@@ -131,18 +130,12 @@ struct NextBadgeView: View {
         }
     }
 
-    /// The closest badge as a progress ring with its name and count.
+    /// The closest badge as a progress ring with its name, tier and count.
     private func featured(_ badge: WidgetSummary.Badge, size: CGFloat) -> some View {
-        VStack(spacing: 6) {
-            ZStack {
-                Circle().stroke(.quaternary, lineWidth: size / 8)
-                Circle()
-                    .trim(from: 0, to: badge.fraction)
-                    .stroke(badge.ringColor, style: StrokeStyle(lineWidth: size / 8, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                BadgeSymbol(icon: badge.icon).font(size > 70 ? .largeTitle : .title2)
-            }
-            .frame(width: size, height: size)
+        VStack(spacing: 4) {
+            ring(badge, size: size)
+                // Keeps the name from almost touching the ring.
+                .padding(.bottom, 8)
             Text(badge.displayName(language: entry.language))
                 .font(.footnote.weight(.semibold))
                 .lineLimit(2)
@@ -153,32 +146,45 @@ struct NextBadgeView: View {
         }
     }
 
-    /// The closest badge on the left, the next two closest as small rows on the right.
-    private func medium(first: WidgetSummary.Badge) -> some View {
-        let others = Array((entry.summary?.nextBadges ?? []).dropFirst().prefix(2))
-        return HStack(spacing: 16) {
-            featured(first, size: 84)
-                .frame(maxWidth: .infinity)
-            if !others.isEmpty {
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(Array(others.enumerated()), id: \.offset) { _, badge in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(badge.displayName(language: entry.language))
-                                .font(.footnote.weight(.semibold))
-                                .lineLimit(1)
-                            ProgressView(value: badge.fraction).tint(badge.ringColor)
-                            Text("\(WidgetText.tier(badge.tier, language: entry.language)) · \(badge.progress) / \(badge.target)")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+    /// The closest badge on the left, its details on the right: name, tier, what it asks for and how far along it is.
+    private func medium(first badge: WidgetSummary.Badge) -> some View {
+        HStack(spacing: 16) {
+            ring(badge, size: 92)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(badge.displayName(language: entry.language))
+                    .font(.headline)
+                    .lineLimit(2)
+                Text(WidgetText.tier(badge.tier, language: entry.language))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(badge.ringColor)
+                if let description = badge.displayDescription(language: entry.language) {
+                    Text(description)
+                        .font(.caption)
+                        .lineLimit(3)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer(minLength: 0)
+                ProgressView(value: badge.fraction).tint(badge.ringColor)
+                Text("\(badge.progress) / \(badge.target)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(alignment: .topTrailing) { WidgetLogo() }
         .accessibilityElement(children: .combine)
+    }
+
+    private func ring(_ badge: WidgetSummary.Badge, size: CGFloat) -> some View {
+        ZStack {
+            Circle().stroke(.quaternary, lineWidth: size / 8)
+            Circle()
+                .trim(from: 0, to: badge.fraction)
+                .stroke(badge.ringColor, style: StrokeStyle(lineWidth: size / 8, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            BadgeSymbol(icon: badge.icon).font(size > 70 ? .largeTitle : .title2)
+        }
+        .frame(width: size, height: size)
     }
 
     private var message: WidgetText.Key {

@@ -88,19 +88,21 @@ struct WidgetTests {
         #expect(store.read()?.latest?.id == logs[0].id)
     }
 
-    @Test func theLargerWidgetGetsTheThreeClosestUnearnedBadgesAndNeverALockedSecret() {
+    @Test func theLargerWidgetGetsTheClosestBadgeWithItsDetailsAndNeverALockedSecret() {
         let secret = BadgeProgress(id: UUID(), name: "", description: nil, icon: nil, tier: .gold, earned: false, earnedAt: nil,
                                    progress: 0, target: 0, isSecret: true)
+        var closest = badge(1, progress: 9, target: 10)
+        closest.descriptions = ["en": "Spot 10 species.", "tr": "10 tür gözlemle."]
         let summary = WidgetSync.summary(
             logs: [],
-            badges: [badge(1, progress: 9, target: 10), badge(2, progress: 5, target: 10), badge(3, progress: 7, target: 10),
-                     badge(4, progress: 1, target: 10), badge(5, progress: 10, target: 10, earned: true), secret],
+            badges: [closest, badge(2, progress: 5, target: 10), badge(3, progress: 10, target: 10, earned: true), secret],
             language: "en"
         )
-        #expect(summary.nextBadges?.map(\.name) == ["Badge 1", "Badge 3", "Badge 2"])
         #expect(summary.nextBadge?.name == "Badge 1")
         #expect(summary.nextBadge?.tier == "BRONZE")
-        #expect(WidgetSync.summary(logs: [], badges: [secret], language: "en").nextBadges == nil)
+        #expect(summary.nextBadge?.displayDescription(language: "tr") == "10 tür gözlemle.")
+        #expect(summary.nextBadge?.displayDescription(language: "en") == "Spot 10 species.")
+        #expect(WidgetSync.summary(logs: [], badges: [secret], language: "en").nextBadge == nil)
         #expect(TierPalette.rgb("GOLD").green == 215 / 255 && TierPalette.rgb(nil).red == 205 / 255)
     }
 

@@ -9,18 +9,16 @@ enum WidgetSync {
     static func summary(logs: [BirdLog], badges: [BadgeProgress], language: String) -> WidgetSummary {
         // A locked secret never shows up in a widget, not even by name.
         let visible = badges.filter { !$0.isLockedSecret }
-        let ranked = visible.filter { !$0.earned && $0.target > 0 }
-            .enumerated().sorted { ($0.element.fraction, -$0.offset) > ($1.element.fraction, -$1.offset) }.map(\.element)
-        let next = ranked.first
+        let next = visible.filter { !$0.earned && $0.target > 0 }.max { $0.fraction < $1.fraction }
         func entry(_ badge: BadgeProgress) -> WidgetSummary.Badge {
             .init(id: badge.id, name: badge.name, names: badge.names.isEmpty ? nil : badge.names, tier: badge.tier.rawValue,
+                  description: badge.description, descriptions: badge.descriptions.isEmpty ? nil : badge.descriptions,
                   icon: badge.icon, progress: badge.progress, target: badge.target)
         }
         let latest = logs.max { $0.observedAt < $1.observedAt }
         return WidgetSummary(
             language: language,
             nextBadge: next.map(entry),
-            nextBadges: ranked.isEmpty ? nil : ranked.prefix(3).map(entry),
             allBadgesEarned: !visible.isEmpty && visible.allSatisfy(\.earned),
             latest: latest.map {
                 .init(

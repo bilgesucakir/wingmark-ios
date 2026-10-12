@@ -11,6 +11,9 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         var names: [String: String]?
         /// "BRONZE", "SILVER", "GOLD" or "DIAMOND", so the widget can color the progress ring like the badge.
         var tier: String?
+        /// What the badge asks for, in the app's language and in every language the catalog has, for the larger widget.
+        var description: String?
+        var descriptions: [String: String]?
         var icon: String?
         var progress: Int
         var target: Int
@@ -21,6 +24,10 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
 
         func displayName(language: String?) -> String {
             language.flatMap { names?[$0] } ?? name
+        }
+
+        func displayDescription(language: String?) -> String? {
+            language.flatMap { descriptions?[$0] } ?? description
         }
     }
 
@@ -49,8 +56,6 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
 
     var language: String
     var nextBadge: Badge?
-    /// The few unearned badges closest to done, the first being `nextBadge`, for the larger widget.
-    var nextBadges: [Badge]?
     var allBadgesEarned: Bool
     var latest: Sighting?
 }

@@ -70,6 +70,8 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
     let progress: Int
     let target: Int
     var names: [String: String] = [:]
+    /// The catalog description in every language, for the widget.
+    var descriptions: [String: String] = [:]
     var isSecret = false
 
     /// A secret badge that hasn't been earned: it has no name, description, icon or progress to show.
@@ -102,6 +104,7 @@ struct BadgeProgress: Identifiable, Equatable, Sendable {
                 progress: mine.progress ?? 0,
                 target: mine.targetValue ?? 0,
                 names: badge?.name.values ?? [:],
+                descriptions: badge?.description?.values ?? [:],
                 isSecret: mine.secret ?? false
             )
         }
