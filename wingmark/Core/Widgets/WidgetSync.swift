@@ -43,6 +43,18 @@ enum WidgetSync {
         return atWord.trimmingCharacters(in: .whitespaces) + "…"
     }
 
+    /// What the app calls: updates the widgets from the diary and badges, writing only while someone is signed in, and
+    /// reloading the widgets afterwards. `isSignedIn` is a required, labelled parameter on purpose: with `update`'s several
+    /// defaulted closures, an unlabeled trailing closure silently replaces `reload` and the widgets are never redrawn.
+    static func updateWhileSignedIn(
+        isSignedIn: () -> Bool, logs: [BirdLog], badges: [BadgeProgress], language: String,
+        store: SharedStore = .live, reload: () -> Void = { WidgetCenter.shared.reloadAllTimelines() },
+        loadImage: (URL) async -> UIImage? = { await ImageLoader.shared.image(for: $0) }
+    ) async {
+        await update(logs: logs, badges: badges, language: language, store: store, reload: reload,
+                     loadImage: loadImage, canWrite: isSignedIn)
+    }
+
     /// `logs` must be the unfiltered diary, otherwise "latest" would be the latest match.
     static func update(
         logs: [BirdLog], badges: [BadgeProgress], language: String,
