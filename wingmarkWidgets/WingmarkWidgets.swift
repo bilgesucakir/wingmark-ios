@@ -158,14 +158,14 @@ struct NextBadgeView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(badge.ringColor)
                 if let description = badge.displayDescription(language: entry.language) {
+                    // The ring already shows the progress, so the room goes to the description and it keeps its lines.
                     Text(description)
                         .font(.caption)
                         .lineLimit(3)
+                        .layoutPriority(1)
                 }
-                Spacer(minLength: 0)
-                ProgressView(value: badge.fraction).tint(badge.ringColor)
                 Text("\(badge.progress) / \(badge.target)")
-                    .font(.caption2)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)

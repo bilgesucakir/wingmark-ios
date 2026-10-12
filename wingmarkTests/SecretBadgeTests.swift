@@ -62,6 +62,10 @@ struct SecretBadgeTests {
         let badge = try #require(BadgeProgress.merge(catalog: catalog, user: try decode(json)).first)
         #expect(badge.name == "Ilk Ucus" && badge.description == "Bir kus kaydet." && badge.tier == .gold)
         #expect(badge.names["en"] == "First Flight")
+        #expect(badge.descriptions["en"] == "Log a bird.", "the widget gets the catalog description in every language")
+        // ...and it reaches the saved widget summary, which is what the larger badge widget reads.
+        let summary = WidgetSync.summary(logs: [], badges: [badge], language: "en")
+        #expect(summary.nextBadge?.displayDescription(language: "en") == "Log a bird.")
     }
 
     @Test func theHeaderTotalIncludesHiddenSecretsByDefault() throws {
