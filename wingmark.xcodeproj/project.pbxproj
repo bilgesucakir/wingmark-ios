@@ -44,8 +44,8 @@
 /* Begin PBXFileReference section */
 		2FEFD8893054C5CD00414042 /* wingmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wingmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0000000000000000000010 /* wingmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wingmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB00000000000000000000A0 /* wingmarkWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = wingmarkWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0000000000000000000040 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB00000000000000000000A0 /* wingmarkWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = wingmarkWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -213,12 +213,12 @@
 					2FEFD8883054C5CD00414042 = {
 						CreatedOnToolsVersion = 26.6;
 					};
-					AB00000000000000000000A3 = {
-						CreatedOnToolsVersion = 27.0;
-					};
 					AB0000000000000000000003 = {
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 2FEFD8883054C5CD00414042;
+					};
+					AB00000000000000000000A3 = {
+						CreatedOnToolsVersion = 27.0;
 					};
 				};
 			};
@@ -439,12 +439,12 @@
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Config/Info-Debug.plist;
+				INFOPLIST_FILE = "Config/Info-Debug.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take a photo of the bird you spotted.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a sighting's photo to your library.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is saved with each sighting so it appears on your map.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a sighting's photo to your library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -487,8 +487,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Wingmark;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take a photo of the bird you spotted.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a sighting's photo to your library.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is saved with each sighting so it appears on your map.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a sighting's photo to your library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

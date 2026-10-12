@@ -2,24 +2,79 @@
   "sourceLanguage" : "en",
   "strings" : {
     "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Wingmark"
+          }
+        }
+      },
       "shouldTranslate" : false
     },
-    "NSCameraUsageDescription" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take a photo of the bird you spotted." } },
-        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Gördüğün kuşun fotoğrafını çek." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "wingmark"
+          }
+        }
       }
     },
-    "NSPhotoLibraryAddUsageDescription" : {
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save a sighting's photo to your library." } },
-        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Bir gözlemin fotoğrafını kitaplığına kaydet." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo of the bird you spotted."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gördüğün kuşun fotoğrafını çek."
+          }
+        }
       }
     },
     "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "Privacy - Location When In Use Usage Description",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your location is saved with each sighting so it appears on your map." } },
-        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Konumun her gözlemle birlikte kaydedilir, böylece haritanda görünür." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location is saved with each sighting so it appears on your map."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun her gözlemle birlikte kaydedilir, böylece haritanda görünür."
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "Privacy - Photo Library Additions Usage Description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save a sighting's photo to your library."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir gözlemin fotoğrafını kitaplığına kaydet."
+          }
+        }
       }
     }
   },
