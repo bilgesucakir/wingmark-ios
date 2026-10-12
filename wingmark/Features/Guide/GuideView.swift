@@ -138,7 +138,7 @@ private struct GuideFilterMenu: View {
     var body: some View {
         Menu {
             if search.canFilterBySeen {
-                Picker("Seen", selection: $search.filter.seen) {
+                Picker("Logged", selection: $search.filter.seen) {
                     ForEach(SeenFilter.allCases) { Text($0.title).tag($0) }
                 }
             }

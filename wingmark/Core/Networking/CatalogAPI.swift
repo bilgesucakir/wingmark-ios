@@ -65,8 +65,8 @@ enum SeenFilter: String, CaseIterable, Identifiable, Sendable {
     var title: String {
         switch self {
         case .all: String(localized: "All", bundle: .app)
-        case .seen: String(localized: "Seen", bundle: .app)
-        case .unseen: String(localized: "Not seen yet", bundle: .app)
+        case .seen: String(localized: "Logged", bundle: .app)
+        case .unseen: String(localized: "Not logged", bundle: .app)
         }
     }
 }
