@@ -58,7 +58,7 @@ final class SpeciesSearch {
 
     /// Fetches the filter menus again only when the search or the filter changed since the last time.
     private func loadFacets() async {
-        let key = "\(query)|\(filter.order ?? "")|\(filter.family ?? "")|\(filter.seen.rawValue)"
+        let key = "\(query)|\(filter.orders.joined(separator: ","))|\(filter.families.joined(separator: ","))|\(filter.seen.rawValue)"
         guard key != facetsKey else { return }
         let generation = generation
         guard let result = try? await client.send(SpeciesAPI.facets(search: query, filter: filter)),
@@ -68,6 +68,18 @@ final class SpeciesSearch {
     }
 
     func clearFilter() { filter = SpeciesFilter() }
+
+    /// Picks or unpicks an order. A chosen family stays only if its order is still among the chosen ones.
+    func toggleOrder(_ value: String) {
+        var next = filter
+        next.toggleOrder(value)
+        if !next.orders.isEmpty {
+            let owner = Dictionary(facets.families.compactMap { family in family.order.map { (family.value, $0) } },
+                                   uniquingKeysWith: { first, _ in first })
+            next.families.removeAll { family in owner[family].map { !next.orders.contains($0) } ?? false }
+        }
+        filter = next
+    }
 
     func loadMoreIfNeeded(after species: Species) async {
         guard species.id == results.last?.id else { return }

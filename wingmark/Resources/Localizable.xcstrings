@@ -703,16 +703,6 @@
         }
       }
     },
-    "Not seen yet" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Henüz görülmedi"
-          }
-        }
-      }
-    },
     "All Orders" : {
       "localizations" : {
         "tr" : {
@@ -749,6 +739,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtrelerden birinde Tümü'nü seçmeyi dene."
+          }
+        }
+      }
+    },
+    "Logged" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlendi"
+          }
+        }
+      }
+    },
+    "Not logged" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemlenmedi"
           }
         }
       }
