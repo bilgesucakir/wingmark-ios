@@ -180,6 +180,17 @@ nonisolated enum WidgetText {
         }
     }
 
+    /// The tier's name in the app's language ("Gold" / "Altın"); an unknown tier reads as bronze, as in the app.
+    static func tier(_ code: String?, language: String?) -> String {
+        let turkish = language == "tr"
+        switch code {
+        case "SILVER": return turkish ? "Gümüş" : "Silver"
+        case "GOLD": return turkish ? "Altın" : "Gold"
+        case "DIAMOND": return turkish ? "Elmas" : "Diamond"
+        default: return turkish ? "Bronz" : "Bronze"
+        }
+    }
+
     static func string(_ key: Key, language: String?) -> String {
         language == "tr" ? key.turkish : key.english
     }

@@ -104,6 +104,12 @@ struct WidgetTests {
         #expect(TierPalette.rgb("GOLD").green == 215 / 255 && TierPalette.rgb(nil).red == 205 / 255)
     }
 
+    @Test func theWidgetNamesTheTierInTheAppLanguage() {
+        #expect(WidgetText.tier("GOLD", language: "en") == "Gold" && WidgetText.tier("GOLD", language: "tr") == "Altın")
+        #expect(WidgetText.tier("SILVER", language: "tr") == "Gümüş" && WidgetText.tier("DIAMOND", language: "tr") == "Elmas")
+        #expect(WidgetText.tier("PLATINUM", language: "en") == "Bronze" && WidgetText.tier(nil, language: "tr") == "Bronz")
+    }
+
     @Test func aSlowOlderUpdateCannotOverwriteANewerOne() async throws {
         let store = makeStore()
         let gate = Gate()

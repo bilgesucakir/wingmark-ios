@@ -147,7 +147,7 @@ struct NextBadgeView: View {
                 .font(.footnote.weight(.semibold))
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-            Text("\(badge.progress) / \(badge.target)")
+            Text("\(WidgetText.tier(badge.tier, language: entry.language)) · \(badge.progress) / \(badge.target)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -167,7 +167,7 @@ struct NextBadgeView: View {
                                 .font(.footnote.weight(.semibold))
                                 .lineLimit(1)
                             ProgressView(value: badge.fraction).tint(badge.ringColor)
-                            Text("\(badge.progress) / \(badge.target)")
+                            Text("\(WidgetText.tier(badge.tier, language: entry.language)) · \(badge.progress) / \(badge.target)")
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
                         }
