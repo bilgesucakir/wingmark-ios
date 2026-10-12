@@ -65,6 +65,12 @@ private struct GuideList: View {
 
     var body: some View {
         List {
+            if search.filter.isActive {
+                ActiveFilterChips(search: search)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
             ForEach(search.results) { species in
                 NavigationLink(value: DiaryRoute.species(species)) {
                     SpeciesRow(species: species)
@@ -116,49 +122,123 @@ private struct GuideList: View {
     }
 }
 
-/// One filter button, like on the Badges page: its icon is filled while a filter is on. Seen, Order and Family each have
-/// an All choice to remove that filter. Picking an order narrows the families, because the server answers with the families of that order.
+/// One filter button, like on the Badges page: its icon is filled while a filter is on. Order and Family allow several
+/// choices (check marks); Seen is one choice. Picking orders narrows the families to those orders, because the server
+/// answers with the families of the chosen orders.
 private struct GuideFilterMenu: View {
     @Bindable var search: SpeciesSearch
 
-    private var orderSelection: Binding<String?> {
-        Binding(get: { search.filter.order }, set: { newValue in
-            guard newValue != search.filter.order else { return }
-            search.filter.order = newValue
-            search.filter.family = nil
-        })
+    var body: some View {
+        Menu {
+            GuideFilterContent(search: search)
+        } label: {
+            Label("Filter", systemImage: search.filter.isActive
+                  ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+        }
+    }
+}
+
+/// The choices of the filter menu, shared by the toolbar button and the chips under the title.
+private struct GuideFilterContent: View {
+    @Bindable var search: SpeciesSearch
+
+    /// The menu entries, plus any chosen value the server no longer lists (its count is 0), so a chosen one never disappears.
+    private func orderChoices() -> [(value: String, name: String, count: Int)] {
+        var items = search.facets.orders.filter { $0.count > 0 || search.filter.orders.contains($0.value) }.map { ($0.value, $0.name, $0.count) }
+        for value in search.filter.orders where !items.contains(where: { $0.0 == value }) { items.append((value, value, 0)) }
+        return items
     }
 
-    private var familySelection: Binding<String?> {
-        Binding(get: { search.filter.family }, set: { search.filter.family = $0 })
+    private func familyChoices() -> [(value: String, name: String, count: Int)] {
+        var items = search.facets.families.filter { $0.count > 0 || search.filter.families.contains($0.value) }.map { ($0.value, $0.name, $0.count) }
+        for value in search.filter.families where !items.contains(where: { $0.0 == value }) { items.append((value, value, 0)) }
+        return items
     }
 
     var body: some View {
-        Menu {
+        Group {
             if search.canFilterBySeen {
-                Picker("Seen", selection: $search.filter.seen) {
+                Picker("Logged", selection: $search.filter.seen) {
                     ForEach(SeenFilter.allCases) { Text($0.title).tag($0) }
                 }
             }
             Menu("Order") {
-                Picker("Order", selection: orderSelection) {
-                    Text("All Orders").tag(String?.none)
-                    ForEach(search.facets.orders.filter { $0.count > 0 || $0.value == search.filter.order }) { order in
-                        Text("\(order.name) (\(order.count))").tag(Optional(order.value))
-                    }
+                Toggle("All Orders", isOn: Binding(get: { search.filter.orders.isEmpty }, set: { _ in search.filter.orders = [] }))
+                ForEach(orderChoices(), id: \.value) { choice in
+                    Toggle("\(choice.name) (\(choice.count))", isOn: Binding(
+                        get: { search.filter.orders.contains(choice.value) },
+                        set: { _ in search.toggleOrder(choice.value) }
+                    ))
                 }
             }
             Menu("Family") {
-                Picker("Family", selection: familySelection) {
-                    Text("All Families").tag(String?.none)
-                    ForEach(search.facets.families.filter { $0.count > 0 || $0.value == search.filter.family }) { family in
-                        Text("\(family.name) (\(family.count))").tag(Optional(family.value))
-                    }
+                Toggle("All Families", isOn: Binding(get: { search.filter.families.isEmpty }, set: { _ in search.filter.families = [] }))
+                ForEach(familyChoices(), id: \.value) { choice in
+                    Toggle("\(choice.name) (\(choice.count))", isOn: Binding(
+                        get: { search.filter.families.contains(choice.value) },
+                        set: { _ in search.filter.toggleFamily(choice.value) }
+                    ))
                 }
             }
-        } label: {
-            Label("Filter", systemImage: search.filter.isActive
-                  ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+        }
+    }
+}
+
+/// The filters that are on, one chip each, under the title, only while at least one is on. The X removes just that
+/// value; tapping the rest of a chip opens the filter menu. Liquid Glass like the other floating controls.
+private struct ActiveFilterChips: View {
+    @Bindable var search: SpeciesSearch
+
+    private struct Chip: Identifiable {
+        let id: String
+        let title: String
+        let remove: () -> Void
+    }
+
+    private var chips: [Chip] {
+        var items: [Chip] = []
+        if search.filter.seen != .all {
+            items.append(Chip(id: "seen", title: search.filter.seen.title) { search.filter.seen = .all })
+        }
+        for value in search.filter.orders {
+            let name = search.facets.orders.first { $0.value == value }?.name ?? value
+            items.append(Chip(id: "order-\(value)", title: name) { search.toggleOrder(value) })
+        }
+        for value in search.filter.families {
+            let name = search.facets.families.first { $0.value == value }?.name ?? value
+            items.append(Chip(id: "family-\(value)", title: name) { search.filter.toggleFamily(value) })
+        }
+        return items
+    }
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            GlassEffectContainer {
+              HStack(spacing: 8) {
+                ForEach(chips) { chip in
+                    HStack(spacing: 0) {
+                        Menu {
+                            GuideFilterContent(search: search)
+                        } label: {
+                            Text(chip.title)
+                                .font(.subheadline.weight(.semibold))
+                                .padding(.leading, 14)
+                                .padding(.trailing, 4)
+                                .frame(minHeight: 44)
+                        }
+                        Button(action: chip.remove) {
+                            Image(systemName: "xmark")
+                                .font(.caption.weight(.bold))
+                                .frame(width: 36, height: 44)
+                        }
+                        .accessibilityLabel(Text("Remove filter \(chip.title)"))
+                    }
+                    .foregroundStyle(.primary)
+                    .glassEffect(.regular.interactive(), in: .capsule)
+                }
+              }
+            }
+            .padding(.horizontal, 16)
         }
     }
 }

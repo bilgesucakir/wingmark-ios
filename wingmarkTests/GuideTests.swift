@@ -103,7 +103,7 @@ struct GuideTests {
             .init(status: 200, body: self.pageJSON(0..<3, number: 0, totalPages: 1))
         }
         await search.reload()
-        search.filter = SpeciesFilter(order: "Passeriformes", family: "Muscicapidae")
+        search.filter = SpeciesFilter(orders: ["Passeriformes"], families: ["Muscicapidae"])
         await search.settled()
 
         let request = lists(transport).last
@@ -144,18 +144,52 @@ struct GuideTests {
         await search.settled()
         #expect(facetRequests(transport).count == 1, "sorting does not change the menus")
 
-        search.filter.order = "Passeriformes"
+        search.toggleOrder("Passeriformes")
         await search.settled()
         #expect(facetRequests(transport).count == 2)
         #expect(query(facetRequests(transport).last)["order"] == "Passeriformes")
         #expect(!search.canFilterBySeen)
     }
 
+    @Test func severalOrdersAndFamiliesAreSentAsRepeatedParameters() async {
+        let (search, transport) = makeSearch { _ in
+            .init(status: 200, body: self.pageJSON(0..<2, number: 0, totalPages: 1))
+        }
+        search.toggleOrder("Strigiformes")
+        search.toggleOrder("Anseriformes")
+        search.filter.toggleFamily("Strigidae")
+        search.filter.toggleFamily("Anatidae")
+        await search.settled()
+
+        let items = lists(transport).last?.url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false)?.queryItems } ?? []
+        #expect(items.filter { $0.name == "order" }.map(\.value) == ["Anseriformes", "Strigiformes"])
+        #expect(items.filter { $0.name == "family" }.map(\.value) == ["Anatidae", "Strigidae"])
+        let facetItems = facetRequests(transport).last?.url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false)?.queryItems } ?? []
+        #expect(facetItems.filter { $0.name == "order" }.count == 2 && facetItems.filter { $0.name == "family" }.count == 2)
+
+        search.toggleOrder("Anseriformes")
+        #expect(search.filter.orders == ["Strigiformes"])
+    }
+
+    @Test func choosingOrdersDropsFamiliesOfOrdersThatAreNoLongerChosen() async {
+        let (search, _) = makeSearch { _ in
+            .init(status: 200, body: self.pageJSON(0..<1, number: 0, totalPages: 1))
+        }
+        await search.reload()   // facets: Muscicapidae belongs to Passeriformes
+        search.toggleOrder("Passeriformes")
+        search.filter.toggleFamily("Muscicapidae")
+        search.toggleOrder("Anseriformes")
+        #expect(search.filter.families == ["Muscicapidae"], "Passeriformes is still chosen")
+        search.toggleOrder("Passeriformes")
+        #expect(search.filter.orders == ["Anseriformes"])
+        #expect(search.filter.families.isEmpty, "its family left with its order")
+    }
+
     @Test func clearingTheFilterBringsBackTheFullList() async {
         let (search, transport) = makeSearch { _ in
             .init(status: 200, body: self.pageJSON(0..<2, number: 0, totalPages: 1))
         }
-        search.filter = SpeciesFilter(order: "Anseriformes", family: nil, seen: .all)
+        search.filter = SpeciesFilter(orders: ["Anseriformes"], families: [], seen: .all)
         await search.settled()
         #expect(search.filter.isActive)
         search.clearFilter()
