@@ -50,12 +50,16 @@ struct SummaryProvider: TimelineProvider {
         return SummaryEntry(date: .now, summary: store.read(), photo: photo)
     }
 
-    func placeholder(in context: Context) -> SummaryEntry {
-        SummaryEntry(date: .now, summary: .sample, photo: nil)
+    /// The widget gallery shows an example: in the phone's language, since the app's language isn't chosen yet there.
+    private static var galleryEntry: SummaryEntry {
+        let language = Locale.current.language.languageCode?.identifier == "tr" ? "tr" : "en"
+        return SummaryEntry(date: .now, summary: .sample(language: language), photo: nil, language: language)
     }
 
+    func placeholder(in context: Context) -> SummaryEntry { Self.galleryEntry }
+
     func getSnapshot(in context: Context, completion: @escaping (SummaryEntry) -> Void) {
-        completion(context.isPreview ? SummaryEntry(date: .now, summary: .sample, photo: nil) : entry())
+        completion(context.isPreview ? Self.galleryEntry : entry())
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SummaryEntry>) -> Void) {
@@ -66,13 +70,23 @@ struct SummaryProvider: TimelineProvider {
 }
 
 extension WidgetSummary {
-    static let sample = WidgetSummary(
-        language: "en",
-        nextBadge: .init(id: nil, name: "Gathering Finder", icon: "trophy.fill", progress: 7, target: 10),
-        allBadgesEarned: false,
-        latest: .init(id: UUID(), name: "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false,
-                      gender: "Female", lifeStage: "Adult", note: "Feeding under the bench near the pond.")
-    )
+    static func sample(language: String) -> WidgetSummary {
+        let tr = language == "tr"
+        let badges: [Badge] = [
+            .init(id: nil, name: tr ? "Buluşma Bulucu" : "Gathering Finder", tier: "GOLD", icon: "trophy.fill", progress: 7, target: 10),
+            .init(id: nil, name: tr ? "Tür Kaşifi" : "Species Explorer", tier: "SILVER", icon: "magnifyingglass", progress: 4, target: 10),
+            .init(id: nil, name: tr ? "Yuva Gözlemcisi" : "Nest Watcher", tier: "BRONZE", icon: "leaf.fill", progress: 1, target: 5),
+        ]
+        return WidgetSummary(
+            language: language,
+            nextBadge: badges[0],
+            nextBadges: badges,
+            allBadgesEarned: false,
+            latest: .init(id: UUID(), name: tr ? "Serçe" : "House Sparrow", observedAt: .now.addingTimeInterval(-7200), hasPhoto: false,
+                          gender: tr ? "Dişi" : "Female", lifeStage: tr ? "Yetişkin" : "Adult",
+                          note: tr ? "Gölet yanındaki bankın altında besleniyor." : "Feeding under the bench near the pond.")
+        )
+    }
 }
 
 // MARK: - Next badge
@@ -86,7 +100,7 @@ struct NextBadgeWidget: Widget {
         }
         .configurationDisplayName("Next Badge")
         .description("The badge you are closest to earning.")
-        .supportedFamilies([.systemSmall, .accessoryCircular])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
     }
 }
 
@@ -104,37 +118,80 @@ struct NextBadgeView: View {
                 }
                 .gaugeStyle(.accessoryCircularCapacity)
                 .accessibilityLabel(Text("\(badge.displayName(language: entry.language)), \(badge.progress) of \(badge.target)"))
+            } else if family == .systemMedium {
+                medium(first: badge)
             } else {
-                VStack(spacing: 6) {
-                    ZStack {
-                        Circle().stroke(.quaternary, lineWidth: 8)
-                        Circle()
-                            .trim(from: 0, to: badge.fraction)
-                            .stroke(.tint, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                            .rotationEffect(.degrees(-90))
-                        BadgeSymbol(icon: badge.icon).font(.title2)
-                    }
-                    .frame(width: 64, height: 64)
-                    Text(badge.displayName(language: entry.language))
-                        .font(.footnote.weight(.semibold))
-                        .lineLimit(2)
-                        .multilineTextAlignment(.center)
-                    Text("\(badge.progress) / \(badge.target)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .overlay(alignment: .topTrailing) { WidgetLogo() }
-                .accessibilityElement(children: .combine)
+                featured(badge, size: 64)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(alignment: .topTrailing) { WidgetLogo() }
+                    .accessibilityElement(children: .combine)
             }
         } else {
             Placeholder(entry: entry, message: message)
         }
     }
 
+    /// The closest badge as a progress ring with its name and count.
+    private func featured(_ badge: WidgetSummary.Badge, size: CGFloat) -> some View {
+        VStack(spacing: 6) {
+            ZStack {
+                Circle().stroke(.quaternary, lineWidth: size / 8)
+                Circle()
+                    .trim(from: 0, to: badge.fraction)
+                    .stroke(badge.ringColor, style: StrokeStyle(lineWidth: size / 8, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                BadgeSymbol(icon: badge.icon).font(size > 70 ? .largeTitle : .title2)
+            }
+            .frame(width: size, height: size)
+            Text(badge.displayName(language: entry.language))
+                .font(.footnote.weight(.semibold))
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+            Text("\(badge.progress) / \(badge.target)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    /// The closest badge on the left, the next two closest as small rows on the right.
+    private func medium(first: WidgetSummary.Badge) -> some View {
+        let others = Array((entry.summary?.nextBadges ?? []).dropFirst().prefix(2))
+        return HStack(spacing: 16) {
+            featured(first, size: 84)
+                .frame(maxWidth: .infinity)
+            if !others.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(Array(others.enumerated()), id: \.offset) { _, badge in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(badge.displayName(language: entry.language))
+                                .font(.footnote.weight(.semibold))
+                                .lineLimit(1)
+                            ProgressView(value: badge.fraction).tint(badge.ringColor)
+                            Text("\(badge.progress) / \(badge.target)")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(alignment: .topTrailing) { WidgetLogo() }
+        .accessibilityElement(children: .combine)
+    }
+
     private var message: WidgetText.Key {
         guard let summary = entry.summary else { return .logIn }
         return summary.allBadgesEarned ? .allEarned : .openToStart
+    }
+}
+
+extension WidgetSummary.Badge {
+    /// The tier color, darkened a little so a gold or frosted-blue ring still shows on a light widget.
+    var ringColor: Color {
+        let rgb = TierPalette.rgb(tier)
+        return Color(red: rgb.red, green: rgb.green, blue: rgb.blue).mix(with: .black, by: 0.3)
     }
 }
 

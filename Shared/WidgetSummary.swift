@@ -9,6 +9,8 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
         var name: String
         /// Every language the catalog has, so the widget can follow the app's language without waiting for the app to rewrite this.
         var names: [String: String]?
+        /// "BRONZE", "SILVER", "GOLD" or "DIAMOND", so the widget can color the progress ring like the badge.
+        var tier: String?
         var icon: String?
         var progress: Int
         var target: Int
@@ -47,6 +49,8 @@ nonisolated struct WidgetSummary: Codable, Equatable, Sendable {
 
     var language: String
     var nextBadge: Badge?
+    /// The few unearned badges closest to done, the first being `nextBadge`, for the larger widget.
+    var nextBadges: [Badge]?
     var allBadgesEarned: Bool
     var latest: Sighting?
 }
@@ -205,5 +209,17 @@ nonisolated enum WidgetText {
             formatter.setLocalizedDateFormatFromTemplate(sameYear ? "MMMd jmm" : "yMMMd jmm")
         }
         return formatter.string(from: date)
+    }
+}
+
+/// The tier colors the app and its widgets share, as red, green and blue from 0 to 1.
+nonisolated enum TierPalette {
+    static func rgb(_ tier: String?) -> (red: Double, green: Double, blue: Double) {
+        switch tier {
+        case "SILVER": (192 / 255, 192 / 255, 192 / 255)   // #C0C0C0
+        case "GOLD": (1, 215 / 255, 0)                     // #FFD700
+        case "DIAMOND": (185 / 255, 242 / 255, 1)          // #B9F2FF
+        default: (205 / 255, 127 / 255, 50 / 255)          // #CD7F32, bronze and anything unknown
+        }
     }
 }
