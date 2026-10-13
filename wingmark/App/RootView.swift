@@ -4,6 +4,9 @@ struct RootView: View {
     @Environment(AuthSession.self) private var session
     @Environment(AppRouter.self) private var router
     @AppStorage(AppLanguage.storageKey) private var language = AppLanguage.current
+    // Same keys as MainTabView and ProfileView: they survive a language rebuild, so sign-out has to clear them.
+    @SceneStorage("selectedTab") private var selectedTab = MainTab.map
+    @SceneStorage("profile.settingsOpen") private var settingsOpen = false
 
     var body: some View {
         Group {
@@ -26,6 +29,8 @@ struct RootView: View {
             if case .signedOut = session.state {
                 WidgetSync.clear()
                 router.pending = nil
+                selectedTab = .map
+                settingsOpen = false
             }
         }
         .onChange(of: language) { _, newValue in
