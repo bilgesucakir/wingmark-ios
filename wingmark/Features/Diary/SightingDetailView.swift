@@ -99,7 +99,8 @@ struct SightingDetailView: View {
             Section {
                 Button("Delete Sighting", role: .destructive) { confirmDelete = true }
                     .disabled(isDeleting)
-                    .confirmationDialog("Delete this sighting?", isPresented: $confirmDelete, titleVisibility: .visible) {
+                    .alert("Delete this sighting?", isPresented: $confirmDelete) {
+                        Button("Cancel", role: .cancel) {}
                         Button("Delete", role: .destructive) { delete(log) }
                     } message: {
                         Text("This can't be undone.")
