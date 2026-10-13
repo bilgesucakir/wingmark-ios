@@ -36,7 +36,8 @@ struct SettingsView: View {
                     Task { await session.logOut() }
                 }
                 Button("Log Out of All Devices") { confirmLogoutAll = true }
-                    .confirmationDialog("Log out of all devices?", isPresented: $confirmLogoutAll, titleVisibility: .visible) {
+                    .alert("Log out of all devices?", isPresented: $confirmLogoutAll) {
+                        Button("Cancel", role: .cancel) {}
                         Button("Log Out Everywhere", role: .destructive) { logOutAll() }
                     } message: {
                         Text("You'll be signed out on every device, including this one.")
