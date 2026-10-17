@@ -1,4 +1,6 @@
-# Wingmark
+<h1><img src="https://github.com/user-attachments/assets/5a4ede9a-e023-4959-b334-c39053ebf70c" width="60" height="60" 
+      align="absmiddle">;&nbsp;Wingmark</h1>
+
 
 Log the birds you see on a map, learn what they are, and collect badges along the way.
 
