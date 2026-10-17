@@ -28,6 +28,10 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
 
+            Section {
+                NavigationLink("App Icon") { AppIconView() }
+            }
+
             PermissionsSection()
 
             Section {

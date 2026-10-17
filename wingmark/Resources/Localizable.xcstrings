@@ -3650,6 +3650,106 @@
           }
         }
       }
+    },
+    "App Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama Simgesi"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan"
+          }
+        }
+      }
+    },
+    "Current Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Simge"
+          }
+        }
+      }
+    },
+    "Current" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçerli"
+          }
+        }
+      }
+    },
+    "Change Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simgeyi Değiştir"
+          }
+        }
+      }
+    },
+    "Switch back to the default icon?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan simgeye geri dönülsün mü?"
+          }
+        }
+      }
+    },
+    "Switch to the %@ icon?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ simgesine geçilsin mi?"
+          }
+        }
+      }
+    },
+    "iOS will ask you to confirm the change." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS değişikliği onaylamanı isteyecek."
+          }
+        }
+      }
+    },
+    "Couldn't change the app icon. Try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama simgesi değiştirilemedi. Tekrar dene."
+          }
+        }
+      }
+    },
+    "Every icon has a light and a dark look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her simgenin açık ve koyu bir görünümü var. Ana Ekranı Açık, Koyu, Şeffaf ve Renk Tonlu arasında değiştirmek için Ana Ekrana basılı tut, sonra Düzenle ve Özelleştir'e dokun."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
