@@ -8,17 +8,21 @@ Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, ad
 Screenshots: edit this file on GitHub, drag each image in, and copy the link GitHub inserts.
 Then paste the links into this template (two rows of four) and delete this comment.
 
+Row 1: map.png, guide.png, diary.png, badges.png
+Row 2: map-sheet.png, new-sighting.png, widgets.png, bird-of-the-day.png
+(the files are in ~/Desktop/wingmark-readme-screenshots; each LINK-name.png below is where that image's link goes)
+
 <p align="center">
-  <img src="LINK-map" width="23%" alt="The map with sighting photos as pins">
-  <img src="LINK-guide" width="23%" alt="A species page in the guide">
-  <img src="LINK-diary" width="23%" alt="The sightings diary">
-  <img src="LINK-badges" width="23%" alt="Badges and progress">
+  <img src="LINK-map.png" width="23%" alt="The map with sighting photos as pins">
+  <img src="LINK-guide.png" width="23%" alt="A species page in the guide">
+  <img src="LINK-diary.png" width="23%" alt="The sightings diary">
+  <img src="LINK-badges.png" width="23%" alt="Badges and progress">
 </p>
 <p align="center">
-  <img src="LINK-map-sheet" width="23%" alt="Sightings that share a spot on the map">
-  <img src="LINK-new-sighting" width="23%" alt="Logging a new sighting">
-  <img src="LINK-widgets" width="23%" alt="Home Screen widgets">
-  <img src="LINK-bird-of-the-day" width="23%" alt="The Bird of the day widget">
+  <img src="LINK-map-sheet.png" width="23%" alt="Sightings that share a spot on the map">
+  <img src="LINK-new-sighting.png" width="23%" alt="Logging a new sighting">
+  <img src="LINK-widgets.png" width="23%" alt="Home Screen widgets">
+  <img src="LINK-bird-of-the-day.png" width="23%" alt="The Bird of the day widget">
 </p>
 -->
 
