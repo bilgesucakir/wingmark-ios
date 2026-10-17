@@ -61,6 +61,7 @@ struct AppIconTests {
         for id in ["AppIcon"] + BundledAppIcons.ids().sorted() {
             #expect(UIImage(named: "IconPreview-\(id)") != nil, "No preview image for \(id)")
             #expect(UIImage(named: "IconPreviewDark-\(id)") != nil, "No dark preview image for \(id)")
+            #expect(UIImage(named: "IconPreviewClear-\(id)") != nil, "No clear preview image for \(id)")
         }
     }
 

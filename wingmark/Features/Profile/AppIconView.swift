@@ -15,7 +15,11 @@ struct AppIconView: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(picker.isCurrent(row) ? [.isSelected] : [])
-                    AppIconShowcase(iconName: row.iconName)
+                    Button { picker.choose(row) } label: {
+                        AppIconShowcase(iconName: row.iconName)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHidden(true)
                 } footer: {
                     if row.id == picker.rows.last?.id { footer }
                 }
@@ -75,25 +79,27 @@ private struct AppIconRow: View {
     }
 }
 
-/// Shows how the icon looks; tapping it does nothing, the row above is the one to pick.
+/// Shows the default, dark and clear looks. It is part of the card, so tapping it picks the icon too.
 private struct AppIconShowcase: View {
     let iconName: String?
 
     @ScaledMetric(relativeTo: .body) private var size = 88.0
 
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 16) {
             thumbnail("IconPreview")
             thumbnail("IconPreviewDark")
+            thumbnail("IconPreviewClear")
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 4)
-        .accessibilityHidden(true)
+        .contentShape(.rect)
     }
 
     private func thumbnail(_ prefix: String) -> some View {
         preview(prefix)
-            .frame(width: size, height: size)
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: size)
             .clipShape(.rect(cornerRadius: size * 0.225, style: .continuous))
             .overlay { RoundedRectangle(cornerRadius: size * 0.225, style: .continuous).strokeBorder(.quaternary) }
     }
