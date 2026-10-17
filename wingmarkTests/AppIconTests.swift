@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import UIKit
 @testable import wingmark
 
 @MainActor
@@ -54,6 +55,13 @@ struct AppIconTests {
 
     @Test func thisBuildContainsTheSeasonalIcons() {
         #expect(BundledAppIcons.ids().isSuperset(of: ["halloween", "newyears", "valentines"]))
+    }
+
+    @Test func everyBundledIconHasAPreviewImage() {
+        for id in ["AppIcon"] + BundledAppIcons.ids().sorted() {
+            #expect(UIImage(named: "IconPreview-\(id)") != nil, "No preview image for \(id)")
+            #expect(UIImage(named: "IconPreviewDark-\(id)") != nil, "No dark preview image for \(id)")
+        }
     }
 
     @Test func listsTheBackendIconsAfterTheDefault() async {

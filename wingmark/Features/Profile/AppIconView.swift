@@ -20,7 +20,7 @@ struct AppIconView: View {
             } footer: {
                 VStack(alignment: .leading, spacing: 8) {
                     FieldError(message: picker.errorMessage)
-                    Text("Every icon has a light and a dark look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize.")
+                    Text("Every icon has a default, a dark and a tinted look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize.")
                 }
             }
         }
@@ -33,8 +33,6 @@ struct AppIconView: View {
         ) { row in
             Button("Cancel", role: .cancel) {}
             Button("Change Icon") { Task { await picker.confirm(row) } }
-        } message: { _ in
-            Text("iOS will ask you to confirm the change.")
         }
     }
 
@@ -58,29 +56,40 @@ private struct AppIconRow: View {
     let name: String
     let isCurrent: Bool
 
-    @ScaledMetric(relativeTo: .body) private var size = 60.0
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @ScaledMetric(relativeTo: .body) private var size = 52.0
 
     var body: some View {
-        HStack(spacing: 16) {
-            preview
-                .frame(width: size, height: size)
-                .clipShape(.rect(cornerRadius: size * 0.225, style: .continuous))
-                .overlay { RoundedRectangle(cornerRadius: size * 0.225, style: .continuous).strokeBorder(.quaternary) }
-                .accessibilityHidden(true)
-            Text(name)
-                .foregroundStyle(.primary)
-            Spacer()
-            if isCurrent {
-                Image(systemName: "checkmark")
-                    .foregroundStyle(.tint)
-                    .accessibilityLabel(Text("Current"))
+        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 16))
+        layout {
+            HStack(spacing: 10) {
+                thumbnail("IconPreview")
+                thumbnail("IconPreviewDark")
+            }
+            .accessibilityHidden(true)
+            HStack {
+                Text(name)
+                    .foregroundStyle(.primary)
+                Spacer()
+                if isCurrent {
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(.tint)
+                        .accessibilityLabel(Text("Current"))
+                }
             }
         }
         .contentShape(.rect)
     }
 
-    @ViewBuilder private var preview: some View {
-        if let image = UIImage(named: row.iconName ?? "AppIcon") {
+    private func thumbnail(_ prefix: String) -> some View {
+        preview(prefix)
+            .frame(width: size, height: size)
+            .clipShape(.rect(cornerRadius: size * 0.225, style: .continuous))
+            .overlay { RoundedRectangle(cornerRadius: size * 0.225, style: .continuous).strokeBorder(.quaternary) }
+    }
+
+    @ViewBuilder private func preview(_ prefix: String) -> some View {
+        if let image = UIImage(named: "\(prefix)-\(row.iconName ?? "AppIcon")") {
             Image(uiImage: image).resizable().scaledToFit()
         } else {
             Image(systemName: "app.fill").resizable().scaledToFit().foregroundStyle(.secondary)
