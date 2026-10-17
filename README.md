@@ -32,7 +32,7 @@ Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, ad
 
 ## Under the hood
 
-| | |
+| Area | Details |
 |---|---|
 | Language and UI | Swift 6, SwiftUI |
 | Platform | iPhone, iOS 26.5 and later |
