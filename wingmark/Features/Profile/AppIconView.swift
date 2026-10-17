@@ -8,22 +8,20 @@ struct AppIconView: View {
 
     var body: some View {
         Form {
-            Section {
-                ForEach(picker.rows) { row in
+            ForEach(picker.rows) { row in
+                Section {
                     Button { picker.choose(row) } label: {
-                        AppIconRow(row: row, name: name(of: row), isCurrent: picker.isCurrent(row))
+                        AppIconRow(name: name(of: row), isCurrent: picker.isCurrent(row))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityElement(children: .combine)
                     .accessibilityAddTraits(picker.isCurrent(row) ? [.isSelected] : [])
-                }
-            } footer: {
-                VStack(alignment: .leading, spacing: 8) {
-                    FieldError(message: picker.errorMessage)
-                    Text("Every icon has a default, a dark and a tinted look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize.")
+                    AppIconShowcase(iconName: row.iconName)
+                } footer: {
+                    if row.id == picker.rows.last?.id { footer }
                 }
             }
         }
+        .listSectionSpacing(.compact)
         .navigationTitle("App Icon")
         .task { await picker.load(using: session.client) }
         .alert(
@@ -33,6 +31,13 @@ struct AppIconView: View {
         ) { row in
             Button("Cancel", role: .cancel) {}
             Button("Change Icon") { Task { await picker.confirm(row) } }
+        }
+    }
+
+    private var footer: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            FieldError(message: picker.errorMessage)
+            Text("Every icon has a default, a dark and a tinted look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize.")
         }
     }
 
@@ -52,33 +57,38 @@ struct AppIconView: View {
 }
 
 private struct AppIconRow: View {
-    let row: AppIconPicker.Row
     let name: String
     let isCurrent: Bool
 
-    @ScaledMetric(relativeTo: .body) private var size = 64.0
+    var body: some View {
+        HStack {
+            Text(name)
+                .foregroundStyle(.primary)
+            Spacer()
+            if isCurrent {
+                Image(systemName: "checkmark")
+                    .foregroundStyle(.tint)
+                    .accessibilityLabel(Text("Current"))
+            }
+        }
+        .contentShape(.rect)
+    }
+}
+
+/// Shows how the icon looks; tapping it does nothing, the row above is the one to pick.
+private struct AppIconShowcase: View {
+    let iconName: String?
+
+    @ScaledMetric(relativeTo: .body) private var size = 88.0
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(name)
-                    .foregroundStyle(.primary)
-                Spacer()
-                if isCurrent {
-                    Image(systemName: "checkmark")
-                        .foregroundStyle(.tint)
-                        .accessibilityLabel(Text("Current"))
-                }
-            }
-            HStack(spacing: 12) {
-                thumbnail("IconPreview")
-                thumbnail("IconPreviewDark")
-            }
-            .accessibilityHidden(true)
+        HStack(spacing: 20) {
+            thumbnail("IconPreview")
+            thumbnail("IconPreviewDark")
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity)
         .padding(.vertical, 4)
-        .contentShape(.rect)
+        .accessibilityHidden(true)
     }
 
     private func thumbnail(_ prefix: String) -> some View {
@@ -89,7 +99,7 @@ private struct AppIconRow: View {
     }
 
     @ViewBuilder private func preview(_ prefix: String) -> some View {
-        if let image = UIImage(named: "\(prefix)-\(row.iconName ?? "AppIcon")") {
+        if let image = UIImage(named: "\(prefix)-\(iconName ?? "AppIcon")") {
             Image(uiImage: image).resizable().scaledToFit()
         } else {
             Image(systemName: "app.fill").resizable().scaledToFit().foregroundStyle(.secondary)
