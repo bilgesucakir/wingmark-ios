@@ -4,27 +4,18 @@ Log the birds you see on a map, learn what they are, and collect badges along th
 
 Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, add a photo and a few details, and your sightings build up into a diary and a map of your own. A built-in guide helps you work out what you saw. It is available in English and Turkish.
 
-<!--
-Screenshots: edit this file on GitHub, drag each image in, and copy the link GitHub inserts.
-Then paste the links into this template (two rows of four) and delete this comment.
-
-Row 1: map.png, guide.png, diary.png, badges.png
-Row 2: map-sheet.png, new-sighting.png, widgets.png, bird-of-the-day.png
-(the files are in ~/Desktop/wingmark-readme-screenshots; each LINK-name.png below is where that image's link goes)
-
 <p align="center">
-  <img src="LINK-map.png" width="23%" alt="The map with sighting photos as pins">
-  <img src="LINK-guide.png" width="23%" alt="A species page in the guide">
-  <img src="LINK-diary.png" width="23%" alt="The sightings diary">
-  <img src="LINK-badges.png" width="23%" alt="Badges and progress">
+  <img src="https://github.com/user-attachments/assets/a3f61dcc-7f4e-44ac-8553-52be0ffd0eca" width="23%" alt="The map with sighting photos as pins">
+  <img src="https://github.com/user-attachments/assets/dcd85f30-1f5e-495c-99a0-d3f6603c5783" width="23%" alt="A species page in the guide">
+  <img src="https://github.com/user-attachments/assets/84fbcb16-e760-404d-9061-4c8cbbebb90e" width="23%" alt="The sightings diary">
+  <img src="https://github.com/user-attachments/assets/45f8044c-0658-421d-a8a5-ad3b271fd63d" width="23%" alt="Badges and progress">
 </p>
 <p align="center">
-  <img src="LINK-map-sheet.png" width="23%" alt="Sightings that share a spot on the map">
-  <img src="LINK-new-sighting.png" width="23%" alt="Logging a new sighting">
-  <img src="LINK-widgets.png" width="23%" alt="Home Screen widgets">
-  <img src="LINK-bird-of-the-day.png" width="23%" alt="The Bird of the day widget">
+  <img src="https://github.com/user-attachments/assets/aab89082-1be7-4895-9611-a3b5ad8d637b" width="23%" alt="Sightings that share a spot on the map">
+  <img src="https://github.com/user-attachments/assets/4084f115-472e-4ed1-8caa-eb715d7a4819" width="23%" alt="Logging a new sighting">
+  <img src="https://github.com/user-attachments/assets/97a36866-6dbf-4830-9b0c-3ceb1d74e47e" width="23%" alt="Home Screen widgets">
+  <img src="https://github.com/user-attachments/assets/a558d54b-72db-40e0-accd-85e5bd30cf73" width="23%" alt="The Bird of the day widget">
 </p>
--->
 
 ## What it does
 
