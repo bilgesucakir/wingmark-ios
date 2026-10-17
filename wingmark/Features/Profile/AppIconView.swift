@@ -56,17 +56,10 @@ private struct AppIconRow: View {
     let name: String
     let isCurrent: Bool
 
-    @Environment(\.dynamicTypeSize) private var typeSize
-    @ScaledMetric(relativeTo: .body) private var size = 52.0
+    @ScaledMetric(relativeTo: .body) private var size = 64.0
 
     var body: some View {
-        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 16))
-        layout {
-            HStack(spacing: 10) {
-                thumbnail("IconPreview")
-                thumbnail("IconPreviewDark")
-            }
-            .accessibilityHidden(true)
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(name)
                     .foregroundStyle(.primary)
@@ -77,7 +70,14 @@ private struct AppIconRow: View {
                         .accessibilityLabel(Text("Current"))
                 }
             }
+            HStack(spacing: 12) {
+                thumbnail("IconPreview")
+                thumbnail("IconPreviewDark")
+            }
+            .accessibilityHidden(true)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 4)
         .contentShape(.rect)
     }
 
