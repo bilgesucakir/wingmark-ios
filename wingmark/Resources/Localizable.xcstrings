@@ -3740,6 +3740,56 @@
           }
         }
       }
+    },
+    "Share" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        }
+      }
+    },
+    "Share sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemi paylaş"
+          }
+        }
+      }
+    },
+    "Couldn't prepare the card" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kart hazırlanamadı"
+          }
+        }
+      }
+    },
+    "not confident" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "emin değil"
+          }
+        }
+      }
+    },
+    "Instagram Story" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instagram Hikaye"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

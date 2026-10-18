@@ -13,6 +13,8 @@ struct SightingDetailView: View {
     @State private var photoIssue: PermissionIssue?
     @State private var saveOutcome: PhotoSaveOutcome?
     @State private var viewing: ViewerPhoto?
+    @State private var isPreparingShare = false
+    @State private var shareFailed = false
 
     var body: some View {
         Group {
@@ -26,6 +28,11 @@ struct SightingDetailView: View {
         .task { await store.refresh(logId) }
         .permissionAlert($photoIssue)
         .fullScreenCover(item: $viewing) { PhotoViewer(photo: $0) }
+        .alert("Couldn't prepare the card", isPresented: $shareFailed) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Check your connection and try again.")
+        }
         .alert(saveOutcome?.title ?? "", isPresented: Binding(get: { saveOutcome != nil }, set: { if !$0 { saveOutcome = nil } }),
                presenting: saveOutcome) { _ in
             Button("OK", role: .cancel) {}
@@ -112,11 +119,29 @@ struct SightingDetailView: View {
         .toolbar {
             if log.photoUrl != nil {
                 ToolbarItem {
+                    Button("Share", systemImage: "square.and.arrow.up") { share(log) }
+                        .disabled(isPreparingShare)
+                        .accessibilityLabel(Text("Share sighting"))
+                }
+                ToolbarItem {
                     Button("Save Photo", systemImage: "square.and.arrow.down") { savePhoto(log) }
                         .disabled(isSavingPhoto)
                 }
             }
             ToolbarItem { Button("Edit") { path.append(.edit(log.id)) } }
+        }
+    }
+
+    private func share(_ log: BirdLog) {
+        isPreparingShare = true
+        Task {
+            defer { isPreparingShare = false }
+            if let photo = await SightingCardRenderer.loadPhoto(for: log),
+               let image = SightingCardRenderer.render(photo, log: log) {
+                CardSharer.present(image, title: log.displayName)
+            } else {
+                shareFailed = true
+            }
         }
     }
 
