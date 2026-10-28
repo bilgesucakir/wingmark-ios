@@ -2,7 +2,7 @@
       align="absmiddle">&nbsp;Wingmark</h1>
 
 
-<p align="center">
+<p>
   <a href="https://apps.apple.com/us/app/wingmark/id6820532421"><img src="assets/app-store-badge.png" width="160" alt="Download on the App Store"></a>
 </p>
 
