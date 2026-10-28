@@ -3,7 +3,7 @@
 
 
 <p align="center">
-  <a href="https://apps.apple.com/tr/app/wingmark-ku%C5%9F-g%C3%BCnl%C3%BC%C4%9F%C3%BC/id6820532421?l=en"><img src="docs/app-store-badge.svg" width="160" alt="Download on the App Store"></a>
+  <a href="https://apps.apple.com/us/app/wingmark/id6820532421"><img src="assets/app-store-badge.png" width="160" alt="Download on the App Store"></a>
 </p>
 
 Log the birds you see on a map, learn what they are, and collect badges along the way.
