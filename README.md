@@ -2,6 +2,10 @@
       align="absmiddle">&nbsp;Wingmark</h1>
 
 
+<p align="center">
+  <a href="https://apps.apple.com/tr/app/wingmark-ku%C5%9F-g%C3%BCnl%C3%BC%C4%9F%C3%BC/id6820532421?l=en"><img src="docs/app-store-badge.svg" width="160" alt="Download on the App Store"></a>
+</p>
+
 Log the birds you see on a map, learn what they are, and collect badges along the way.
 
 Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, add a photo and a few details, and your sightings build up into a diary and a map of your own. A built-in guide helps you work out what you saw. It is available in English and Turkish.
