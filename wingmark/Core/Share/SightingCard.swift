@@ -106,27 +106,7 @@ enum SightingCardRenderer {
     }
 }
 
-/// Hands the card to Instagram's Stories editor as a sticker over a plain background; needs Instagram installed.
-enum InstagramStories {
-    private static let url = URL(string: "instagram-stories://share?source_application=\(AppConfig.facebookAppID)")!
-
-    @MainActor
-    static var isAvailable: Bool { UIApplication.shared.canOpenURL(url) }
-
-    @MainActor
-    static func share(_ image: UIImage) {
-        guard let data = image.pngData() else { return }
-        let item: [String: Any] = [
-            "com.instagram.sharedSticker.stickerImage": data,
-            "com.instagram.sharedSticker.backgroundTopColor": "#1C1C1E",
-            "com.instagram.sharedSticker.backgroundBottomColor": "#1C1C1E"
-        ]
-        UIPasteboard.general.setItems([item], options: [.expirationDate: Date().addingTimeInterval(300)])
-        UIApplication.shared.open(url)
-    }
-}
-
-/// Opens the system share sheet straight from UIKit, with an Instagram Story action when Instagram is installed.
+/// Opens the system share sheet straight from UIKit, so its header shows the card rather than only the app icon.
 enum CardSharer {
     @MainActor
     static func present(_ image: UIImage, title: String) {
@@ -134,43 +114,9 @@ enum CardSharer {
               var top = scene.keyWindow?.rootViewController
         else { return }
         while let presented = top.presentedViewController { top = presented }
-        let activities: [UIActivity] = InstagramStories.isAvailable ? [InstagramStoryActivity(image: image)] : []
-        let controller = UIActivityViewController(activityItems: [CardItem(image: image, title: title)], applicationActivities: activities)
+        let controller = UIActivityViewController(activityItems: [CardItem(image: image, title: title)], applicationActivities: nil)
         controller.popoverPresentationController?.sourceView = top.view
         top.present(controller, animated: true)
-    }
-}
-
-private nonisolated final class InstagramStoryActivity: UIActivity {
-    let image: UIImage
-
-    init(image: UIImage) {
-        self.image = image
-    }
-
-    override var activityType: UIActivity.ActivityType? { UIActivity.ActivityType("com.bilgesucakir.wingmark.instagramStory") }
-    override var activityTitle: String? { String(localized: "Instagram Story", bundle: .app) }
-    /// Drawn as a bitmap at the sheet's 60pt icon size, so it isn't a small symbol stretched up.
-    override var activityImage: UIImage? {
-        let configuration = UIImage.SymbolConfiguration(pointSize: 44, weight: .regular)
-        guard let symbol = UIImage(systemName: "camera.circle", withConfiguration: configuration)?.withTintColor(.black, renderingMode: .alwaysOriginal) else { return nil }
-        let size = CGSize(width: 60, height: 60)
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 3
-        let bitmap = UIGraphicsImageRenderer(size: size, format: format).image { _ in
-            let fitted = symbol.size.applying(CGAffineTransform(scaleX: min(size.width / symbol.size.width, size.height / symbol.size.height), y: min(size.width / symbol.size.width, size.height / symbol.size.height)))
-            symbol.draw(in: CGRect(x: (size.width - fitted.width) / 2, y: (size.height - fitted.height) / 2, width: fitted.width, height: fitted.height))
-        }
-        return bitmap.withRenderingMode(.alwaysTemplate)
-    }
-    override class var activityCategory: UIActivity.Category { .action }
-
-    override func canPerform(withActivityItems activityItems: [Any]) -> Bool { true }
-
-    override func perform() {
-        let image = image
-        MainActor.assumeIsolated { InstagramStories.share(image) }
-        activityDidFinish(true)
     }
 }
 

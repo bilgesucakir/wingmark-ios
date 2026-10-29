@@ -16,9 +16,6 @@ enum AppConfig {
         return renderBaseURL
     }()
 
-    /// Public by design: Instagram Stories only uses it to say which app a share came from.
-    static let facebookAppID = "4523120591320901"
-
     /// Opens the App Store's review form for Wingmark.
     static let reviewURL = URL(string: "https://apps.apple.com/app/id6820532421?action=write-review")!
 
