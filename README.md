@@ -26,11 +26,16 @@ Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, ad
 ## What it does
 
 - **Map:** every sighting is a pin with your photo. Pins that share a spot group together, and you can filter by identification, gender and life stage.
-- **Log a sighting:** take or pick a photo, choose the species (or say you don't know it yet), mark it as a guess or a confident ID, and set the place with your current location or by moving the pin.
+- **Log a sighting:** take or pick a photo and crop it to any shape, choose the species (or say you don't know it yet), mark it as a guess or a confident ID, and set the place with your current location or by moving the pin.
 - **Diary:** your sightings as a list, newest first, with filters.
 - **Guide:** species pages with photos and credits, family and order, where the bird lives, and recordings of its calls from xeno-canto.
 - **Badges:** 29 badges in bronze, silver and gold that track what you have logged.
-- **Widgets:** Bird of the day, your latest sighting, and badge progress on the Home Screen.
+- **Share a sighting:** the Share button on a sighting with a photo builds a card with your photo, the name, the date and the details, and opens the share sheet. No location is on the card. When Instagram is installed there is an Instagram Story action too.
+- **Log from Photos:** pick a photo in Photos (or any app), tap Share and choose Wingmark. The crop screen opens first, then a small window with the same fields as the app's form saves it to your diary right away. The date and place come from the photo when it has them.
+- **App icon:** choose a different Home Screen icon in Settings.
+- **Profile:** tap your favorite species to open its page.
+- **Rate Wingmark:** Apple's rating prompt after your 10th sighting, and a Rate Wingmark row in Settings.
+- **Widgets:** Bird of the day, your latest sighting, and badge progress on the Home Screen, and Bird of the day on the Lock Screen.
 - **Yours to keep:** download all your data as a JSON file, or delete your account from inside the app.
 - **Made for iOS 26:** Liquid Glass, dark mode, Dynamic Type, VoiceOver, English and Turkish.
 
@@ -40,27 +45,29 @@ Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, ad
 |---|---|
 | Language and UI | Swift 6, SwiftUI |
 | Platform | iPhone, iOS 26.5 and later |
-| Frameworks | MapKit, WidgetKit, CoreLocation, PhotosUI |
+| Frameworks | MapKit, WidgetKit, CoreLocation, PhotosUI, StoreKit |
 | Backend | [wingmark-backend](https://github.com/bilgesucakir/wingmark-backend), a Java service that holds accounts, sightings, badges and the species catalog |
 | Tests | Swift Testing, in `wingmarkTests` |
 
-The app has no third-party dependencies. It talks to the backend over HTTPS and keeps its tokens in the Keychain.
+The app has no third-party dependencies. It talks to the backend over HTTPS and keeps its login in the Keychain, in a group the Share Extension can read too.
 
 ```
 wingmark/            the app
-  App/               entry point, root view, language and appearance
-  Core/              networking, auth, models, images, location, widgets sync
+  App/               entry point, root view, appearance
+  Core/              auth session, images, icons, sharing, rating prompt, widgets sync
   Features/          Map, Diary, Guide, Badges, Profile, Home
   Resources/         assets, string catalog (English and Turkish), privacy manifest
 wingmarkWidgets/     the widget extension
-Shared/              code shared by the app and the widgets
+wingmarkShare/       the Share Extension ("Log in Wingmark" from Photos)
+Shared/              code shared by the app and the extensions: networking, models,
+                     login storage, photo processing, location, permissions
 wingmarkTests/       unit tests
 ```
 
 ## Run it
 
 1. Open `wingmark.xcodeproj` in Xcode 26 or later.
-2. In *Signing & Capabilities*, choose your own team for the `wingmark` and `wingmarkWidgets` targets.
+2. In *Signing & Capabilities*, choose your own team for the `wingmark`, `wingmarkWidgets` and `wingmarkShare` targets. The app and its extensions share an App Group and a Keychain group, so change `group.com.bilgesucakir.wingmark` and the Keychain group in `Shared/App/AppConfig.swift` to your own.
 3. Pick an iPhone or a simulator and press Run.
 
 The backend address is the `WINGMARK_API_BASE_URL` build setting. It points at the hosted service by default, so the app works as soon as it runs. To use a local backend, change it there.

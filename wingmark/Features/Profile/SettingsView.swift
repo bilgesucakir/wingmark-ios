@@ -28,6 +28,10 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
 
+            Section {
+                NavigationLink("App Icon") { AppIconView() }
+            }
+
             PermissionsSection()
 
             Section {
@@ -73,6 +77,11 @@ struct SettingsView: View {
             }
 
             Section {
+                Link(destination: AppConfig.reviewURL) {
+                    Label("Rate Wingmark", systemImage: "star")
+                }
+                .accessibilityLabel(Text("Rate Wingmark"))
+                .accessibilityHint(Text("Opens the App Store to write a review."))
                 NavigationLink("About") { AboutView() }
             }
         }

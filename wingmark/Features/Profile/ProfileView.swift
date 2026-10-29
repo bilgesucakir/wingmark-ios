@@ -6,13 +6,16 @@ struct ProfileView: View {
 
     @State private var allLogs: [BirdLog] = []
     @State private var showEditProfile = false
-    @State private var favoritePhotoPath: String?
+    @State private var favoriteSpecies: Species?
     @SceneStorage("profile.settingsOpen") private var settingsOpen = false
+    @State private var speciesRoutes: [ProfileRoute] = []
+
+    private var favoritePhotoPath: String? { favoriteSpecies?.images?.first?.imageUrl }
 
     private var distinctSpecies: Int { Set(allLogs.compactMap(\.speciesId)).count }
 
     var body: some View {
-        NavigationStack(path: settingsPath) {
+        NavigationStack(path: navigationPath) {
             List {
                 if let profile = session.profile {
                     header(profile)
@@ -29,19 +32,33 @@ struct ProfileView: View {
                         LabeledContent("Sightings", value: allLogs.count, format: .number)
                         LabeledContent("Species Seen", value: distinctSpecies, format: .number)
                         if favoritePhotoPath == nil {
-                            LabeledContent("Favorite Species", value: profile.favoriteSpeciesName.nonEmptyOrDash)
+                            if let favoriteSpecies {
+                                NavigationLink(value: ProfileRoute.species(favoriteSpecies)) {
+                                    LabeledContent("Favorite Species", value: profile.favoriteSpeciesName.nonEmptyOrDash)
+                                }
+                            } else {
+                                LabeledContent("Favorite Species", value: profile.favoriteSpeciesName.nonEmptyOrDash)
+                            }
                         }
                     }
                     if let favoritePhotoPath {
                         Section("Favorite Species") {
-                            RemoteImage(path: favoritePhotoPath)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 200)
-                                .clipped()
+                            if let favoriteSpecies {
+                                Button { speciesRoutes.append(.species(favoriteSpecies)) } label: {
+                                    RemoteImage(path: favoritePhotoPath)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 200)
+                                        .clipped()
+                                }
+                                .buttonStyle(.plain)
                                 .listRowInsets(EdgeInsets())
                                 .accessibilityHidden(true)
-                            Text(profile.favoriteSpeciesName.nonEmptyOrDash)
-                                .font(.headline)
+                                NavigationLink(value: ProfileRoute.species(favoriteSpecies)) {
+                                    Text(profile.favoriteSpeciesName.nonEmptyOrDash)
+                                        .font(.headline)
+                                }
+                                .accessibilityHint(Text("Opens the species page."))
+                            }
                         }
                     }
                 } else {
@@ -57,7 +74,12 @@ struct ProfileView: View {
                 }
             }
             .navigationTitle("Profile")
-            .navigationDestination(for: ProfileRoute.self) { _ in SettingsView() }
+            .navigationDestination(for: ProfileRoute.self) { route in
+                switch route {
+                case .settings: SettingsView()
+                case .species(let species): SpeciesDetailView(species: species)
+                }
+            }
             .toolbar {
                 if session.profile != nil {
                     Button("Edit") { showEditProfile = true }
@@ -75,11 +97,14 @@ struct ProfileView: View {
         }
     }
 
-    /// Kept in scene storage so Settings stays open when a language change rebuilds the tabs.
-    private var settingsPath: Binding<[ProfileRoute]> {
+    /// Settings is kept in scene storage so it stays open when a language change rebuilds the tabs.
+    private var navigationPath: Binding<[ProfileRoute]> {
         Binding(
-            get: { settingsOpen ? [.settings] : [] },
-            set: { settingsOpen = $0.contains(.settings) }
+            get: { settingsOpen ? [.settings] : speciesRoutes },
+            set: { routes in
+                settingsOpen = routes.contains(.settings)
+                speciesRoutes = routes.filter { if case .species = $0 { true } else { false } }
+            }
         )
     }
 
@@ -105,11 +130,10 @@ struct ProfileView: View {
 
     private func loadFavoritePhoto() async {
         guard let id = session.profile?.favoriteSpeciesId else {
-            favoritePhotoPath = nil
+            favoriteSpecies = nil
             return
         }
-        let species = try? await session.client.send(SpeciesAPI.species(id: id))
-        favoritePhotoPath = species?.images?.first?.imageUrl
+        favoriteSpecies = try? await session.client.send(SpeciesAPI.species(id: id))
     }
 
     private func loadStats() async {
@@ -129,4 +153,5 @@ private extension Optional where Wrapped == String {
 
 enum ProfileRoute: Hashable {
     case settings
+    case species(Species)
 }

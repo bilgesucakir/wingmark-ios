@@ -1,6 +1,5 @@
 import MapKit
 import SwiftUI
-import TipKit
 
 struct SightingsMapView: View {
     @Environment(MapStore.self) private var store
@@ -14,11 +13,6 @@ struct SightingsMapView: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selected: BirdLog?
     @State private var listedCluster: MapCluster?
-    // Ordered, so only one tip shows at a time: add a sighting first, then filters.
-    @State private var tips = TipGroup(.ordered) {
-        AddSightingTip()
-        MapFiltersTip()
-    }
 
     private var clusters: [MapCluster] {
         guard let region = store.region else { return [] }
@@ -65,7 +59,6 @@ struct SightingsMapView: View {
             .safeAreaInset(edge: .top) { overlayHeader }
             .overlay(alignment: .bottomTrailing) {
                 Button {
-                    AddSightingTip().invalidate(reason: .actionPerformed)
                     path.append(.add)
                 } label: {
                     Label("Add Sighting", systemImage: "plus")
@@ -75,7 +68,6 @@ struct SightingsMapView: View {
                 }
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.circle)
-                .popoverTip(tipsAllowed ? tips.currentTip as? AddSightingTip : nil, arrowEdge: .bottom)
                 .padding(.trailing, 16)
                 .padding(.bottom, 24)
             }
@@ -108,16 +100,9 @@ struct SightingsMapView: View {
         }
     }
 
-    /// The Map tab is built under the "Our Terms Changed" screen, so tips wait until nothing is left to accept.
-    private var tipsAllowed: Bool { session.pendingConsents.isEmpty }
-
     private var overlayHeader: some View {
         VStack(spacing: 8) {
             MapFilterChips()
-                .popoverTip(tipsAllowed ? tips.currentTip as? MapFiltersTip : nil, arrowEdge: .top)
-                .onChange(of: store.filter.isActive) { _, isActive in
-                    if isActive { MapFiltersTip().invalidate(reason: .actionPerformed) }
-                }
             if store.isTruncated {
                 Label("Zoom in to see all sightings", systemImage: "plus.magnifyingglass")
                     .font(.footnote)

@@ -27,6 +27,9 @@ final class DiaryStore {
         logs.first { $0.id == id } ?? known[id]
     }
 
+    /// Every sighting this session has loaded or saved, whatever the current filter.
+    var totalSightings: Int { known.count }
+
     func remember(_ logs: some Sequence<BirdLog>) {
         for log in logs { known[log.id] = log }
     }

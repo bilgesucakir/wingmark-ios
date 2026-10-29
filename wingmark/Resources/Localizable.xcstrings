@@ -1207,16 +1207,6 @@
         }
       }
     },
-    "Filter your map" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haritanı filtrele"
-          }
-        }
-      }
-    },
     "Finding your location…" : {
       "localizations" : {
         "tr" : {
@@ -1431,16 +1421,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ için bir hesap varsa 6 haneli bir kod gönderdik. Kod 15 dakika geçerli."
-          }
-        }
-      }
-    },
-    "If the photo has a location and date, they fill in where and when you saw the bird." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğrafta konum ve tarih varsa, kuşu nerede ve ne zaman gördüğün otomatik dolar."
           }
         }
       }
@@ -1673,16 +1653,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kilitli"
-          }
-        }
-      }
-    },
-    "Log a sighting" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlem kaydet"
           }
         }
       }
@@ -1933,16 +1903,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ad (Z–A)"
-          }
-        }
-      }
-    },
-    "Narrow the pins by identification, gender or life stage." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İğneleri tanımlama, cinsiyet veya yaş evresine göre daralt."
           }
         }
       }
@@ -2950,16 +2910,6 @@
         }
       }
     },
-    "Start with a photo" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir fotoğrafla başla"
-          }
-        }
-      }
-    },
     "Stats" : {
       "localizations" : {
         "tr" : {
@@ -2996,16 +2946,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotoğraf Çek"
-          }
-        }
-      }
-    },
-    "Tap + to add a bird you've seen. A photo can fill in the place and time." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gördüğün bir kuşu eklemek için + simgesine dokun. Fotoğraf, yer ve zamanı doldurabilir."
           }
         }
       }
@@ -3647,6 +3587,326 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm gözlemleri görmek için yakınlaştır"
+          }
+        }
+      }
+    },
+    "App Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama Simgesi"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan"
+          }
+        }
+      }
+    },
+    "Current Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Simge"
+          }
+        }
+      }
+    },
+    "Current" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçerli"
+          }
+        }
+      }
+    },
+    "Change Icon" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simgeyi Değiştir"
+          }
+        }
+      }
+    },
+    "Switch back to the default icon?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan simgeye geri dönülsün mü?"
+          }
+        }
+      }
+    },
+    "Switch to the %@ icon?" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ simgesine geçilsin mi?"
+          }
+        }
+      }
+    },
+    "Couldn't change the app icon. Try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama simgesi değiştirilemedi. Tekrar dene."
+          }
+        }
+      }
+    },
+    "Every icon has a default, a dark and a tinted look. To switch the Home Screen between Light, Dark, Clear and Tinted, press and hold the Home Screen, then tap Edit and Customize." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her simgenin varsayılan, koyu ve renk tonlu bir görünümü bulunur. Ana Ekranı Açık, Koyu, Şeffaf ve Renk Tonlu arasında değiştirmek için Ana Ekrana basılı tut, sonra Düzenle ve Özelleştir'e dokun."
+          }
+        }
+      }
+    },
+    "Share" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        }
+      }
+    },
+    "Share sighting" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlemi paylaş"
+          }
+        }
+      }
+    },
+    "Couldn't prepare the card" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kart hazırlanamadı"
+          }
+        }
+      }
+    },
+    "not confident" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "emin değil"
+          }
+        }
+      }
+    },
+    "Instagram Story" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instagram Hikaye"
+          }
+        }
+      }
+    },
+    "Rate Wingmark" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wingmark'ı Değerlendir"
+          }
+        }
+      }
+    },
+    "Opens the App Store to write a review." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yorum yazmak için App Store'u açar."
+          }
+        }
+      }
+    },
+    "%lld photos waiting" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photo waiting"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photos waiting"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fotoğraf bekliyor"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fotoğraf bekliyor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Couldn't find your location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı"
+          }
+        }
+      }
+    },
+    "Move the map to the spot, or try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritayı yere getir veya tekrar dene."
+          }
+        }
+      }
+    },
+    "Crop Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kırp"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
+        }
+      }
+    },
+    "Crop area" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kırpma alanı"
+          }
+        }
+      }
+    },
+    "Trim left" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soldan kırp"
+          }
+        }
+      }
+    },
+    "Trim right" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağdan kırp"
+          }
+        }
+      }
+    },
+    "Trim top" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üstten kırp"
+          }
+        }
+      }
+    },
+    "Trim bottom" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alttan kırp"
+          }
+        }
+      }
+    },
+    "Couldn't crop that photo." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kırpılamadı."
+          }
+        }
+      }
+    },
+    "Opens the species page." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür sayfasını açar."
           }
         }
       }

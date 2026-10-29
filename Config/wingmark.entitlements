@@ -6,5 +6,9 @@
 	<array>
 		<string>group.com.bilgesucakir.wingmark</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.bilgesucakir.wingmark.shared</string>
+	</array>
 </dict>
 </plist>

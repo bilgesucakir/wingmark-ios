@@ -1,0 +1,43 @@
+import Foundation
+
+enum AppConfig {
+    static let renderBaseURL = URL(string: "https://wingmark-backend.onrender.com")!
+
+    /// Override with the `WINGMARK_BASE_URL` environment variable, e.g. `http://localhost:8080`.
+    static let baseURL: URL = {
+        if let override = ProcessInfo.processInfo.environment["WINGMARK_BASE_URL"],
+           let url = URL(string: override), url.scheme != nil {
+            return url
+        }
+        if let value = Bundle.main.object(forInfoDictionaryKey: "WingmarkAPIBaseURL") as? String,
+           let url = URL(string: value), url.scheme != nil {
+            return url
+        }
+        return renderBaseURL
+    }()
+
+    /// Public by design: Instagram Stories only uses it to say which app a share came from.
+    static let facebookAppID = "4523120591320901"
+
+    /// Opens the App Store's review form for Wingmark.
+    static let reviewURL = URL(string: "https://apps.apple.com/app/id6820532421?action=write-review")!
+
+    /// The Keychain group the app and the Share Extension use for the login. The team id is public.
+    static let keychainAccessGroup = "K67F35BN8Y.com.bilgesucakir.wingmark.shared"
+    /// Where older versions kept the login: the app's own group.
+    static let legacyKeychainAccessGroup = "K67F35BN8Y.com.bilgesucakir.wingmark"
+
+    static let requestTimeout: TimeInterval = 30
+
+    // Business details shown in Settings → About. Placeholders until the real values are decided; never invent them.
+    static let developerName = "Bilgesu Çakır"
+    static let supportEmail = "support@wingmarkapp.com"
+
+    /// Governs use of the app itself while Wingmark publishes no custom terms.
+    static let appleStandardEULA = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+
+    /// Absolute URL for a backend asset path such as `/uploads/abc.jpg`. Absolute URLs pass through.
+    static func assetURL(for path: String, baseURL: URL = baseURL) -> URL? {
+        RemoteURL.make(path, relativeTo: baseURL)
+    }
+}

@@ -1,3 +1,4 @@
+import StoreKit
 import SwiftUI
 
 enum DiaryRoute: Hashable {
@@ -93,15 +94,17 @@ struct DiaryView: View {
                 }
             }
         } else {
-            List(store.logs) { log in
-                NavigationLink(value: DiaryRoute.detail(log.id)) {
-                    SightingRow(log: log)
-                }
-                .swipeActions {
-                    Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
-                }
-                .contextMenu {
-                    Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+            List {
+                ForEach(store.logs) { log in
+                    NavigationLink(value: DiaryRoute.detail(log.id)) {
+                        SightingRow(log: log)
+                    }
+                    .swipeActions {
+                        Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+                    }
+                    .contextMenu {
+                        Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+                    }
                 }
             }
             .listStyle(.plain)
@@ -153,6 +156,7 @@ struct DiaryView: View {
 
 struct SightingDestinations: ViewModifier {
     @Environment(DiaryStore.self) private var store
+    @Environment(\.requestReview) private var requestReview
     @Binding var path: [DiaryRoute]
 
     func body(content: Content) -> some View {
@@ -161,12 +165,23 @@ struct SightingDestinations: ViewModifier {
             case .detail(let id):
                 SightingDetailView(logId: id, path: $path)
             case .add:
-                SightingFormView(editing: nil) { _ in path.removeLast() }
+                SightingFormView(editing: nil) { _ in
+                    path.removeLast()
+                    askForReviewAfterNewSighting()
+                }
             case .edit(let id):
                 SightingFormView(editing: store.log(id: id)) { _ in path.removeLast() }
             case .species(let species):
                 SpeciesDetailView(species: species)
             }
+        }
+    }
+
+    /// Waits for the form to close so the system prompt doesn't land on top of it.
+    private func askForReviewAfterNewSighting() {
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            if ReviewPrompt.shouldAsk(totalSightings: store.totalSightings, isNewSighting: true) { requestReview() }
         }
     }
 }
