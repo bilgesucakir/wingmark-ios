@@ -2,6 +2,10 @@
       align="absmiddle">&nbsp;Wingmark</h1>
 
 
+<p>
+  <a href="https://apps.apple.com/us/app/wingmark/id6820532421"><img src="assets/app-store-badge.png" width="160" alt="Download on the App Store"></a>
+</p>
+
 Log the birds you see on a map, learn what they are, and collect badges along the way.
 
 Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, add a photo and a few details, and your sightings build up into a diary and a map of your own. A built-in guide helps you work out what you saw. It is available in English and Turkish.
@@ -56,7 +60,7 @@ wingmark/            the app
 wingmarkWidgets/     the widget extension
 wingmarkShare/       the Share Extension ("Log in Wingmark" from Photos)
 Shared/              code shared by the app and the extensions: networking, models,
-                     login storage, photo processing, location, permissions, inbox
+                     login storage, photo processing, location, permissions
 wingmarkTests/       unit tests
 ```
 
