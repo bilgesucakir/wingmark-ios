@@ -3790,6 +3790,26 @@
           }
         }
       }
+    },
+    "Rate Wingmark" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wingmark'ı Değerlendir"
+          }
+        }
+      }
+    },
+    "Opens the App Store to write a review." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yorum yazmak için App Store'u açar."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

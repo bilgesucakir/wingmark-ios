@@ -5,6 +5,7 @@ import TipKit
 struct WingmarkApp: App {
     init() {
         try? Tips.configure()
+        ReviewPrompt.recordLaunch()
     }
 
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
