@@ -3721,16 +3721,6 @@
         }
       }
     },
-    "Instagram Story" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instagram Hikaye"
-          }
-        }
-      }
-    },
     "Rate Wingmark" : {
       "localizations" : {
         "tr" : {

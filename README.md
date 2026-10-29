@@ -30,7 +30,7 @@ Wingmark is an iPhone app for bird watchers. Drop a pin where you saw a bird, ad
 - **Diary:** your sightings as a list, newest first, with filters.
 - **Guide:** species pages with photos and credits, family and order, where the bird lives, and recordings of its calls from xeno-canto.
 - **Badges:** 29 badges in bronze, silver and gold that track what you have logged.
-- **Share a sighting:** the Share button on a sighting with a photo builds a card with your photo, the name, the date and the details, and opens the share sheet. No location is on the card. When Instagram is installed there is an Instagram Story action too.
+- **Share a sighting:** the Share button on a sighting with a photo builds a card with your photo, the name, the date and the details, and opens the share sheet. No location is on the card.
 - **Log from Photos:** pick a photo in Photos (or any app), tap Share and choose Wingmark. The crop screen opens first, then a small window with the same fields as the app's form saves it to your diary right away. The date and place come from the photo when it has them.
 - **App icon:** choose a different Home Screen icon in Settings.
 - **Profile:** tap your favorite species to open its page.
