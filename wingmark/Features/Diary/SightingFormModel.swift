@@ -26,6 +26,9 @@ final class SightingFormModel {
     let editing: BirdLog?
 
     var photo: Photo
+    /// The photo as it was picked, so a crop can be changed or undone later.
+    private(set) var uncroppedPhoto: ProcessedPhoto?
+    private(set) var cropRect = CropGeometry.full
     var isProcessingPhoto = false
     var photoError: String?
 
@@ -140,6 +143,27 @@ final class SightingFormModel {
 
     func removePhoto() {
         photo = .none
+        uncroppedPhoto = nil
+        cropRect = CropGeometry.full
+    }
+
+    /// Crops the photo as it was picked, so cropping again starts from the whole picture. The date and place stay as they were.
+    func applyCrop(_ rect: CGRect) async {
+        guard let base = uncroppedPhoto else { return }
+        guard !CropGeometry.isFull(rect) else {
+            photo = .new(base)
+            cropRect = CropGeometry.full
+            return
+        }
+        isProcessingPhoto = true
+        photoError = nil
+        defer { isProcessingPhoto = false }
+        guard let cropped = await Task.detached(priority: .userInitiated, operation: { PhotoProcessing.crop(base, to: rect) }).value else {
+            photoError = String(localized: "Couldn't crop that photo.", bundle: .app)
+            return
+        }
+        photo = .new(cropped)
+        cropRect = rect
     }
 
     private func process(_ work: @escaping @Sendable () -> ProcessedPhoto?) async {
@@ -151,6 +175,8 @@ final class SightingFormModel {
             return
         }
         photo = .new(processed)
+        uncroppedPhoto = processed
+        cropRect = CropGeometry.full
         if let capturedAt = processed.metadata.capturedAt {
             isApplyingPhotoDate = true
             seenNow = false

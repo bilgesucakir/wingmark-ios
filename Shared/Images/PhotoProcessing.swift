@@ -82,6 +82,23 @@ nonisolated enum PhotoProcessing {
         return formatter.date(from: value + (offset ?? ""))
     }
 
+    /// The part of `photo` inside `rect` (from 0 to 1 across the photo), upright, with the date and place kept.
+    static func crop(_ photo: ProcessedPhoto, to rect: CGRect) -> ProcessedPhoto? {
+        let image = photo.preview
+        let pixels = CGSize(width: image.size.width * image.scale, height: image.size.height * image.scale)
+        let target = CGRect(
+            x: rect.minX * pixels.width, y: rect.minY * pixels.height,
+            width: rect.width * pixels.width, height: rect.height * pixels.height
+        ).integral.intersection(CGRect(origin: .zero, size: pixels))
+        guard target.width >= 1, target.height >= 1 else { return nil }
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let cropped = UIGraphicsImageRenderer(size: target.size, format: format).image { _ in
+            image.draw(in: CGRect(x: -target.minX, y: -target.minY, width: pixels.width, height: pixels.height))
+        }
+        return encode(cropped, metadata: photo.metadata)
+    }
+
     private static func encode(_ image: UIImage, metadata: PhotoMetadata) -> ProcessedPhoto? {
         guard let jpeg = image.jpegData(compressionQuality: 0.85) else { return nil }
         return ProcessedPhoto(jpeg: jpeg, preview: image, metadata: metadata)

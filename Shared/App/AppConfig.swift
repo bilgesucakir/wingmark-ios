@@ -22,6 +22,11 @@ enum AppConfig {
     /// Opens the App Store's review form for Wingmark.
     static let reviewURL = URL(string: "https://apps.apple.com/app/id6820532421?action=write-review")!
 
+    /// The Keychain group the app and the Share Extension use for the login. The team id is public.
+    static let keychainAccessGroup = "K67F35BN8Y.com.bilgesucakir.wingmark.shared"
+    /// Where older versions kept the login: the app's own group.
+    static let legacyKeychainAccessGroup = "K67F35BN8Y.com.bilgesucakir.wingmark"
+
     static let requestTimeout: TimeInterval = 30
 
     // Business details shown in Settings → About. Placeholders until the real values are decided; never invent them.

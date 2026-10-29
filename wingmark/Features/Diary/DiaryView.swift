@@ -94,15 +94,17 @@ struct DiaryView: View {
                 }
             }
         } else {
-            List(store.logs) { log in
-                NavigationLink(value: DiaryRoute.detail(log.id)) {
-                    SightingRow(log: log)
-                }
-                .swipeActions {
-                    Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
-                }
-                .contextMenu {
-                    Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+            List {
+                ForEach(store.logs) { log in
+                    NavigationLink(value: DiaryRoute.detail(log.id)) {
+                        SightingRow(log: log)
+                    }
+                    .swipeActions {
+                        Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+                    }
+                    .contextMenu {
+                        Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = log }
+                    }
                 }
             }
             .listStyle(.plain)

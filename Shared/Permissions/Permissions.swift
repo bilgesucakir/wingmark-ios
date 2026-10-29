@@ -176,9 +176,15 @@ enum PhotoSaveAccess: Equatable {
     }
 }
 
+extension EnvironmentValues {
+    /// False in the Share Extension, which can't open Settings, so the alert only says what is wrong.
+    @Entry var canOpenSettings = true
+}
+
 private struct PermissionAlert: ViewModifier {
     @Binding var issue: PermissionIssue?
     @Environment(\.openURL) private var openURL
+    @Environment(\.canOpenSettings) private var canOpenSettings
 
     func body(content: Content) -> some View {
         content.alert(
@@ -186,7 +192,7 @@ private struct PermissionAlert: ViewModifier {
             isPresented: Binding(get: { issue != nil }, set: { if !$0 { issue = nil } }),
             presenting: issue
         ) { issue in
-            if issue.state.offersSettings {
+            if issue.state.offersSettings, canOpenSettings {
                 Button("Open Settings") {
                     if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
                 }

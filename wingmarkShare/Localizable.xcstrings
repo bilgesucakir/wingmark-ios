@@ -1,0 +1,896 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Couldn't read this photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu fotoğraf okunamadı"
+          }
+        }
+      }
+    },
+    "Saved" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydedildi"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vazgeç"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
+          }
+        }
+      }
+    },
+    "Seen" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görüldü"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum"
+          }
+        }
+      }
+    },
+    "Sighting Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem Konumu"
+          }
+        }
+      }
+    },
+    "Finding your location…" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunuyor…"
+          }
+        }
+      }
+    },
+    "Location access is off. Allow it in Settings or move the map to the spot." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum erişimi kapalı. Ayarlar’dan izin ver ya da haritayı o noktaya kaydır."
+          }
+        }
+      }
+    },
+    "Couldn't find your location. Move the map to the spot." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı. Haritayı o noktaya kaydır."
+          }
+        }
+      }
+    },
+    "Move the map to place the pin" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İğneyi yerleştirmek için haritayı kaydır"
+          }
+        }
+      }
+    },
+    "Use Current Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Konumu Kullan"
+          }
+        }
+      }
+    },
+    "Use This Location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Konumu Kullan"
+          }
+        }
+      }
+    },
+    "Location access is off" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum erişimi kapalı"
+          }
+        }
+      }
+    },
+    "Location is restricted" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum kısıtlı"
+          }
+        }
+      }
+    },
+    "Allow Wingmark to use your location in Settings to see where you are on the map." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada nerede olduğunu görmek için Ayarlar’dan Wingmark’ın konumunu kullanmasına izin ver."
+          }
+        }
+      }
+    },
+    "Location is restricted on this iPhone, so Wingmark can't use it." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum bu iPhone'da kısıtlı, bu yüzden Wingmark onu kullanamıyor."
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        }
+      }
+    },
+    "Couldn't find your location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı"
+          }
+        }
+      }
+    },
+    "Move the map to the spot, or try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritayı yere getir veya tekrar dene."
+          }
+        }
+      }
+    },
+    "Species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür"
+          }
+        }
+      }
+    },
+    "Choose" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seç"
+          }
+        }
+      }
+    },
+    "Confidence" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kesinlik"
+          }
+        }
+      }
+    },
+    "Guess" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tahmin"
+          }
+        }
+      }
+    },
+    "Confident" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confident"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eminim"
+          }
+        }
+      }
+    },
+    "Notes" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notlar"
+          }
+        }
+      }
+    },
+    "Choose Species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür Seç"
+          }
+        }
+      }
+    },
+    "Search by common or scientific name" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ortak veya bilimsel adla ara"
+          }
+        }
+      }
+    },
+    "Couldn't load species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türler yüklenemedi"
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar Dene"
+          }
+        }
+      }
+    },
+    "Place name (optional)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yer adı (isteğe bağlı)"
+          }
+        }
+      }
+    },
+    "Custom name (optional)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel ad (isteğe bağlı)"
+          }
+        }
+      }
+    },
+    "You can add the species later in the Wingmark app." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türü sonra Wingmark uygulamasında ekleyebilirsin."
+          }
+        }
+      }
+    },
+    "I don't know the species" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türünü bilmiyorum"
+          }
+        }
+      }
+    },
+    "Seen now" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi görüldü"
+          }
+        }
+      }
+    },
+    "Life Stage" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yaş Evresi"
+          }
+        }
+      }
+    },
+    "Gender" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cinsiyet"
+          }
+        }
+      }
+    },
+    "Pet" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evcil"
+          }
+        }
+      }
+    },
+    "Pick on Map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada Seç"
+          }
+        }
+      }
+    },
+    "Adjust on Map" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritada Düzenle"
+          }
+        }
+      }
+    },
+    "Details" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayrıntılar"
+          }
+        }
+      }
+    },
+    "Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf"
+          }
+        }
+      }
+    },
+    "Date taken from the photo. You can change it." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih fotoğraftan alındı. Değiştirebilirsin."
+          }
+        }
+      }
+    },
+    "Adult" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adult"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yetişkin"
+          }
+        }
+      }
+    },
+    "Juvenile" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yavru"
+          }
+        }
+      }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmiyor"
+          }
+        }
+      }
+    },
+    "Male" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Male"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erkek"
+          }
+        }
+      }
+    },
+    "Female" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Female"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dişi"
+          }
+        }
+      }
+    },
+    "Couldn't read that photo." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu fotoğraf okunamadı."
+          }
+        }
+      }
+    },
+    "Something went wrong. Please try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir şeyler ters gitti. Lütfen tekrar dene."
+          }
+        }
+      }
+    },
+    "Please verify your email address first." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen önce e-posta adresini doğrula."
+          }
+        }
+      }
+    },
+    "That photo is too large." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu fotoğraf çok büyük."
+          }
+        }
+      }
+    },
+    "The password is incorrect." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifre yanlış."
+          }
+        }
+      }
+    },
+    "An account with this email already exists." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu e-posta ile kayıtlı bir hesap zaten var."
+          }
+        }
+      }
+    },
+    "Too many attempts. Try again in a minute." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çok fazla deneme yapıldı. Bir dakika sonra tekrar dene."
+          }
+        }
+      }
+    },
+    "This item no longer exists." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğe artık mevcut değil."
+          }
+        }
+      }
+    },
+    "Bird sounds are unavailable right now." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuş sesleri şu anda kullanılamıyor."
+          }
+        }
+      }
+    },
+    "Please check the highlighted fields." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen işaretli alanları kontrol et."
+          }
+        }
+      }
+    },
+    "That code is wrong or has expired." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod yanlış ya da süresi dolmuş."
+          }
+        }
+      }
+    },
+    "The server is taking too long to respond. Please try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu çok geç yanıt veriyor. Lütfen tekrar dene."
+          }
+        }
+      }
+    },
+    "That species is no longer available." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu tür artık mevcut değil."
+          }
+        }
+      }
+    },
+    "Please confirm your age to create an account." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesap oluşturmak için lütfen yaşını onayla."
+          }
+        }
+      }
+    },
+    "Our terms were just updated. Please review and accept them again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koşullarımız az önce güncellendi. Lütfen gözden geçirip yeniden kabul et."
+          }
+        }
+      }
+    },
+    "Couldn't save that profile picture." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil fotoğrafı kaydedilemedi."
+          }
+        }
+      }
+    },
+    "This password appeared in a data breach. Please choose another." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu şifre bir veri sızıntısında yer almış. Lütfen başka bir şifre seç."
+          }
+        }
+      }
+    },
+    "You're offline. Check your connection and try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çevrimdışısın. Bağlantını kontrol edip tekrar dene."
+          }
+        }
+      }
+    },
+    "Couldn't reach the server. Please try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucuya ulaşılamadı. Lütfen tekrar dene."
+          }
+        }
+      }
+    },
+    "Your new password must be different from the current one." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni şifren mevcut şifrenden farklı olmalı."
+          }
+        }
+      }
+    },
+    "You have reached the photo limit. Delete some photos first." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf sınırına ulaştın. Önce bazı fotoğrafları sil."
+          }
+        }
+      }
+    },
+    "Choose a less predictable password that doesn't include your email or username." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-postanı veya kullanıcı adını içermeyen, tahmin edilmesi daha zor bir şifre seç."
+          }
+        }
+      }
+    },
+    "This action conflicts with the current state. Please refresh and try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işlem mevcut durumla çakışıyor. Lütfen yenileyip tekrar dene."
+          }
+        }
+      }
+    },
+    "The sighting date can't be in the future." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gözlem tarihi gelecekte olamaz."
+          }
+        }
+      }
+    },
+    "Wrong email or password." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-posta veya şifre yanlış."
+          }
+        }
+      }
+    },
+    "The server ran into a problem. Please try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucuda bir sorun oluştu. Lütfen tekrar dene."
+          }
+        }
+      }
+    },
+    "This username is already taken." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kullanıcı adı zaten alınmış."
+          }
+        }
+      }
+    },
+    "Your session has ended. Please log in again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturumun sona erdi. Lütfen tekrar giriş yap."
+          }
+        }
+      }
+    },
+    "Open Wingmark and log in, then try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wingmark'ı açıp giriş yap, sonra tekrar dene."
+          }
+        }
+      }
+    },
+    "Too many attempts. Try again in %lld minutes." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çok fazla deneme yapıldı. %lld dakika sonra tekrar dene."
+          }
+        }
+      }
+    },
+    "Crop Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kırp"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
+        }
+      }
+    },
+    "Crop area" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kırpma alanı"
+          }
+        }
+      }
+    },
+    "Trim left" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soldan kırp"
+          }
+        }
+      }
+    },
+    "Trim right" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağdan kırp"
+          }
+        }
+      }
+    },
+    "Trim top" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üstten kırp"
+          }
+        }
+      }
+    },
+    "Trim bottom" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alttan kırp"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

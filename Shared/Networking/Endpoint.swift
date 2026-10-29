@@ -15,6 +15,7 @@ struct Endpoint<Response: Decodable> {
     var query: [URLQueryItem] = []
     var body: Body?
     var requiresAuth: Bool = true
+    var headers: [String: String] = [:]
 
     init(_ method: Method, _ path: String, query: [URLQueryItem] = [], body: Body? = nil, requiresAuth: Bool = true) {
         self.method = method

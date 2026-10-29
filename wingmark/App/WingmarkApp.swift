@@ -1,10 +1,8 @@
 import SwiftUI
-import TipKit
 
 @main
 struct WingmarkApp: App {
     init() {
-        try? Tips.configure()
         ReviewPrompt.recordLaunch()
     }
 
@@ -30,6 +28,7 @@ struct WingmarkApp: App {
                 }
                 .task {
                     LocalData.clearSessionFromPreviousInstall(session.client.tokenStore)
+                    (session.client.tokenStore as? KeychainTokenStore)?.migrateLegacyToken()
                     await session.restore()
                 }
         }

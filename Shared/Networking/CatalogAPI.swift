@@ -11,8 +11,11 @@ enum BirdLogAPI {
         Endpoint(.get, "bird-logs/\(id.uuidString.lowercased())")
     }
 
-    static func create(_ input: BirdLogInput) -> Endpoint<BirdLog> {
-        Endpoint(.post, "bird-logs", json: input)
+    /// The key makes a retry return the same sighting instead of a second one; the server ignores it until it supports it.
+    static func create(_ input: BirdLogInput, idempotencyKey: UUID? = nil) -> Endpoint<BirdLog> {
+        var endpoint = Endpoint<BirdLog>(.post, "bird-logs", json: input)
+        if let idempotencyKey { endpoint.headers["Idempotency-Key"] = idempotencyKey.uuidString }
+        return endpoint
     }
 
     static func update(id: UUID, _ input: BirdLogInput) -> Endpoint<BirdLog> {

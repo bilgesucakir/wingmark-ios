@@ -6,7 +6,37 @@ enum LocationError: Error {
     case unavailable
 }
 
+/// Shows the system location prompt when the person hasn't answered it yet, and returns once they have.
+@MainActor
+private final class LocationAccessRequest: NSObject, CLLocationManagerDelegate {
+    private let manager = CLLocationManager()
+    private var continuation: CheckedContinuation<Void, Never>?
+
+    func run() async {
+        guard manager.authorizationStatus == .notDetermined else { return }
+        manager.delegate = self
+        await withCheckedContinuation { continuation in
+            self.continuation = continuation
+            manager.requestWhenInUseAuthorization()
+        }
+    }
+
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        Task { @MainActor in
+            guard self.manager.authorizationStatus != .notDetermined else { return }
+            continuation?.resume()
+            continuation = nil
+        }
+    }
+}
+
 enum LocationService {
+    /// Asked when a map opens, not when the app starts, so the prompt comes with a reason.
+    @MainActor
+    static func requestAccessIfNeeded() async {
+        await LocationAccessRequest().run()
+    }
+
     /// Asks for When In Use permission if needed and returns one reasonably accurate fix.
     static func currentLocation(timeout: Duration = .seconds(60)) async throws(LocationError) -> CLLocation {
         let session = CLServiceSession(authorization: .whenInUse)

@@ -160,6 +160,7 @@ final class APIClient {
         if let accessToken {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
+        for (name, value) in endpoint.headers { request.setValue(value, forHTTPHeaderField: name) }
         switch endpoint.body {
         case .json(let data):
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")

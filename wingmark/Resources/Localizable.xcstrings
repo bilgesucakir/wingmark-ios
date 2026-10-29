@@ -1207,16 +1207,6 @@
         }
       }
     },
-    "Filter your map" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haritanı filtrele"
-          }
-        }
-      }
-    },
     "Finding your location…" : {
       "localizations" : {
         "tr" : {
@@ -1431,16 +1421,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ için bir hesap varsa 6 haneli bir kod gönderdik. Kod 15 dakika geçerli."
-          }
-        }
-      }
-    },
-    "If the photo has a location and date, they fill in where and when you saw the bird." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotoğrafta konum ve tarih varsa, kuşu nerede ve ne zaman gördüğün otomatik dolar."
           }
         }
       }
@@ -1673,16 +1653,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kilitli"
-          }
-        }
-      }
-    },
-    "Log a sighting" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gözlem kaydet"
           }
         }
       }
@@ -1933,16 +1903,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ad (Z–A)"
-          }
-        }
-      }
-    },
-    "Narrow the pins by identification, gender or life stage." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İğneleri tanımlama, cinsiyet veya yaş evresine göre daralt."
           }
         }
       }
@@ -2950,16 +2910,6 @@
         }
       }
     },
-    "Start with a photo" : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir fotoğrafla başla"
-          }
-        }
-      }
-    },
     "Stats" : {
       "localizations" : {
         "tr" : {
@@ -2996,16 +2946,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotoğraf Çek"
-          }
-        }
-      }
-    },
-    "Tap + to add a bird you've seen. A photo can fill in the place and time." : {
-      "localizations" : {
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gördüğün bir kuşu eklemek için + simgesine dokun. Fotoğraf, yer ve zamanı doldurabilir."
           }
         }
       }
@@ -3807,6 +3747,166 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yorum yazmak için App Store'u açar."
+          }
+        }
+      }
+    },
+    "%lld photos waiting" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photo waiting"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photos waiting"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fotoğraf bekliyor"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fotoğraf bekliyor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Couldn't find your location" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konumun bulunamadı"
+          }
+        }
+      }
+    },
+    "Move the map to the spot, or try again." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haritayı yere getir veya tekrar dene."
+          }
+        }
+      }
+    },
+    "Crop Photo" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı Kırp"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
+        }
+      }
+    },
+    "Crop area" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kırpma alanı"
+          }
+        }
+      }
+    },
+    "Trim left" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soldan kırp"
+          }
+        }
+      }
+    },
+    "Trim right" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağdan kırp"
+          }
+        }
+      }
+    },
+    "Trim top" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üstten kırp"
+          }
+        }
+      }
+    },
+    "Trim bottom" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alttan kırp"
+          }
+        }
+      }
+    },
+    "Couldn't crop that photo." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf kırpılamadı."
+          }
+        }
+      }
+    },
+    "Opens the species page." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tür sayfasını açar."
           }
         }
       }

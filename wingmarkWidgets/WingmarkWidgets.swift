@@ -99,7 +99,7 @@ struct NextBadgeWidget: Widget {
         }
         .configurationDisplayName("Next Badge")
         .description("The badge you are closest to earning.")
-        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
@@ -109,15 +109,7 @@ struct NextBadgeView: View {
 
     var body: some View {
         if let badge = entry.summary?.nextBadge {
-            if family == .accessoryCircular {
-                Gauge(value: badge.fraction) {
-                    BadgeSymbol(icon: badge.icon)
-                } currentValueLabel: {
-                    Text("\(badge.progress)")
-                }
-                .gaugeStyle(.accessoryCircularCapacity)
-                .accessibilityLabel(Text("\(badge.displayName(language: entry.language)), \(badge.progress) of \(badge.target)"))
-            } else if family == .systemMedium {
+            if family == .systemMedium {
                 medium(first: badge)
             } else {
                 featured(badge, size: 58)

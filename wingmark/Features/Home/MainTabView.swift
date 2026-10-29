@@ -35,6 +35,7 @@ struct MainTabView: View {
             // The widgets are built from the diary, which otherwise loads only when the Diary tab is opened.
             .task { if !diary.hasLoaded { await diary.load() } }
             .task { UserLocation.shared.start() }
+            .task(id: asksForLocation) { await askForLocationOnMap() }
             .onChange(of: diary.revision) { Task { await badges.load() } }
             .onChange(of: diary.logs, initial: true) { syncWidgets(diary: diary, badges: badges) }
             .onChange(of: badges.badges) { syncWidgets(diary: diary, badges: badges) }
@@ -69,6 +70,20 @@ struct MainTabView: View {
                     badges = BadgesStore(session: session)
                 }
         }
+    }
+
+    /// The Map is the first thing people see, so the location prompt waits for it, behind the terms and the welcome tour.
+    private var asksForLocation: Bool {
+        selectedTab == .map && session.pendingConsents.isEmpty && session.profile != nil && !showsWalkthrough
+    }
+
+    private func askForLocationOnMap() async {
+        guard asksForLocation else { return }
+        // Gives the welcome tour a moment to appear first, so the prompt doesn't land on top of it.
+        try? await Task.sleep(for: .milliseconds(700))
+        guard asksForLocation, !Task.isCancelled else { return }
+        await LocationService.requestAccessIfNeeded()
+        UserLocation.shared.start()
     }
 
     private func checkWalkthrough() {
