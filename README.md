@@ -64,21 +64,6 @@ Shared/              code shared by the app and the extensions: networking, mode
 wingmarkTests/       unit tests
 ```
 
-## Run it
-
-1. Open `wingmark.xcodeproj` in Xcode 26 or later.
-2. In *Signing & Capabilities*, choose your own team for the `wingmark`, `wingmarkWidgets` and `wingmarkShare` targets. The app and its extensions share an App Group and a Keychain group, so change `group.com.bilgesucakir.wingmark` and the Keychain group in `Shared/App/AppConfig.swift` to your own.
-3. Pick an iPhone or a simulator and press Run.
-
-The backend address is the `WINGMARK_API_BASE_URL` build setting. It points at the hosted service by default, so the app works as soon as it runs. To use a local backend, change it there.
-
-To run the tests, press Cmd+U, or:
-
-```
-xcodebuild test -project wingmark.xcodeproj -scheme wingmark \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
-```
-
 ## More
 
 - Website, privacy policy and support: [wingmarkapp.com](https://wingmarkapp.com)
