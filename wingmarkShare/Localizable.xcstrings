@@ -890,6 +890,16 @@
           }
         }
       }
+    },
+    "A location is required." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum gerekli."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

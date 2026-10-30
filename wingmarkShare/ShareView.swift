@@ -155,6 +155,10 @@ struct ShareView: View {
                 TextField("Place name (optional)", text: $locationName)
             } header: {
                 Text("Location")
+            } footer: {
+                if coordinate == nil, !isLocating {
+                    Text("A location is required.")
+                }
             }
             Section {
                 TextField("Custom name (optional)", text: $customName)
@@ -207,6 +211,18 @@ struct ShareView: View {
             dateFromPhoto = true
         }
         phase = .ready(photo)
+        if coordinate == nil { await locateQuietly() }
+    }
+
+    /// For a photo without a place: uses where the person is now, but only when location is already allowed, so nothing
+    /// pops up before they have seen the form. Otherwise the Location section asks for it.
+    private func locateQuietly() async {
+        guard [.authorizedWhenInUse, .authorizedAlways].contains(CLLocationManager().authorizationStatus) else { return }
+        isLocating = true
+        defer { isLocating = false }
+        if let location = try? await LocationService.currentLocation(timeout: .seconds(10)), coordinate == nil {
+            coordinate = location.coordinate
+        }
     }
 
     /// Reads the file in place instead of loading a full-size image into memory.
