@@ -19,7 +19,6 @@ struct ShareView: View {
     @State private var requestKey = UUID()
     @State private var client = APIClient(tokenStore: SharedLoginStore())
     @State private var coordinate: CLLocationCoordinate2D?
-    @State private var showLocationPicker = false
     @State private var showSpeciesPicker = false
     @State private var cropped: ProcessedPhoto?
     @State private var cropRect = CropGeometry.full
@@ -86,9 +85,6 @@ struct ShareView: View {
                 }
             }
         }
-        .sheet(isPresented: $showLocationPicker) {
-            LocationPickerView(initial: coordinate) { coordinate = $0 }
-        }
         .sheet(isPresented: $showSpeciesPicker) {
             SpeciesPicker { species = $0 }
         }
@@ -151,7 +147,6 @@ struct ShareView: View {
                 }
                 Button("Use Current Location", systemImage: "location") { Task { await useCurrentLocation() } }
                     .disabled(isLocating)
-                Button(coordinate == nil ? "Pick on Map" : "Adjust on Map", systemImage: "map") { showLocationPicker = true }
                 TextField("Place name (optional)", text: $locationName)
             } header: {
                 Text("Location")
